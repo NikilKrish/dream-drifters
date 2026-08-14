@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Drifters - Your Journey, Our Passion</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --navy:#033050;
+    --navy-dark:#021e33;
+    --navy-mid:#044268;
+    --yellow:#04b2c9;
+    --yellow-dark:#039db2;
+    --white:#ffffff;
+    --light:#f0fbfc;
+    --gray:#6c757d;
+    --text:#2c3e50;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:var(--text);line-height:1.7;}
+
+  /* NAV */
+  nav{background:var(--navy);padding:0.8rem 2rem;position:sticky;top:0;z-index:999;box-shadow:0 2px 15px rgba(0,0,0,0.2);}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+  .logo-wrap{display:flex;align-items:center;gap:0.8rem;}
+  .logo-wrap img{height:48px;width:auto;}
+  .brand{color:var(--white);font-size:1.4rem;font-weight:700;letter-spacing:0.5px;}
+  .brand span{color:var(--yellow);}
+  nav ul{list-style:none;display:flex;gap:1.8rem;align-items:center;}
+  nav a{color:rgba(255,255,255,0.85);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.3s;letter-spacing:0.3px;}
+  nav a:hover{color:var(--yellow);}
+  .nav-cta{background:var(--yellow);color:var(--navy)!important;padding:0.5rem 1.2rem;border-radius:25px;font-weight:700!important;}
+  .nav-cta:hover{background:var(--yellow-dark);color:var(--navy)!important;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,#ffffff 100%);color:var(--white);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(255,208,0,0.05) 0%,transparent 60%);pointer-events:none;}
+  .hero-logo{height:110px;width:auto;margin-bottom:1.5rem;filter:drop-shadow(0 4px 15px rgba(0,0,0,0.3));}
+  .hero h1{font-size:2.8rem;font-weight:800;margin-bottom:1rem;line-height:1.2;}
+  .hero h1 span{color:var(--yellow);}
+  .hero p{font-size:1.15rem;opacity:0.85;max-width:650px;margin:0 auto 2rem;}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{background:var(--yellow);color:var(--navy);padding:0.85rem 2rem;border-radius:30px;font-weight:700;text-decoration:none;transition:all 0.3s;font-size:0.95rem;}
+  .btn-primary:hover{background:var(--yellow-dark);transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,208,0,0.3);}
+  .btn-outline{border:2px solid var(--white);color:var(--white);padding:0.85rem 2rem;border-radius:30px;font-weight:600;text-decoration:none;transition:all 0.3s;font-size:0.95rem;}
+  .btn-outline:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px);}
+
+  /* STATS BAR */
+  .stats-bar{background:var(--yellow);padding:1.5rem 2rem;}
+  .stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;gap:1rem;}
+  .stat-item h3{font-size:2rem;font-weight:800;color:var(--navy);}
+  .stat-item p{font-size:0.85rem;color:var(--navy);font-weight:600;opacity:0.8;}
+
+  /* SECTION COMMONS */
+  section{padding:4.5rem 2rem;}
+  .container{max-width:1200px;margin:0 auto;}
+  .section-tag{display:inline-block;background:var(--yellow);color:var(--navy);font-size:0.75rem;font-weight:700;padding:0.25rem 0.8rem;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:0.7rem;}
+  .section-title{font-size:2.2rem;font-weight:800;color:var(--navy);margin-bottom:0.5rem;line-height:1.2;}
+  .section-title span{color:var(--yellow-dark);}
+  .section-sub{color:var(--gray);max-width:600px;margin-bottom:3rem;font-size:0.97rem;}
+  .centered{text-align:center;}
+  .centered .section-sub{margin-left:auto;margin-right:auto;}
+
+  /* ABOUT */
+  .about{background:var(--white);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .about-text p{color:var(--gray);margin-bottom:1.2rem;font-size:0.97rem;}
+  .about-highlight{background:var(--navy);color:var(--white);padding:1.5rem;border-radius:10px;border-left:5px solid var(--yellow);margin-top:1.5rem;}
+  .about-highlight p{color:rgba(255,255,255,0.85);margin:0;font-size:0.95rem;}
+  .about-img-box{background:var(--light);border-radius:15px;overflow:hidden;position:relative;}
+  .about-img-box img{width:100%;height:350px;object-fit:cover;display:block;}
+  .about-img-placeholder{width:100%;height:350px;background:linear-gradient(135deg,var(--navy),var(--navy-mid));display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--white);font-size:1rem;opacity:0.8;}
+  .about-img-placeholder span{font-size:3rem;margin-bottom:0.5rem;}
+
+  /* VISION MISSION */
+  .vision-mission{background:var(--navy);}
+  .vm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+  .vm-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,208,0,0.2);border-radius:12px;padding:2.5rem;transition:all 0.3s;}
+  .vm-card:hover{background:rgba(255,255,255,0.08);border-color:var(--yellow);}
+  .vm-icon{font-size:2.5rem;margin-bottom:1rem;}
+  .vm-card h3{color:var(--yellow);font-size:1.4rem;font-weight:700;margin-bottom:1rem;}
+  .vm-card p{color:rgba(255,255,255,0.8);font-size:0.97rem;}
+
+  /* SERVICES */
+  .services{background:var(--light);}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;}
+  .svc-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 2px 15px rgba(0,0,0,0.07);transition:all 0.3s;}
+  .svc-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,0.12);}
+  .svc-header{background:var(--navy);padding:1.5rem;display:flex;align-items:center;gap:1rem;}
+  .svc-icon{font-size:1.4rem;width:46px;height:46px;background:var(--navy);border:2px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--white);}
+  .svc-header h3{color:var(--white);font-size:1.1rem;font-weight:700;}
+  .svc-header p{color:rgba(255,255,255,0.7);font-size:0.82rem;margin-top:0.2rem;}
+  .svc-body{padding:1.5rem;}
+  .svc-body ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+  .svc-body ul li{color:var(--gray);font-size:0.88rem;display:flex;align-items:flex-start;gap:0.5rem;}
+  .svc-body ul li::before{content:'✓';color:var(--yellow-dark);font-weight:700;flex-shrink:0;}
+
+  /* WHY CHOOSE */
+  .why{background:var(--white);}
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;}
+  .why-card{border:1px solid #e9ecef;border-radius:12px;padding:1.8rem;text-align:center;transition:all 0.3s;}
+  .why-card:hover{border-color:var(--yellow);box-shadow:0 5px 20px rgba(255,208,0,0.15);transform:translateY(-3px);}
+  .why-icon{font-size:2.2rem;margin-bottom:1rem;}
+  .why-card h4{color:var(--navy);font-size:1rem;font-weight:700;margin-bottom:0.5rem;}
+  .why-card p{color:var(--gray);font-size:0.88rem;}
+
+  /* PACKAGES */
+  .packages{background:var(--light);}
+  .pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;}
+  .pkg-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 2px 15px rgba(0,0,0,0.07);transition:all 0.3s;}
+  .pkg-card:hover{transform:translateY(-8px);box-shadow:0 15px 35px rgba(0,0,0,0.13);}
+  .pkg-top{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:1.8rem;color:var(--white);}
+  .pkg-flag{font-size:2rem;margin-bottom:0.5rem;}
+  .pkg-top h3{font-size:1.3rem;font-weight:700;margin-bottom:0.3rem;}
+  .pkg-top p{font-size:0.85rem;opacity:0.8;}
+  .pkg-badge{display:inline-block;background:var(--yellow);color:var(--navy);font-size:0.75rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;margin-top:0.5rem;}
+  .pkg-body{padding:1.5rem;}
+  .pkg-features{list-style:none;margin-bottom:1.2rem;display:flex;flex-direction:column;gap:0.4rem;}
+  .pkg-features li{color:var(--gray);font-size:0.88rem;display:flex;align-items:center;gap:0.5rem;}
+  .pkg-features li::before{content:'✓';color:var(--navy);font-weight:700;}
+  .pkg-price{font-size:1.6rem;font-weight:800;color:var(--navy);margin:0.8rem 0;}
+  .pkg-price span{font-size:0.85rem;color:var(--gray);font-weight:400;}
+  .btn-pkg{width:100%;background:var(--navy);color:var(--white);padding:0.8rem;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.3s;letter-spacing:0.3px;}
+  .btn-pkg:hover{background:var(--navy-mid);}
+
+  /* MODAL */
+  .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(3px);}
+  .modal-box{background:var(--white);margin:4% auto;padding:2.5rem;border-radius:15px;width:90%;max-width:580px;max-height:82vh;overflow-y:auto;position:relative;}
+  .modal-close{position:absolute;top:1rem;right:1.5rem;font-size:1.8rem;cursor:pointer;color:var(--gray);transition:color 0.3s;line-height:1;}
+  .modal-close:hover{color:var(--navy);}
+  .modal-title{color:var(--navy);font-size:1.4rem;font-weight:700;margin-bottom:1.5rem;padding-right:2rem;}
+  .itin-day{margin-bottom:1.5rem;padding:1rem 1.2rem;border-radius:8px;background:var(--light);border-left:4px solid var(--yellow);}
+  .itin-day h4{color:var(--navy);font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}
+  .itin-day p{color:var(--gray);font-size:0.88rem;}
+
+  /* TESTIMONIALS */
+  .testimonials{background:var(--navy);}
+  .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;}
+  .testi-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1.8rem;transition:all 0.3s;}
+  .testi-card:hover{background:rgba(255,255,255,0.1);border-color:var(--yellow);}
+  .stars{color:var(--yellow);font-size:1rem;margin-bottom:0.8rem;}
+  .testi-text{color:rgba(255,255,255,0.8);font-style:italic;font-size:0.92rem;margin-bottom:1rem;}
+  .testi-author{color:var(--yellow);font-weight:700;font-size:0.9rem;}
+  .testi-dest{color:rgba(255,255,255,0.5);font-size:0.8rem;}
+
+  /* CONTACT */
+  .contact{background:var(--white);}
+  .contact-wrap{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start;}
+  .contact-info h2{font-size:2rem;font-weight:800;color:var(--navy);margin-bottom:1rem;}
+  .contact-info p{color:var(--gray);font-size:0.95rem;margin-bottom:2rem;}
+  .info-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.2rem;}
+  .info-icon{width:42px;height:42px;background:var(--navy);border:1px solid var(--yellow);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:var(--white);}
+  .info-text h4{color:var(--navy);font-size:0.9rem;font-weight:700;}
+  .info-text p{color:var(--gray);font-size:0.88rem;}
+  .form-box{background:var(--navy);padding:2.5rem;border-radius:15px;}
+  .form-box h3{color:var(--white);font-size:1.3rem;font-weight:700;margin-bottom:1.5rem;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+  .form-group{display:flex;flex-direction:column;margin-bottom:1rem;}
+  .form-group label{color:rgba(255,255,255,0.8);font-size:0.82rem;font-weight:600;margin-bottom:0.4rem;letter-spacing:0.3px;}
+  .form-group input,.form-group select,.form-group textarea{padding:0.75rem 1rem;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:rgba(255,255,255,0.08);color:var(--white);font-size:0.9rem;font-family:inherit;transition:border-color 0.3s;}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.35);}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--yellow);}
+  .form-group select option{background:var(--navy);color:var(--white);}
+  .pkg-select-wrap{position:relative;}
+  .pkg-main{display:flex;flex-direction:column;gap:0.6rem;}
+  .pkg-option{padding:0.75rem 1rem;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:rgba(255,255,255,0.08);color:var(--white);font-size:0.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.25s;user-select:none;}
+  .pkg-option:hover,.pkg-option.active{background:rgba(4,178,201,0.2);border-color:var(--yellow);}
+  .pkg-option span{font-size:0.75rem;opacity:0.6;transition:transform 0.25s;}
+  .pkg-option.active span{transform:rotate(180deg);}
+  .pkg-sub{display:none;flex-direction:column;gap:0.4rem;margin-top:0.3rem;padding-left:0.8rem;}
+  .pkg-sub.open{display:flex;}
+  .pkg-sub-item{padding:0.55rem 0.9rem;border-radius:6px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.75);font-size:0.85rem;cursor:pointer;transition:all 0.2s;border:1px solid transparent;}
+  .pkg-sub-item:hover{background:rgba(4,178,201,0.15);border-color:rgba(4,178,201,0.3);color:var(--white);}
+  .pkg-sub-item.selected{background:var(--yellow);color:var(--white);border-color:var(--yellow);}
+  .pkg-hidden{display:none;}
+  .selected-display{padding:0.75rem 1rem;border:1px solid var(--yellow);border-radius:8px;background:rgba(4,178,201,0.1);color:var(--white);font-size:0.88rem;margin-bottom:0.5rem;display:none;}
+  .selected-display.show{display:block;}
+  .form-group textarea{resize:vertical;min-height:90px;}
+  .btn-send{width:100%;background:var(--yellow);color:var(--navy);padding:0.9rem;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;letter-spacing:0.3px;}
+  .btn-send:hover{background:var(--yellow-dark);transform:translateY(-1px);}
+  .btn-send:disabled{background:#ccc;cursor:not-allowed;transform:none;}
+  .form-success{display:none;background:rgba(0,200,100,0.15);border:1px solid rgba(0,200,100,0.3);border-radius:8px;padding:1rem;color:#00c864;text-align:center;margin-top:1rem;font-weight:600;}
+
+  /* FOOTER */
+  footer{background:var(--navy-dark);color:var(--white);padding:2rem;}
+  .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+  .footer-brand{display:flex;align-items:center;gap:0.7rem;}
+  .footer-brand img{height:36px;width:auto;}
+  .footer-brand span{font-size:1rem;font-weight:700;}
+  .footer-brand span b{color:var(--yellow);}
+  .footer-links{display:flex;gap:1.5rem;}
+  .footer-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;transition:color 0.3s;}
+  .footer-links a:hover{color:var(--yellow);}
+  .footer-copy{color:rgba(255,255,255,0.45);font-size:0.8rem;text-align:center;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.08);}
+
+  @media(max-width:900px){
+    .about-grid,.vm-grid,.contact-wrap{grid-template-columns:1fr;}
+    .stats-inner{grid-template-columns:repeat(2,1fr);}
+    .form-row{grid-template-columns:1fr;}
+    nav ul{gap:1rem;}
+    .hero h1{font-size:2rem;}
+    .section-title{font-size:1.8rem;}
+  }
+  @media(max-width:600px){
+    .stats-inner{grid-template-columns:repeat(2,1fr);}
+    nav ul{display:none;}
+    .hero h1{font-size:1.7rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo-wrap">
+      <img src="./DDLogo.png" alt="Dream Drifters Logo">
+      <div class="brand">Dream <span>Drifters</span></div>
+    </div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <img src="./DDLogo.png" alt="Dream Drifters" class="hero-logo">
+  <h1>Your Journey,<br><span>Our Passion</span></h1>
+  <p>A professional travel management and consulting company specializing in corporate travel solutions, visa assistance, travel policy support, and event management.</p>
+  <div class="hero-btns">
+    <a href="#packages" class="btn-primary">Explore Packages</a>
+    <a href="#contact" class="btn-outline">Talk to Us</a>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><h3>15+</h3><p>Years of Experience</p></div>
+    <div class="stat-item"><h3>5000+</h3><p>Happy Travelers</p></div>
+    <div class="stat-item"><h3>50+</h3><p>Destinations</p></div>
+    <div class="stat-item"><h3>100%</h3><p>Satisfaction Rate</p></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-box">
+        <div class="about-img-placeholder">
+          <span>✈️</span>
+          <p>Dream Drifters</p>
+          <p style="font-size:0.8rem;margin-top:0.3rem;">Chennai, India</p>
+        </div>
+      </div>
+      <div class="about-text">
+        <span class="section-tag">Company Profile</span>
+        <h2 class="section-title">About <span>Dream Drifters</span></h2>
+        <p>DreamDrifters is a professional travel management and consulting company specializing in corporate travel solutions, visa assistance, travel policy support, and event management.</p>
+        <p>We help businesses optimize travel operations through cost-effective, reliable, and customized services. With a focus on quality, efficiency, and customer satisfaction, we serve organizations across domestic and international destinations.</p>
+        <p>From travel planning, visa support, and accommodation management to corporate events and conferences, we provide efficient, cost-effective solutions that ensure seamless travel experiences.</p>
+        <div class="about-highlight">
+          <p>With industry expertise, a strong partner network, and a commitment to service excellence, we help organizations optimize travel programs and achieve successful outcomes worldwide.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION MISSION -->
+<section class="vision-mission">
+  <div class="container">
+    <div class="centered" style="margin-bottom:2.5rem;">
+      <span class="section-tag">Our Purpose</span>
+      <h2 class="section-title" style="color:var(--white);">Vision &amp; <span>Mission</span></h2>
+    </div>
+    <div class="vm-grid">
+      <div class="vm-card">
+        <div class="vm-icon">🎯</div>
+        <h3>Our Vision</h3>
+        <p>To be the preferred corporate travel partner, known for innovation, reliability, and service excellence — helping organizations travel smarter across the globe.</p>
+      </div>
+      <div class="vm-card">
+        <div class="vm-icon">🚀</div>
+        <h3>Our Mission</h3>
+        <p>To deliver exceptional travel management and corporate event solutions that create value, enhance experiences, and support our clients' business objectives at every step of their journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="centered">
+      <span class="section-tag">What We Offer</span>
+      <h2 class="section-title">Our <span>Services</span></h2>
+      <p class="section-sub">End-to-end travel management solutions tailored to your business and leisure needs.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card">
+        <div class="svc-header">
+          <div class="svc-icon">🏢</div>
+          <div><h3>Corporate Travel</h3><p>Complete business travel management</p></div>
+        </div>
+        <div class="svc-body">
+          <ul>
+            <li>Domestic &amp; international flight bookings</li>
+            <li>Hotel reservations</li>
+            <li>Ground transportation arrangements</li>
+            <li>Travel expense optimization</li>
+            <li>Traveler support &amp; emergency assistance</li>
+            <li>Vendor and supplier management</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-header">
+          <div class="svc-icon">✈️</div>
+          <div><h3>Flight Service</h3><p>Expert air ticketing &amp; routing</p></div>
+        </div>
+        <div class="svc-body">
+          <ul>
+            <li>Domestic &amp; international air ticketing</li>
+            <li>Optimized routing &amp; strategic fare costing</li>
+            <li>Competitive group fare negotiation</li>
+            <li>Quick turnaround time</li>
+            <li>Transparent pricing, no hidden charges</li>
+            <li>End-to-end travel support</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-header">
+          <div class="svc-icon">🏨</div>
+          <div><h3>Hotel Booking</h3><p>Domestic &amp; international accommodations</p></div>
+        </div>
+        <div class="svc-body">
+          <ul>
+            <li>Budget, business, premium &amp; luxury hotels</li>
+            <li>Metro, urban &amp; global destinations</li>
+            <li>Best available rates guaranteed</li>
+            <li>Transparent pricing, no hidden charges</li>
+            <li>Quick confirmations &amp; reliable support</li>
+            <li>Corporate, leisure &amp; group travelers</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-header">
+          <div class="svc-icon">📋</div>
+          <div><h3>Visa Consultancy</h3><p>Efficient visa processing &amp; documentation</p></div>
+        </div>
+        <div class="svc-body">
+          <ul>
+            <li>Tourist visa assistance</li>
+            <li>Business visa processing</li>
+            <li>Documentation guidance</li>
+            <li>Appointment scheduling</li>
+            <li>Visa compliance support</li>
+            <li>International travel advisory</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-header">
+          <div class="svc-icon">🛡️</div>
+          <div><h3>Travel Insurance</h3><p>Comprehensive coverage for all travelers</p></div>
+        </div>
+        <div class="svc-body">
+          <ul>
+            <li>Comprehensive international travel coverage</li>
+            <li>Customers of all nationalities covered</li>
+            <li>Dedicated end-to-end claims support</li>
+            <li>Medical emergency coverage</li>
+            <li>Trip cancellation protection</li>
+            <li>Baggage loss &amp; delay coverage</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-header">
+          <div class="svc-icon">🎪</div>
+          <div><h3>Corporate Events &amp; Incentives</h3><p>Impactful events within India &amp; globally</p></div>
+        </div>
+        <div class="svc-body">
+          <ul>
+            <li>Annual Sales Meetings</li>
+            <li>Rewards &amp; Recognition (R&amp;R) Programs</li>
+            <li>Distributor Incentive Trips</li>
+            <li>Leadership Retreats</li>
+            <li>Conferences &amp; Business Meetings</li>
+            <li>Employee Engagement Tours &amp; Travel Vouchers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why">
+  <div class="container">
+    <div class="centered">
+      <span class="section-tag">Why Us</span>
+      <h2 class="section-title">Why Choose <span>Dream Drifters?</span></h2>
+      <p class="section-sub">We combine expertise, technology, and a passion for travel to deliver seamless experiences every time.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">👔</div>
+        <h4>Experienced Travel Professionals</h4>
+        <p>Our team brings years of expertise in travel management and corporate solutions.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <h4>Customized Corporate Solutions</h4>
+        <p>Tailored travel programs designed to meet your specific business objectives.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🌍</div>
+        <h4>Strong Global Network</h4>
+        <p>Extensive partnerships with airlines, hotels, and service providers worldwide.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💰</div>
+        <h4>Cost-Effective Management</h4>
+        <p>Optimized travel spend with competitive rates and transparent pricing.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📞</div>
+        <h4>Dedicated Customer Support</h4>
+        <p>Round-the-clock assistance to ensure smooth, stress-free travel at all times.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎪</div>
+        <h4>End-to-End Event Execution</h4>
+        <p>Complete event management from planning to on-ground execution.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📄</div>
+        <h4>Reliable Visa Assistance</h4>
+        <p>Expert guidance through every step of the visa application process.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🛡️</div>
+        <h4>Traveler Safety &amp; Satisfaction</h4>
+        <p>Your safety and comfort are at the heart of everything we do.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <div class="container">
+    <div class="centered">
+      <span class="section-tag">Travel Packages</span>
+      <h2 class="section-title">Explore Our <span>Destinations</span></h2>
+      <p class="section-sub">Handpicked packages crafted for unforgettable experiences across the world's most stunning destinations.</p>
+    </div>
+    <div class="pkg-grid">
+      <div class="pkg-card">
+        <div class="pkg-top"><div class="pkg-flag">🏝️</div><h3>Maldives Paradise</h3><p>5 Days / 4 Nights</p><span class="pkg-badge">Best Seller</span></div>
+        <div class="pkg-body">
+          <ul class="pkg-features">
+            <li>5-star overwater resort stay</li><li>Water sports &amp; snorkeling</li><li>Sunset dolphin cruise</li><li>Full spa treatments</li><li>All meals included</li>
+          </ul>
+          <div class="pkg-price">₹95,000 <span>/ person</span></div>
+          <button class="btn-pkg" onclick="openModal('maldives')">View Full Itinerary</button>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-top"><div class="pkg-flag">⛰️</div><h3>Swiss Alps Adventure</h3><p>7 Days / 6 Nights</p><span class="pkg-badge">Popular</span></div>
+        <div class="pkg-body">
+          <ul class="pkg-features">
+            <li>Jungfrau mountain experience</li><li>Guided hiking tours</li><li>Interlaken adventure</li><li>Swiss luxury hotels</li><li>Scenic train journeys</li>
+          </ul>
+          <div class="pkg-price">₹1,20,000 <span>/ person</span></div>
+          <button class="btn-pkg" onclick="openModal('switzerland')">View Full Itinerary</button>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-top"><div class="pkg-flag">🎌</div><h3>Japan Cultural Journey</h3><p>8 Days / 7 Nights</p><span class="pkg-badge">Trending</span></div>
+        <div class="pkg-body">
+          <ul class="pkg-features">
+            <li>Tokyo &amp; Kyoto city tours</li><li>Traditional tea ceremony</li><li>Mount Fuji views</li><li>Bullet train experience</li><li>Temple &amp; shrine visits</li>
+          </ul>
+          <div class="pkg-price">₹1,10,000 <span>/ person</span></div>
+          <button class="btn-pkg" onclick="openModal('japan')">View Full Itinerary</button>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-top"><div class="pkg-flag">🌆</div><h3>Dubai Luxury Escape</h3><p>4 Days / 3 Nights</p><span class="pkg-badge">Best Value</span></div>
+        <div class="pkg-body">
+          <ul class="pkg-features">
+            <li>Burj Khalifa visit</li><li>Desert safari &amp; BBQ dinner</li><li>Luxury 5-star hotel</li><li>Gold Souk &amp; shopping</li><li>Beach club access</li>
+          </ul>
+          <div class="pkg-price">₹75,000 <span>/ person</span></div>
+          <button class="btn-pkg" onclick="openModal('dubai')">View Full Itinerary</button>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-top"><div class="pkg-flag">🌴</div><h3>Bali Tropical Paradise</h3><p>6 Days / 5 Nights</p><span class="pkg-badge">Relaxing</span></div>
+        <div class="pkg-body">
+          <ul class="pkg-features">
+            <li>Beachfront resort stay</li><li>Ubud rice terraces &amp; temples</li><li>Traditional Balinese spa</li><li>Yoga &amp; wellness sessions</li><li>Sunset beach dining</li>
+          </ul>
+          <div class="pkg-price">₹85,000 <span>/ person</span></div>
+          <button class="btn-pkg" onclick="openModal('bali')">View Full Itinerary</button>
+        </div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-top"><div class="pkg-flag">🗼</div><h3>Paris Romantic Getaway</h3><p>6 Days / 5 Nights</p><span class="pkg-badge">Romantic</span></div>
+        <div class="pkg-body">
+          <ul class="pkg-features">
+            <li>Eiffel Tower summit visit</li><li>Louvre Museum guided tour</li><li>Seine River cruise</li><li>Versailles Palace day trip</li><li>Authentic French dining</li>
+          </ul>
+          <div class="pkg-price">₹1,55,000 <span>/ person</span></div>
+          <button class="btn-pkg" onclick="openModal('paris')">View Full Itinerary</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY MODAL -->
+<div id="itinModal" class="modal">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h3 class="modal-title" id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="centered">
+      <span class="section-tag" style="background:rgba(255,208,0,0.15);color:var(--yellow);">Client Reviews</span>
+      <h2 class="section-title" style="color:var(--white);">What Our Travelers <span>Say</span></h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.6);">Real experiences from our valued clients across the globe.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"An absolutely magical experience! Every detail was perfectly planned. The Dream Drifters team exceeded all our expectations."</p><p class="testi-author">Priya Sharma</p><p class="testi-dest">Maldives Trip</p></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"Made our honeymoon truly unforgettable. The hotel selection and itinerary were spot on. We're already planning our next trip!"</p><p class="testi-author">Raj &amp; Anjali Patel</p><p class="testi-dest">Paris Getaway</p></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"Professional, responsive, and truly passionate about travel. Best corporate travel partner we've worked with."</p><p class="testi-author">Suresh Rajan</p><p class="testi-dest">Corporate Travel - Dubai</p></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"The visa assistance was seamless and stress-free. Got everything sorted well in advance. Highly recommend their services."</p><p class="testi-author">Meena Krishnamurthy</p><p class="testi-dest">Japan Journey</p></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"Incredible value for money. The group event planning was flawless — from logistics to accommodation. Outstanding service!"</p><p class="testi-author">Vikram Industries</p><p class="testi-dest">Corporate Event - Bali</p></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"24/7 support made our international trip completely stress-free. They handled everything professionally. Truly reliable!"</p><p class="testi-author">Deepa &amp; Family</p><p class="testi-dest">Switzerland Adventure</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <span class="section-tag">Get In Touch</span>
+        <h2>Let's Plan Your <span style="color:var(--yellow-dark);">Dream Trip</span></h2>
+        <p>Fill in the form and our team will get back to you within 24 hours with the best options tailored to your needs.</p>
+        <div class="info-item"><div class="info-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="info-text"><h4>Phone</h4><p>+91 93633 12124</p></div></div>
+        <div class="info-item"><div class="info-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="info-text"><h4>Email</h4><p>info@dreamdrifters.in</p></div></div>
+        <div class="info-item"><div class="info-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="info-text"><h4>Website</h4><p>www.dd.in</p></div></div>
+        <div class="info-item"><div class="info-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="info-text"><h4>Address</h4><p>68, Dhanalakshmi Nagar, 3rd Street,<br>Nerkundram, Chennai 600 107</p></div></div>
+        <div class="info-item"><div class="info-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div class="info-text"><h4>GST No.</h4><p>33AAMCD2807P1ZC</p></div></div>
+      </div>
+      <div class="form-box">
+        <h3>Send Us an Enquiry</h3>
+        <form id="bookingForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+          <div class="form-group"><label>Full Name *</label><input type="text" name="name" placeholder="Your full name" required></div>
+          <div class="form-group"><label>Mobile Number *</label><input type="tel" name="mobile" placeholder="+91 XXXXX XXXXX" required></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" name="email" placeholder="your@email.com" required></div>
+          <div class="form-group">
+            <label>Select Package / Service *</label>
+            <div class="selected-display" id="selectedDisplay"></div>
+            <input type="hidden" name="package" id="packageInput" required>
+            <div class="pkg-main">
+              <div class="pkg-option" onclick="toggleSub('travel')">✈️ &nbsp;Travel Packages <span>▾</span></div>
+              <div class="pkg-sub" id="sub-travel">
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Maldives Paradise (₹95,000)')">Maldives Paradise — ₹95,000</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Swiss Alps Adventure (₹1,20,000)')">Swiss Alps Adventure — ₹1,20,000</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Japan Cultural Journey (₹1,10,000)')">Japan Cultural Journey — ₹1,10,000</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Dubai Luxury Escape (₹75,000)')">Dubai Luxury Escape — ₹75,000</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Bali Tropical Paradise (₹85,000)')">Bali Tropical Paradise — ₹85,000</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Paris Romantic Getaway (₹1,55,000)')">Paris Romantic Getaway — ₹1,55,000</div>
+              </div>
+              <div class="pkg-option" onclick="toggleSub('corp')">🏢 &nbsp;Corporate Services <span>▾</span></div>
+              <div class="pkg-sub" id="sub-corp">
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Corporate Travel Management')">Corporate Travel Management</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Flight Booking Service')">Flight Booking Service</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Hotel Booking Service')">Hotel Booking Service</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Visa Consultancy')">Visa Consultancy</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Travel Insurance')">Travel Insurance</div>
+                <div class="pkg-sub-item" onclick="selectPkg(this,'Corporate Events & Incentives')">Corporate Events &amp; Incentives</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell us about your requirements..."></textarea></div>
+          <button type="submit" class="btn-send" id="submitBtn">Send Enquiry</button>
+          <div class="form-success" id="formSuccess">✅ Thank you! We'll get back to you within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" style="width:100%;border-top:none;padding-top:0;">© 2025 DreamDrifters (OPC) Private Limited. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+function toggleSub(id){
+  const sub=document.getElementById('sub-'+id);
+  const btn=sub.previousElementSibling;
+  const isOpen=sub.classList.contains('open');
+  document.querySelectorAll('.pkg-sub').forEach(s=>s.classList.remove('open'));
+  document.querySelectorAll('.pkg-option').forEach(b=>b.classList.remove('active'));
+  if(!isOpen){sub.classList.add('open');btn.classList.add('active');}
+}
+function selectPkg(el,val){
+  document.querySelectorAll('.pkg-sub-item').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('packageInput').value=val;
+  const d=document.getElementById('selectedDisplay');
+  d.textContent='Selected: '+val;
+  d.classList.add('show');
+}
+
+const itins = {
+  maldives:{title:"🏝️ Maldives Paradise – 5 Day Itinerary",days:[
+    {d:"Day 1: Arrival & Island Welcome",t:"Arrive at Velana International Airport. Speed boat transfer to resort. Check-in, beach relax & sunset welcome dinner."},
+    {d:"Day 2: Water Sports Adventure",t:"Morning snorkeling, afternoon jet skiing & parasailing. Evening dolphin watching cruise."},
+    {d:"Day 3: Spa & Island Exploration",t:"Full body Balinese spa. Afternoon island hopping. Explore local fishing villages. Traditional Maldivian dinner."},
+    {d:"Day 4: Diving & Leisure",t:"Scuba diving (certified). Beach volleyball, water activities. Evening poolside BBQ."},
+    {d:"Day 5: Departure",t:"Leisurely morning at beach. Lunch at resort. Speed boat to airport. Depart with memories for a lifetime."}
+  ]},
+  switzerland:{title:"⛰️ Swiss Alps Adventure – 7 Day Itinerary",days:[
+    {d:"Day 1: Zurich Arrival & City Tour",t:"Arrive at Zurich. Old Town & lake views tour. Check-in at 4-star hotel."},
+    {d:"Day 2: Jungfrau Adventure",t:"Train to Interlaken. Cogwheel railway to Jungfrau (3,454m). Visit Ice Palace."},
+    {d:"Day 3: Scenic Hiking",t:"Guided alpine meadow hiking. Photography stops. Mountain restaurant lunch. Traditional Swiss fondue dinner."},
+    {d:"Day 4: Lucerne & Lake Cruise",t:"Travel to Lucerne. Scenic lake cruise. Chapel Bridge & Old Town. Chocolate factory tour."},
+    {d:"Day 5: Mount Rigi",t:"Cogwheel railway to Mount Rigi (Queen of Mountains). 360° alpine views. Return by cable car."},
+    {d:"Day 6: Mount Pilatus & Return",t:"Steepest cogwheel railway to Pilatus. Dragon path walking. Return to Zurich. Farewell dinner."},
+    {d:"Day 7: Departure",t:"Morning leisure. Last-minute Swiss shopping. Transfer to airport. Depart."}
+  ]},
+  japan:{title:"🎌 Japan Cultural Journey – 8 Day Itinerary",days:[
+    {d:"Day 1: Tokyo Arrival",t:"Arrive at Narita. Bullet train to Tokyo. Explore Shibuya Crossing & Shinjuku."},
+    {d:"Day 2: Tokyo Culture & Temples",t:"Senso-ji Temple. Traditional tea ceremony. Meiji Shrine. Harajuku fashion street."},
+    {d:"Day 3: Mount Fuji Day Trip",t:"Lake Kawaguchi, Chureito Pagoda. Traditional ryokan stay at hot spring resort."},
+    {d:"Day 4: Hakone Scenic Tour",t:"Hakone Open Air Museum. Scenic ropeway. Lake Ashi cruise with Fuji views."},
+    {d:"Day 5: Journey to Kyoto",t:"Bullet train to Kyoto. Gion geisha district walk. Yasaka Pagoda. Traditional kaiseki dinner."},
+    {d:"Day 6: Kyoto Temples",t:"Golden Pavilion (Kinkaku-ji). Arashiyama Bamboo Grove. Tenryu-ji Temple gardens."},
+    {d:"Day 7: Fushimi Inari & Crafts",t:"Fushimi Inari Shrine (10,000 torii gates). Sake brewery tour. Crafts workshop."},
+    {d:"Day 8: Departure",t:"Return to Tokyo via bullet train. Shopping. Airport transfer. Depart."}
+  ]},
+  dubai:{title:"🌆 Dubai Luxury Escape – 4 Day Itinerary",days:[
+    {d:"Day 1: Arrival & Marina Tour",t:"Arrive at Dubai International. 5-star hotel check-in. Dubai Marina walk. Waterfront restaurant lunch."},
+    {d:"Day 2: Urban Exploration",t:"Burj Khalifa (148th floor). Dubai Mall tour. Gold Souk visit. Sunset desert safari. BBQ dinner under stars."},
+    {d:"Day 3: Beach & Leisure",t:"Private beach club. Water sports – jet ski, paddle boarding. Spa treatments. Premium shopping. Gourmet dinner."},
+    {d:"Day 4: Departure",t:"Poolside breakfast. Last souvenir shopping. Luxury transfer to airport. Depart as a Dubai VIP."}
+  ]},
+  bali:{title:"🌴 Bali Tropical Paradise – 6 Day Itinerary",days:[
+    {d:"Day 1: Arrival in Bali",t:"Arrive at Ngurah Rai Airport. Beachfront resort check-in. Welcome massage. Sunset beach dinner."},
+    {d:"Day 2: Ubud Cultural Experience",t:"Tegallalang rice terraces. Ubud Palace. Traditional Balinese dance. Dinner at local warung."},
+    {d:"Day 3: Spa & Wellness Day",t:"Traditional Balinese massage. Herbal treatments. Yoga class. Healing meditation. Organic dinner."},
+    {d:"Day 4: Temple Exploration",t:"Tanah Lot temple at sunset. Besakih Mother Temple. Holy spring water blessing."},
+    {d:"Day 5: Beach & Water Activities",t:"Surfing lessons at Canggu Beach. Snorkeling. Beach volleyball. Romantic beachside dinner."},
+    {d:"Day 6: Relaxation & Departure",t:"Morning leisure. Souvenir shopping. Final spa session. Lunch. Airport transfer."}
+  ]},
+  paris:{title:"🗼 Paris Romantic Getaway – 6 Day Itinerary",days:[
+    {d:"Day 1: Paris Arrival",t:"Arrive at Charles de Gaulle. 5-star hotel check-in. Seine River cruise. Evening on Champs-Élysées."},
+    {d:"Day 2: Eiffel Tower & Landmarks",t:"Eiffel Tower summit. Trocadero photos. Arc de Triomphe. Dinner with Eiffel Tower view."},
+    {d:"Day 3: Louvre & Art",t:"Louvre guided tour (Mona Lisa, Venus de Milo). Musée d'Orsay. Latin Quarter. Notre-Dame exterior."},
+    {d:"Day 4: Versailles Day Trip",t:"Palace of Versailles. Hall of Mirrors. Royal gardens. Trianon palaces. Return to Paris for dinner."},
+    {d:"Day 5: Montmartre & Nightlife",t:"Sacré-Cœur Basilica. Montmartre art streets. Moulin Rouge cabaret show. French fine dining."},
+    {d:"Day 6: Departure",t:"Morning café experience. Galeries Lafayette shopping. Gourmet market visit. Airport departure."}
+  ]}
+};
+
+function openModal(dest){
+  const d=itins[dest];
+  document.getElementById('modalTitle').textContent=d.title;
+  document.getElementById('modalBody').innerHTML=d.days.map(x=>`<div class="itin-day"><h4>${x.d}</h4><p>${x.t}</p></div>`).join('');
+  document.getElementById('itinModal').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('itinModal').style.display='none';
+  document.body.style.overflow='auto';
+}
+window.onclick=e=>{if(e.target===document.getElementById('itinModal'))closeModal();}
+
+document.getElementById('bookingForm').addEventListener('submit',function(e){
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='Sending...';
+  setTimeout(()=>{
+    document.getElementById('formSuccess').style.display='block';
+    btn.textContent='Send Enquiry →';btn.disabled=false;
+  },2000);
+});
+</script>
+</body>
+</html>

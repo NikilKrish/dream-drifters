@@ -1,0 +1,500 @@
+{
+  "meta": {
+    "url": "https://nuba.com/us/",
+    "title": "Travel Agency Luxury | NUBA US",
+    "description": "NUBA has been an expert in the design of exclusive and tailor-made trips for more than 30 years. Find your ideal trip with NUBA luxury travel agency.",
+    "language": "en-US",
+    "viewport": "width=device-width, initial-scale=1",
+    "themeColor": "#efebe6",
+    "ogImage": "https://nuba.com/us/wp-content/uploads/2025/02/Logo-Nuba-Generico_Blanco.svg",
+    "ogTitle": "Travel Agency Luxury | NUBA US",
+    "ogDescription": "NUBA has been an expert in the design of exclusive and tailor-made trips for more than 30 years. Find your ideal trip with NUBA luxury travel agency."
+  },
+  "theme": {
+    "mode": "light",
+    "bodyBackground": "#efebe6",
+    "isDark": false,
+    "confidence": 0.9
+  },
+  "brand": {
+    "name": "NUBA -",
+    "favicon": {
+      "href": "https://nuba.com/us/wp-content/uploads/2025/02/cropped-cropped-logo-isotipo-favicon-32x32.webp",
+      "type": null
+    }
+  },
+  "colors": {
+    "dominant": [
+      {
+        "hex": "#000000",
+        "ratio": 0.448
+      },
+      {
+        "hex": "#212121",
+        "ratio": 0.305
+      },
+      {
+        "hex": "#1b1919",
+        "ratio": 0.198
+      },
+      {
+        "hex": "#ffffff",
+        "ratio": 0.013
+      },
+      {
+        "hex": "#f4f4f4",
+        "ratio": 0.011
+      },
+      {
+        "hex": "#1863dc",
+        "ratio": 0.006
+      },
+      {
+        "hex": "#a1a1a1",
+        "ratio": 0.006
+      },
+      {
+        "hex": "#7d7d7d",
+        "ratio": 0.004
+      },
+      {
+        "hex": "#ebebeb",
+        "ratio": 0.003
+      },
+      {
+        "hex": "#f3eee9",
+        "ratio": 0.002
+      },
+      {
+        "hex": "#f0f0f0",
+        "ratio": 0.001
+      },
+      {
+        "hex": "#333333",
+        "ratio": 0.001
+      },
+      {
+        "hex": "#efebe6",
+        "ratio": 0.001
+      },
+      {
+        "hex": "#d0d5d2",
+        "ratio": 0.001
+      },
+      {
+        "hex": "#008000",
+        "ratio": 0
+      },
+      {
+        "hex": "#757575",
+        "ratio": 0
+      },
+      {
+        "hex": "#0056a7",
+        "ratio": 0
+      },
+      {
+        "hex": "#2b4872",
+        "ratio": 0
+      }
+    ],
+    "palette": [
+      {
+        "hex": "#efebe6",
+        "role": "background",
+        "source": "computed"
+      },
+      {
+        "hex": "#000000",
+        "role": "foreground",
+        "source": "computed"
+      },
+      {
+        "hex": "#008000",
+        "role": "primary",
+        "source": "heuristic"
+      },
+      {
+        "hex": "#0056a7",
+        "role": "secondary",
+        "source": "heuristic"
+      },
+      {
+        "hex": "#1863dc",
+        "role": "accent",
+        "source": "heuristic"
+      },
+      {
+        "hex": "#a1a1a1",
+        "role": "neutral",
+        "source": "heuristic"
+      }
+    ],
+    "cssVariables": {
+      "--wp--preset--gradient--midnight": "#020381",
+      "--wc-form-border-color": "#200707",
+      "--wp--preset--shadow--outlined": "#ffffff",
+      "--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan": "#7adcb4",
+      "--wp--preset--color--vivid-purple": "#9b51e0",
+      "--wc-subtext": "#767676",
+      "--wp--preset--gradient--blush-light-purple": "#ffceec",
+      "--wp--preset--color--pale-pink": "#f78da7",
+      "--wc-orange": "#ffba00",
+      "--woocommerce": "#720eec",
+      "--wp--preset--color--cyan-bluish-gray": "#abb8c3",
+      "--wc-secondary-text": "#515151",
+      "--wp--preset--gradient--electric-grass": "#caf880",
+      "--wp--preset--gradient--blush-bordeaux": "#fecda5",
+      "--wp--preset--color--vivid-green-cyan": "#00d084",
+      "--wp--preset--shadow--deep": "#000000",
+      "--wc-content-bg": "#fff",
+      "--wp--preset--color--luminous-vivid-orange": "#ff6900",
+      "--swiper-theme-color": "#000",
+      "--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple": "#0693e3",
+      "--wc-primary-text": "#fcfbfe",
+      "--wc-primary": "#720eec",
+      "--wp--preset--color--vivid-cyan-blue": "#0693e3",
+      "--wp--preset--shadow--natural": "#000000",
+      "--wp--preset--color--pale-cyan-blue": "#8ed1fc",
+      "--wc-blue": "#2ea2cc",
+      "--wp--preset--gradient--luminous-dusk": "#ffcb70",
+      "--wp--preset--color--luminous-vivid-amber": "#fcb900",
+      "--wc-green": "#7ad03a",
+      "--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange": "#fcb900",
+      "--wp--preset--color--vivid-red": "#cf2e2e",
+      "--wp--preset--shadow--crisp": "#000000",
+      "--wp--preset--color--light-green-cyan": "#7bdcb5",
+      "--wc-red": "#a00",
+      "--wc-secondary": "#e9e6ed",
+      "--wp--preset--shadow--sharp": "#000000",
+      "--wp--preset--gradient--pale-ocean": "#fff5cb",
+      "--wp--preset--color--white": "#ffffff",
+      "--colorLightGrey": "#ffffff",
+      "--wp--preset--color--black": "#000000",
+      "--wp--preset--gradient--luminous-vivid-orange-to-vivid-red": "#ff6900",
+      "--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray": "#eeeeee",
+      "--awDarkGrey": "#aaaaaa",
+      "--wc-highlight": "#958e09",
+      "--wp--preset--gradient--cool-to-warm-spectrum": "#4aeadc",
+      "--spinner-color": "#646464",
+      "--e-global-color-primary": "#000000",
+      "--e-global-color-secondary": "#1b1919",
+      "--e-global-color-text": "#000000",
+      "--e-global-color-accent": "#121212",
+      "--e-global-color-d05f586": "#f3eee9",
+      "--e-global-color-12e7217": "#000000",
+      "--e-global-color-1f1e8a8": "#ffffff",
+      "--e-global-color-0b009dc": "#efeae2",
+      "--e-global-color-3392c2a": "#5c0e10",
+      "--e-global-color-ee76e79": "#dedede",
+      "--e-global-color-8723f24": "#a3332b",
+      "--e-global-color-0d78231": "#7d7d7d",
+      "--e-global-color-e5d5a99": "#e2d1a6",
+      "--e-global-color-a6f340a": "#dedede",
+      "--e-global-color-ce67e4b": "#f1f1f1",
+      "--e-global-color-fbe0030": "#142235",
+      "--e-global-color-c223e4e": "#2b4872",
+      "--e-global-color-1207dee": "#7387a4",
+      "--e-global-color-f6aeb22": "#cb4943",
+      "--swiper-preloader-color": "#000",
+      "--e-social-icon-icon-color": "#fff"
+    },
+    "gradients": []
+  },
+  "logo": {
+    "status": "confirmed",
+    "reason": null,
+    "best": {
+      "selector": "svg#Capa_1.main-logo",
+      "href": null,
+      "type": "svg",
+      "width": 130,
+      "height": 38.984375,
+      "svgContent": "<svg id=\"Capa_1\" data-name=\"Capa 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1093.59 328\" class=\"main-logo\" width=\"130\">\n        <defs>\n        <style>\n        .cls-1 {\n            fill: #fff;\n            stroke-width: 0px;\n        }\n        </style>\n        </defs>\n        <path class=\"cls-1\" d=\"M1063.97,301.39c-7.44,0-21.39-.12-21.39-.12l-43.88-105.21h-103.32s-20.9,49.64-30.54,73.59c-3.72,9.3-6.28,19.06-7.44,29.06-.12.81-.35,1.51-.47,2.44h-20.34c2.79-6.86,5.46-13.48,8.14-20.23,34.29-84.98,102.88-256.91,102.88-256.91h5.35s17.2,44.29,25.81,65.56c28.02,69.52,84.75,210.53,85.21,211.81h0ZM947.37,66.91h-.81s-31.39,78.35-47.2,117.64h95.21c-15.81-39.29-31.5-78.47-47.2-117.64h0Z\"></path>\n        <path class=\"cls-1\" d=\"M607.82,24.01c.82,0,58.11-.35,86.05,0,19.06.23,37.18,4.91,53.2,15.78,35.89,24.32,34.37,72.72,9.7,97.4-9.11,10.19-35.89,18.47-35.89,18.47,0,0,7.95,1.4,11.81,2.46,29.7,8.3,48.87,27.13,55.07,57.53,4.79,23.38-.35,44.9-18.12,62.09-11.11,10.76-24.9,16.95-39.87,19.88-10.29,1.99-20.81,3.27-31.22,3.51-29.46.47-58.81.12-88.28.12h-2.57l.12-277.22h0ZM628.75,289.89h61.62c12.98,0,25.84-1.29,38.23-5.61,15.32-5.26,27.24-14.38,33.79-29.58,5.03-11.81,5.85-24.2,4.21-36.83-2.46-18.47-11.34-33.09-26.77-43.49-12.86-8.77-27.36-12.39-42.79-12.51-21.98-.23-43.96-.12-66.06,0-.7,0-1.52.12-2.22.23v127.79ZM628.87,151.1c.7,0,1.17.12,1.64.12,17.77,0,35.43.12,53.2,0,11.69-.12,23.03-1.75,33.91-6.31,12.98-5.5,23.27-14.03,29.35-27.01,6.43-13.68,7.37-27.83,3.86-42.33-3.16-12.86-10.64-22.8-21.86-29.7-11.69-7.25-24.79-10.29-38.35-10.64-19.64-.47-60.8-.23-61.73-.23v116.1h0Z\"></path>\n        <path class=\"cls-1\" d=\"M29.86,24.02l6.6-.02,185.59,233.7s-1.54-117.77-2.35-174.39c-.12-11.86-.35-23.83-1.05-35.69-.46-7.9-1.86-15.69-2.91-23.6h19.06v277.34h-4.47s-1.69-1.76-2.51-2.77C175.28,232.1,42.76,66.22,42.76,66.22c0,0,1.98,191.43,2.79,204.45.46,9.42,2.09,18.83,3.14,28.25.12.7.23,1.51.35,2.44h-19.41l.23-277.34Z\"></path>\n        <path class=\"cls-1\" d=\"M319.37,24.02h20.92v181.93c0,14.3,1.98,28.13,7.9,41.27,8.6,19.06,23.02,32.08,42.78,38.59,21.97,7.32,44.06,7.09,65.68-.93,26.74-9.76,42.43-29.64,48.36-56.96,1.98-8.83,2.79-18.02,2.79-26.97.23-43.48.12-87.07.12-130.55,0-14.88-.7-29.76-3.84-44.41-.12-.58-.12-1.16-.12-1.86h19.06c.12.7.23,1.39.23,2.09,0,61.15.12,122.29-.23,183.44-.12,21.62-5.93,41.85-19.3,59.29-13.14,17.09-30.81,26.97-51.61,31.62-25.23,5.58-50.45,4.88-74.86-3.95-31.27-11.28-49.41-34.18-55.57-66.38-1.63-8.72-2.32-17.67-2.32-26.5-.23-58.71-.12-117.41-.12-176.12l.12-3.6h0Z\"></path>\n        </svg>",
+      "colors": [
+        "#ffffff"
+      ],
+      "isLight": true,
+      "isDark": false,
+      "needsDarkBackground": true,
+      "needsLightBackground": false,
+      "ownership": "first-party",
+      "variant": "light",
+      "brandNameOnLogo": "NUBA",
+      "standaloneSvg": "<svg id=\"Capa_1\" data-name=\"Capa 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1093.59 328\" class=\"main-logo\" width=\"130\">\n        <defs>\n        <style>\n        .cls-1 {\n            fill: #fff;\n            stroke-width: 0px;\n        }\n        </style>\n        </defs>\n        <path class=\"cls-1\" d=\"M1063.97,301.39c-7.44,0-21.39-.12-21.39-.12l-43.88-105.21h-103.32s-20.9,49.64-30.54,73.59c-3.72,9.3-6.28,19.06-7.44,29.06-.12.81-.35,1.51-.47,2.44h-20.34c2.79-6.86,5.46-13.48,8.14-20.23,34.29-84.98,102.88-256.91,102.88-256.91h5.35s17.2,44.29,25.81,65.56c28.02,69.52,84.75,210.53,85.21,211.81h0ZM947.37,66.91h-.81s-31.39,78.35-47.2,117.64h95.21c-15.81-39.29-31.5-78.47-47.2-117.64h0Z\"></path>\n        <path class=\"cls-1\" d=\"M607.82,24.01c.82,0,58.11-.35,86.05,0,19.06.23,37.18,4.91,53.2,15.78,35.89,24.32,34.37,72.72,9.7,97.4-9.11,10.19-35.89,18.47-35.89,18.47,0,0,7.95,1.4,11.81,2.46,29.7,8.3,48.87,27.13,55.07,57.53,4.79,23.38-.35,44.9-18.12,62.09-11.11,10.76-24.9,16.95-39.87,19.88-10.29,1.99-20.81,3.27-31.22,3.51-29.46.47-58.81.12-88.28.12h-2.57l.12-277.22h0ZM628.75,289.89h61.62c12.98,0,25.84-1.29,38.23-5.61,15.32-5.26,27.24-14.38,33.79-29.58,5.03-11.81,5.85-24.2,4.21-36.83-2.46-18.47-11.34-33.09-26.77-43.49-12.86-8.77-27.36-12.39-42.79-12.51-21.98-.23-43.96-.12-66.06,0-.7,0-1.52.12-2.22.23v127.79ZM628.87,151.1c.7,0,1.17.12,1.64.12,17.77,0,35.43.12,53.2,0,11.69-.12,23.03-1.75,33.91-6.31,12.98-5.5,23.27-14.03,29.35-27.01,6.43-13.68,7.37-27.83,3.86-42.33-3.16-12.86-10.64-22.8-21.86-29.7-11.69-7.25-24.79-10.29-38.35-10.64-19.64-.47-60.8-.23-61.73-.23v116.1h0Z\"></path>\n        <path class=\"cls-1\" d=\"M29.86,24.02l6.6-.02,185.59,233.7s-1.54-117.77-2.35-174.39c-.12-11.86-.35-23.83-1.05-35.69-.46-7.9-1.86-15.69-2.91-23.6h19.06v277.34h-4.47s-1.69-1.76-2.51-2.77C175.28,232.1,42.76,66.22,42.76,66.22c0,0,1.98,191.43,2.79,204.45.46,9.42,2.09,18.83,3.14,28.25.12.7.23,1.51.35,2.44h-19.41l.23-277.34Z\"></path>\n        <path class=\"cls-1\" d=\"M319.37,24.02h20.92v181.93c0,14.3,1.98,28.13,7.9,41.27,8.6,19.06,23.02,32.08,42.78,38.59,21.97,7.32,44.06,7.09,65.68-.93,26.74-9.76,42.43-29.64,48.36-56.96,1.98-8.83,2.79-18.02,2.79-26.97.23-43.48.12-87.07.12-130.55,0-14.88-.7-29.76-3.84-44.41-.12-.58-.12-1.16-.12-1.86h19.06c.12.7.23,1.39.23,2.09,0,61.15.12,122.29-.23,183.44-.12,21.62-5.93,41.85-19.3,59.29-13.14,17.09-30.81,26.97-51.61,31.62-25.23,5.58-50.45,4.88-74.86-3.95-31.27-11.28-49.41-34.18-55.57-66.38-1.63-8.72-2.32-17.67-2.32-26.5-.23-58.71-.12-117.41-.12-176.12l.12-3.6h0Z\"></path>\n        </svg>",
+      "uploadedUrl": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/logo/eae625e6-ff96-471b-99f3-2f66351f5cf0.svg"
+    },
+    "candidates": [
+      {
+        "selector": "svg#Capa_1.main-logo",
+        "href": null,
+        "type": "svg",
+        "width": 130,
+        "height": 38.984375,
+        "svgContent": "<svg id=\"Capa_1\" data-name=\"Capa 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1093.59 328\" class=\"main-logo\" width=\"130\">\n        <defs>\n        <style>\n        .cls-1 {\n            fill: #fff;\n            stroke-width: 0px;\n        }\n        </style>\n        </defs>\n        <path class=\"cls-1\" d=\"M1063.97,301.39c-7.44,0-21.39-.12-21.39-.12l-43.88-105.21h-103.32s-20.9,49.64-30.54,73.59c-3.72,9.3-6.28,19.06-7.44,29.06-.12.81-.35,1.51-.47,2.44h-20.34c2.79-6.86,5.46-13.48,8.14-20.23,34.29-84.98,102.88-256.91,102.88-256.91h5.35s17.2,44.29,25.81,65.56c28.02,69.52,84.75,210.53,85.21,211.81h0ZM947.37,66.91h-.81s-31.39,78.35-47.2,117.64h95.21c-15.81-39.29-31.5-78.47-47.2-117.64h0Z\"></path>\n        <path class=\"cls-1\" d=\"M607.82,24.01c.82,0,58.11-.35,86.05,0,19.06.23,37.18,4.91,53.2,15.78,35.89,24.32,34.37,72.72,9.7,97.4-9.11,10.19-35.89,18.47-35.89,18.47,0,0,7.95,1.4,11.81,2.46,29.7,8.3,48.87,27.13,55.07,57.53,4.79,23.38-.35,44.9-18.12,62.09-11.11,10.76-24.9,16.95-39.87,19.88-10.29,1.99-20.81,3.27-31.22,3.51-29.46.47-58.81.12-88.28.12h-2.57l.12-277.22h0ZM628.75,289.89h61.62c12.98,0,25.84-1.29,38.23-5.61,15.32-5.26,27.24-14.38,33.79-29.58,5.03-11.81,5.85-24.2,4.21-36.83-2.46-18.47-11.34-33.09-26.77-43.49-12.86-8.77-27.36-12.39-42.79-12.51-21.98-.23-43.96-.12-66.06,0-.7,0-1.52.12-2.22.23v127.79ZM628.87,151.1c.7,0,1.17.12,1.64.12,17.77,0,35.43.12,53.2,0,11.69-.12,23.03-1.75,33.91-6.31,12.98-5.5,23.27-14.03,29.35-27.01,6.43-13.68,7.37-27.83,3.86-42.33-3.16-12.86-10.64-22.8-21.86-29.7-11.69-7.25-24.79-10.29-38.35-10.64-19.64-.47-60.8-.23-61.73-.23v116.1h0Z\"></path>\n        <path class=\"cls-1\" d=\"M29.86,24.02l6.6-.02,185.59,233.7s-1.54-117.77-2.35-174.39c-.12-11.86-.35-23.83-1.05-35.69-.46-7.9-1.86-15.69-2.91-23.6h19.06v277.34h-4.47s-1.69-1.76-2.51-2.77C175.28,232.1,42.76,66.22,42.76,66.22c0,0,1.98,191.43,2.79,204.45.46,9.42,2.09,18.83,3.14,28.25.12.7.23,1.51.35,2.44h-19.41l.23-277.34Z\"></path>\n        <path class=\"cls-1\" d=\"M319.37,24.02h20.92v181.93c0,14.3,1.98,28.13,7.9,41.27,8.6,19.06,23.02,32.08,42.78,38.59,21.97,7.32,44.06,7.09,65.68-.93,26.74-9.76,42.43-29.64,48.36-56.96,1.98-8.83,2.79-18.02,2.79-26.97.23-43.48.12-87.07.12-130.55,0-14.88-.7-29.76-3.84-44.41-.12-.58-.12-1.16-.12-1.86h19.06c.12.7.23,1.39.23,2.09,0,61.15.12,122.29-.23,183.44-.12,21.62-5.93,41.85-19.3,59.29-13.14,17.09-30.81,26.97-51.61,31.62-25.23,5.58-50.45,4.88-74.86-3.95-31.27-11.28-49.41-34.18-55.57-66.38-1.63-8.72-2.32-17.67-2.32-26.5-.23-58.71-.12-117.41-.12-176.12l.12-3.6h0Z\"></path>\n        </svg>",
+        "colors": [
+          "#ffffff"
+        ],
+        "isLight": true,
+        "isDark": false,
+        "needsDarkBackground": true,
+        "needsLightBackground": false,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "svg#Capa_1.main-logo",
+        "href": null,
+        "type": "svg",
+        "width": 130,
+        "height": 38.984375,
+        "svgContent": "<svg id=\"Capa_1\" data-name=\"Capa 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1093.59 328\" class=\"main-logo\" width=\"130\">\n        <defs>\n        <style>\n        .cls-1 {\n            fill: #fff;\n            stroke-width: 0px;\n        }\n        </style>\n        </defs>\n        <path class=\"cls-1\" d=\"M1063.97,301.39c-7.44,0-21.39-.12-21.39-.12l-43.88-105.21h-103.32s-20.9,49.64-30.54,73.59c-3.72,9.3-6.28,19.06-7.44,29.06-.12.81-.35,1.51-.47,2.44h-20.34c2.79-6.86,5.46-13.48,8.14-20.23,34.29-84.98,102.88-256.91,102.88-256.91h5.35s17.2,44.29,25.81,65.56c28.02,69.52,84.75,210.53,85.21,211.81h0ZM947.37,66.91h-.81s-31.39,78.35-47.2,117.64h95.21c-15.81-39.29-31.5-78.47-47.2-117.64h0Z\"></path>\n        <path class=\"cls-1\" d=\"M607.82,24.01c.82,0,58.11-.35,86.05,0,19.06.23,37.18,4.91,53.2,15.78,35.89,24.32,34.37,72.72,9.7,97.4-9.11,10.19-35.89,18.47-35.89,18.47,0,0,7.95,1.4,11.81,2.46,29.7,8.3,48.87,27.13,55.07,57.53,4.79,23.38-.35,44.9-18.12,62.09-11.11,10.76-24.9,16.95-39.87,19.88-10.29,1.99-20.81,3.27-31.22,3.51-29.46.47-58.81.12-88.28.12h-2.57l.12-277.22h0ZM628.75,289.89h61.62c12.98,0,25.84-1.29,38.23-5.61,15.32-5.26,27.24-14.38,33.79-29.58,5.03-11.81,5.85-24.2,4.21-36.83-2.46-18.47-11.34-33.09-26.77-43.49-12.86-8.77-27.36-12.39-42.79-12.51-21.98-.23-43.96-.12-66.06,0-.7,0-1.52.12-2.22.23v127.79ZM628.87,151.1c.7,0,1.17.12,1.64.12,17.77,0,35.43.12,53.2,0,11.69-.12,23.03-1.75,33.91-6.31,12.98-5.5,23.27-14.03,29.35-27.01,6.43-13.68,7.37-27.83,3.86-42.33-3.16-12.86-10.64-22.8-21.86-29.7-11.69-7.25-24.79-10.29-38.35-10.64-19.64-.47-60.8-.23-61.73-.23v116.1h0Z\"></path>\n        <path class=\"cls-1\" d=\"M29.86,24.02l6.6-.02,185.59,233.7s-1.54-117.77-2.35-174.39c-.12-11.86-.35-23.83-1.05-35.69-.46-7.9-1.86-15.69-2.91-23.6h19.06v277.34h-4.47s-1.69-1.76-2.51-2.77C175.28,232.1,42.76,66.22,42.76,66.22c0,0,1.98,191.43,2.79,204.45.46,9.42,2.09,18.83,3.14,28.25.12.7.23,1.51.35,2.44h-19.41l.23-277.34Z\"></path>\n        <path class=\"cls-1\" d=\"M319.37,24.02h20.92v181.93c0,14.3,1.98,28.13,7.9,41.27,8.6,19.06,23.02,32.08,42.78,38.59,21.97,7.32,44.06,7.09,65.68-.93,26.74-9.76,42.43-29.64,48.36-56.96,1.98-8.83,2.79-18.02,2.79-26.97.23-43.48.12-87.07.12-130.55,0-14.88-.7-29.76-3.84-44.41-.12-.58-.12-1.16-.12-1.86h19.06c.12.7.23,1.39.23,2.09,0,61.15.12,122.29-.23,183.44-.12,21.62-5.93,41.85-19.3,59.29-13.14,17.09-30.81,26.97-51.61,31.62-25.23,5.58-50.45,4.88-74.86-3.95-31.27-11.28-49.41-34.18-55.57-66.38-1.63-8.72-2.32-17.67-2.32-26.5-.23-58.71-.12-117.41-.12-176.12l.12-3.6h0Z\"></path>\n        </svg>",
+        "colors": [
+          "#ffffff"
+        ],
+        "isLight": true,
+        "isDark": false,
+        "needsDarkBackground": true,
+        "needsLightBackground": false,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "img.attachment-full",
+        "href": "https://nuba.com/us/wp-content/uploads/2025/02/Logo-Nuba-Generico_Negro.svg",
+        "type": "svg",
+        "width": 300,
+        "height": 90,
+        "svgContent": null,
+        "colors": [],
+        "isLight": false,
+        "isDark": false,
+        "needsDarkBackground": false,
+        "needsLightBackground": false,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "img.megaMenuPost__image",
+        "href": "https://nuba.com/us/wp-content/uploads/2024/04/Catalogo_mega-Menu.png.webp",
+        "type": "webp",
+        "width": 593,
+        "height": 397,
+        "svgContent": null,
+        "colors": [],
+        "isLight": false,
+        "isDark": false,
+        "needsDarkBackground": false,
+        "needsLightBackground": false,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "img.megaMenuPost__image",
+        "href": "https://nuba.com/us/wp-content/uploads/2024/04/Catalogo_mega-Menu.png.webp",
+        "type": "webp",
+        "width": 593,
+        "height": 397,
+        "svgContent": null,
+        "colors": [],
+        "isLight": false,
+        "isDark": false,
+        "needsDarkBackground": false,
+        "needsLightBackground": false,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "img",
+        "href": "https://nuba.com/us/wp-content/uploads/2025/02/Regala-NUBA-3.jpg.webp",
+        "type": "webp",
+        "width": 419,
+        "height": 314,
+        "svgContent": null,
+        "colors": [],
+        "isLight": false,
+        "isDark": false,
+        "headerScoped": true,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "img",
+        "href": "https://nuba.com/us/wp-content/uploads/2024/01/La-obra-Second-Wind-en-la-Fundacion-Montenmedio.-Foto-Roman-Rios-EFE-1.jpg",
+        "type": "jpg",
+        "width": 419,
+        "height": 280,
+        "svgContent": null,
+        "colors": [],
+        "isLight": false,
+        "isDark": false,
+        "headerScoped": true,
+        "ownership": "first-party"
+      },
+      {
+        "selector": "img",
+        "href": "https://nuba.com/us/wp-content/uploads/2024/01/Cenador-de-Amos-Shapes-by-NUBA.jpg.webp",
+        "type": "webp",
+        "width": 419,
+        "height": 314,
+        "svgContent": null,
+        "colors": [],
+        "isLight": false,
+        "isDark": false,
+        "headerScoped": true,
+        "ownership": "first-party"
+      }
+    ]
+  },
+  "fonts": {
+    "computed": [
+      {
+        "family": "\"HW Cigars Trial\", sans-serif",
+        "weights": [
+          "400",
+          "700",
+          "500",
+          "600"
+        ],
+        "source": "web"
+      },
+      {
+        "family": "\"Neue Haas Grotesk\", sans-serif",
+        "weights": [
+          "400",
+          "700"
+        ],
+        "source": "web"
+      }
+    ],
+    "baseSizePx": 20
+  },
+  "confidence": {
+    "colorExtraction": 0.9,
+    "logoDetection": 0.95,
+    "fontDetection": 0.8
+  },
+  "screenshot": {
+    "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/screenshot.png",
+    "width": 1920,
+    "height": 1080,
+    "sizeBytes": 2596270,
+    "uploadedAt": "2026-08-13T15:28:00.636Z"
+  },
+  "assets": {
+    "1f80abb2-6e11-4247-a34b-6e6073fea501": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/1f80abb2-6e11-4247-a34b-6e6073fea501.jpg",
+      "name": "Amandira-Indonesia-768x1024.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "115.74 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 118515,
+        "uploadedAt": "2026-08-13T15:28:00.922Z"
+      }
+    },
+    "c19b97eb-7c86-4227-890f-c04cafda32c3": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/c19b97eb-7c86-4227-890f-c04cafda32c3.jpg",
+      "name": "NUBA-Incentivos_Portada-1024x681.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "53.01 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 54282,
+        "uploadedAt": "2026-08-13T15:28:01.043Z"
+      }
+    },
+    "8214aef9-13e9-4368-868e-41ba9836ccb7": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/8214aef9-13e9-4368-868e-41ba9836ccb7.jpg",
+      "name": "NUBA-DMC_Home.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "102.52 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 104984,
+        "uploadedAt": "2026-08-13T15:28:00.916Z"
+      }
+    },
+    "15921386-f039-4f87-9bbf-74b275e43d49": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/15921386-f039-4f87-9bbf-74b275e43d49.jpg",
+      "name": "Amangalla-Sri-Lanka-Yatagalla-monjes-1024x684.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "165.42 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 169391,
+        "uploadedAt": "2026-08-13T15:28:00.943Z"
+      }
+    },
+    "a250b494-2fd4-400f-a4a6-58d478d835f4": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/a250b494-2fd4-400f-a4a6-58d478d835f4.jpg",
+      "name": "Viaje-a-Butan-Punakha-River-Lodge-andBeyond-1024x683.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "124.72 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 127716,
+        "uploadedAt": "2026-08-13T15:28:00.986Z"
+      }
+    },
+    "343218cb-87bc-43b8-bfc4-fccbeb2792ea": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/343218cb-87bc-43b8-bfc4-fccbeb2792ea.jpg",
+      "name": "Gastronomy-Shapes-by-NUBA-1-600x600-1.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "68.47 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 70118,
+        "uploadedAt": "2026-08-13T15:28:01.275Z"
+      }
+    },
+    "fc1006d0-9d3c-47b0-a1df-28b584c02191": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/fc1006d0-9d3c-47b0-a1df-28b584c02191.jpg",
+      "name": "7.Experiencias_Home_whitedesert-600x600-1.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "81.76 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 83719,
+        "uploadedAt": "2026-08-13T15:28:01.266Z"
+      }
+    },
+    "490e5f3a-ddea-41da-8341-adc472b7915f": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/490e5f3a-ddea-41da-8341-adc472b7915f.jpg",
+      "name": "5.Experiencias_Home_Uganda-600x600-1.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "160.02 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 163865,
+        "uploadedAt": "2026-08-13T15:28:01.917Z"
+      }
+    },
+    "41fb0822-4224-4ff8-8efb-8436642b33fe": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/41fb0822-4224-4ff8-8efb-8436642b33fe.jpg",
+      "name": "6.Experiencias_Home_lamborghini-600x600-1.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "28.04 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 28717,
+        "uploadedAt": "2026-08-13T15:28:01.214Z"
+      }
+    },
+    "323b9e9a-e01e-43ee-ba4d-0f2be984953d": {
+      "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/brand/1fde0053-8ca0-4ee1-a5c3-85bc0bc87951/assets/323b9e9a-e01e-43ee-ba4d-0f2be984953d.jpg",
+      "name": "Geisha-cena-privada-Japon-600x600-1.jpg",
+      "type": "image",
+      "description": "",
+      "metadata": {
+        "size": "97.04 KB",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 99368,
+        "uploadedAt": "2026-08-13T15:28:01.267Z"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#0a1622;}
+  @keyframes ddspin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div style="width:100vw;height:100vh;">
+  <x-import component-from-global-scope="PhoneVideo" from="./animations.jsx ./ios-frame.jsx ./dream-drifters-phone.jsx" hint-size="100%,100%"></x-import>
+</div>
+</x-dc>
+</body>
+</html>
