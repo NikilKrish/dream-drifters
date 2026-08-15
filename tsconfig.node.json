@@ -8,6 +8,5 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["vite.config.ts", "playwright.config.ts", "api/**/*.ts", "shared/**/*.ts"]
+  "include": ["vite.config.ts", "vitest.config.ts", "playwright.config.ts", "api/**/*.ts", "shared/**/*.ts", "worker/**/*.ts"]
 }
-
