@@ -2,7 +2,7 @@
 
 Last updated: 16 August 2026
 
-This file is the durable handoff record for the Dream Drifters website revamp. It captures the work completed, decisions made, current deployment state and remaining risks so another engineer or Codex task can continue without reconstructing the history.
+This file is the canonical implementation and project-history record for the Dream Drifters website revamp. It captures the work completed, decisions made, current deployment state and remaining risks so another engineer or Codex task can continue without reconstructing the history. `design.md` is the companion canonical design specification.
 
 ## Current state
 
@@ -18,7 +18,7 @@ This file is the durable handoff record for the Dream Drifters website revamp. I
 - Sites access: public and shareable without a common Wi-Fi network.
 - The permanent Sites URL still serves the previous validated release; production commit `6cf0d4f` is intentionally not deployed until responsive visual approval.
 - Temporary external review URL: https://mods-substantial-possible-mutual.trycloudflare.com/ (ephemeral development tunnel).
-- Production direction: Editorial Intelligence with the cinematic Services chapter and depth-of-field Packages stage.
+- Sole production source of truth: **Enhanced B**, comprising Editorial Intelligence, cinematic Services, the depth-of-field Packages stage and the attached Hero, Services and Reviews video backgrounds.
 
 ## Progress timeline
 
@@ -130,7 +130,7 @@ Corrections completed:
 
 - Created `codex/editorial-cinematic-production` from prototype commit `16d7db9`; the production implementation is commit `6cf0d4f`.
 - Removed the A/B/C switcher, prototype query routing and in-memory prototype form behavior from the production root.
-- The root now renders the approved B plus A direction directly and retains the real enquiry API, consent and WhatsApp fallback.
+- The root now renders Enhanced B directly and retains the real enquiry API, consent and WhatsApp fallback.
 - Rebuilt Services as a six-scene full-bleed progression with mobile accordion and static reduced-motion alternatives.
 - Rebuilt Packages as a responsive depth-of-field carousel: desktop scroll mapping and three-card depth, tablet two-card rail, mobile one-card-plus-peek rail and a static reduced-motion grid.
 - Added scroll, controls, keyboard, adjacent-card selection and 18 percent pointer-drag thresholds with bounded first and last states.
@@ -141,6 +141,14 @@ Corrections completed:
 - Added short-height desktop and tablet rules so Services actions remain visible on 720 px and 1024 px viewports.
 - The supplied inspiration MP4 was inspected only as a motion reference and is not bundled or published.
 - Production deployment to the permanent Sites URL is intentionally pending responsive visual approval.
+
+### 13. Enhanced B source-of-truth rebaseline
+
+- Enhanced B became the single canonical artifact name for the implemented production experience.
+- The prototype-A origin of cinematic Services remains documented only as historical provenance; it is no longer an active variant or optional branch.
+- Hero `discovery`, Services `operations` and Reviews `travellers` video families are inseparable Enhanced B assets, each with WebM, MP4 and poster fallbacks.
+- Active repository and Superdesign context documents were synchronized to Enhanced B. Archived plans and external inspiration studies were retained with notices that prevent them from being mistaken for current requirements.
+- This documentation rebaseline does not deploy or alter the permanent Sites release.
 
 ## Content and verification status
 
@@ -167,7 +175,7 @@ Until the Meta values are configured on Sites, form submission intentionally off
 
 ## Known remaining work
 
-1. Obtain responsive visual approval for the Editorial Cinematic production direction.
+1. Obtain responsive visual approval for Enhanced B.
 2. After approval, deploy this branch to the permanent Sites URL and verify root plus `/api/enquiry` fallback.
 3. Re-test motion on physical iOS and Android devices, including reduced motion and Data Saver.
 4. Configure and verify the Meta WhatsApp template and production phone values on Sites.
@@ -179,6 +187,7 @@ Until the Meta values are configured on Sites, form submission intentionally off
 ## Continuation rules
 
 - Preserve the approved section order unless the owner explicitly changes it.
+- Treat Enhanced B as the sole production source of truth; do not restore the original B service ledger or revive query-selected prototype variants.
 - Preserve one continuous ink theme, sparse cyan and restricted glass surfaces.
 - Do not expose draft testimonials, hidden prices or unsupported numeric claims.
 - Do not reintroduce automatic WhatsApp redirects.

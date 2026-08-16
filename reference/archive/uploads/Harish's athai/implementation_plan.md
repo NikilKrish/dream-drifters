@@ -1,5 +1,7 @@
 # Implementation Plan - WhatsApp Enquiry Rerouting and Backend Notification
 
+> **Historical source notice:** This uploaded plan is preserved verbatim as implementation provenance. It is not the current product specification. Use the repository-root [design.md](../../../../design.md) for the Enhanced B design source of truth and [memory.md](../../../../memory.md) for current architecture, deployment state and continuation rules.
+
 This plan outlines the approach to integrate WhatsApp rerouting and a backend notification ping via Meta's WhatsApp Business Cloud API (without external BSPs) for the Dream Drifters web application.
 
 ---

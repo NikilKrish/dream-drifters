@@ -1,42 +1,25 @@
-# Shared Layouts
+# Enhanced B Shared Layouts
 
-## Current navigation
+## Application shell
 
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Description: Sticky dark navigation with logo, four anchor links and a quote CTA.
+- Skip link followed by adaptive navigation, one semantic main region and the complete footer.
+- One continuous ink canvas connects all chapters.
+- The itinerary sheet is the only full-screen content overlay; the mobile navigation and privacy notice use accessible modal behavior.
 
-```html
-<nav>
-  <div class="nav-inner">
-    <div class="logo-wrap">
-      <img src="./DDLogo.png" alt="Dream Drifters Logo">
-      <div class="brand">Dream <span>Drifters</span></div>
-    </div>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#packages">Packages</a></li>
-      <li><a href="#testimonials">Reviews</a></li>
-      <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
-    </ul>
-  </div>
-</nav>
-```
+## Navigation
 
-## Current footer
+- Brand mark left; About, Services, Packages and Reviews anchors; persistent Get a quote action.
+- Transparent over Hero, then restrained ink glass.
+- Mobile menu traps focus, makes the background inert, locks scrolling, closes with Escape and restores trigger focus.
 
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Description: Minimal copyright-only footer.
+## Chapter layout
 
-```html
-<footer>
-  <div class="footer-inner">
-    <div class="footer-copy" style="width:100%;border-top:none;padding-top:0;">
-      © 2025 DreamDrifters (OPC) Private Limited. All rights reserved.
-    </div>
-  </div>
-</footer>
-```
+- Hero and Reviews use full-bleed ambient media.
+- About and Purpose use editorial split and immersive image compositions.
+- Services uses a pinned cinematic stage at larger breakpoints and an accordion on mobile.
+- Packages uses a depth stage on desktop, native rails on tablet/mobile and a static grid under reduced motion.
+- Enquiry remains inline at the final-contact position.
 
-There is no separate app shell or layout component; the page document owns the complete layout.
+## Footer
 
+The production footer contains identity, navigation, contact details and legal/privacy access. It is not the copyright-only footer from the archived HTML.

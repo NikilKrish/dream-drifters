@@ -2,7 +2,7 @@
 
 Last updated: 16 August 2026
 
-This is the canonical design record for the current Dream Drifters Codex project. It describes the implemented experience rather than the superseded concepts retained under `reference/` and `.superdesign/`.
+This is the canonical design specification for the current Dream Drifters Codex project. The sole production source of truth is **Enhanced B**, the approved Editorial Intelligence experience with cinematic Services, the depth package carousel and its attached video-background system. Superseded concepts remain available only as labelled historical references under `reference/` and `.superdesign/website/`.
 
 Production implementation commit: `6cf0d4f`. Permanent Sites deployment is pending responsive visual approval.
 
@@ -21,7 +21,8 @@ The primary conversion path is package or service discovery followed by an inlin
 - Tone: premium, cinematic, editorial, trustworthy and operationally competent.
 - Primary visual references: NUBA for full-bleed luxury travel pacing and Black Tomato for emotion-led storytelling.
 - Supporting references: Visit Jersey for mobile discovery, Going for hierarchy discipline and Homo Travellus for guided selection.
-- Final composition: Variant B Editorial Intelligence with Variant A's cinematic Services chapter.
+- Canonical artifact: Enhanced B, a single production direction that combines Editorial Intelligence, cinematic Services, the depth package carousel and attached ambient video backgrounds.
+- Provenance: the cinematic Services treatment originated in prototype A, but it is now an inseparable Enhanced B component rather than a separate active variant.
 - Motion reference: Alethia's connected-scene principle, adapted without scroll hijacking or copied assets.
 - Brand continuity: preserve the supplied Dream Drifters mark and use cyan as a rare interaction signal.
 - Avoid: SaaS-like cyan layouts, repetitive card grids, decorative numbering, generic badges, excessive glass, raw symbol icons and unsupported proof claims.
@@ -76,6 +77,7 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 - Headline remains exactly two lines: “Your journey.” and “Our passion.”
 - Actions are “Explore packages” and “Get a quote.”
 - Copy enters with a short stagger; the poster remains the stable fallback.
+- The attached `discovery` WebM/MP4 loop mounts after first paint on capable devices; desktop and mobile posters remain visible until playback is ready.
 
 ### Proof, About and Purpose
 
@@ -95,6 +97,8 @@ Six public capabilities are preserved:
 6. Corporate Travel
 
 Desktop uses a 360 svh GSAP-pinned progression with full-bleed operations media, a six-scene active index and a restrained foreground panel. Tablet uses a shorter pinned treatment containing the same six capabilities. Mobile uses a single-open accessible accordion. Travel Insurance is not exposed publicly; legacy insurance submissions remain accepted by the API.
+
+The attached `operations` WebM/MP4 loop is part of this chapter's canonical background treatment. It lazy-mounts near Services and falls back to its poster whenever ambient playback is inappropriate or unavailable.
 
 ### Why Us
 
@@ -116,6 +120,7 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 
 - All supplied testimonials remain typed as drafts and do not render as verified endorsements.
 - Until verification, the chapter displays service-process assurance and notes that references are available directly.
+- The attached `travellers` WebM/MP4 loop provides the chapter background on capable devices and otherwise remains a stable poster composition.
 
 ### Enquiry
 
@@ -139,6 +144,16 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 - Capable phones may use the supplied mobile WebM or MP4 loops after the poster and first paint.
 - Reduced motion removes video, pinning, scrubbing and spatial transitions while keeping all content functional.
 - Save-Data, 2G, reduced motion, low memory and playback failure preserve stable poster-only scenes.
+
+Enhanced B includes three required ambient-media assignments:
+
+| Chapter | Video family | Mounting policy | Poster policy |
+|---|---|---|---|
+| Hero | `discovery` | Delayed until after first paint | Eager responsive hero poster |
+| Services | `operations` | Lazy-mounted near the chapter | Lazy poster retained through failure |
+| Reviews | `travellers` | Lazy-mounted near the chapter | Lazy poster retained through failure |
+
+Both WebM and MP4 encodes are required for each assignment. Mobile-specific video sources are used below 700 px when the device passes the motion, bandwidth and memory policy. Detailed filenames, budgets and licensing notes are maintained in `public/media/README.md`.
 
 ## Responsive behavior
 

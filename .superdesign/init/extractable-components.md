@@ -1,32 +1,12 @@
-# Extractable Components
+# Enhanced B Extractable Components
 
-The current static document has no source-level components. The following repeated regions are candidates for extraction after the Vite/React implementation, but they cannot be registered as current reusable DraftComponents because they do not exist as standalone component files.
+> The React implementation already owns these components. The archived vanilla candidates are no longer the active component inventory.
 
-## TopNavigation
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Category: layout
-- Description: Sticky brand navigation with anchor links and quote CTA.
-- Extractable props: none in current source.
-- Hardcoded: logo path, labels, anchors and CSS classes.
+- `CinematicVideo`: responsive AVIF/WebP poster, desktop/mobile WebM and MP4 sources, delayed/lazy mounting, off-screen pause and stable failure state.
+- `EditorialServices`: six capability progression with desktop/tablet stage, mobile accordion and static reduced-motion form.
+- `DepthPackagesSection`: desktop scroll-depth composition, tablet/mobile native rails, direct controls and live announcement.
+- `PackageSheet`: accessible itinerary overlay with contextual focus restoration and optional Flip continuity.
+- `EnquirySection`: package/service/custom context, conditional fields, validation summary, consent, success focus and WhatsApp fallback.
+- `Navigation`: active chapter indication and complete modal behavior on mobile.
 
-## PackageCard
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Category: basic
-- Description: Repeated destination package summary and itinerary action.
-- Extractable props: destination key, title, duration, badge, features and price.
-- Hardcoded: CSS classes and interaction pattern.
-
-## EnquiryForm
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Category: basic
-- Description: Contact and package enquiry form.
-- Extractable props: package options and submission destination.
-- Hardcoded: field labels and CSS classes.
-
-## Footer
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Category: layout
-- Description: Copyright-only footer.
-- Extractable props: year.
-- Hardcoded: company name and legal suffix.
-
+Do not recreate the prototype switcher, the original editorial service ledger, the superseded planner overlay or the original static package cards.

@@ -1,4 +1,6 @@
 # Going™ — Style Reference
+> **Historical inspiration notice:** This style study is preserved for provenance and is not an active Dream Drifters specification. Enhanced B is defined by the repository-root [design.md](../../../design.md); current project history is in [memory.md](../../../memory.md).
+
 > Deep-sea travel brochure with a cyan current
 **Theme:** light
 Going is a crisp-water travel companion: a clean white canvas (#ffffff, cooled by ice-wash bands) carries deep navy body text and pill-shaped cyan CTAs, with soft ice-wash bands (#f0fbfc) organizing content sections. PP Mori's slightly off-axis 475 weight gives paragraphs a friendlier gravity than standard 400, while display sizes push tracking outward (up to 0.10em at 80px) for an editorial-poster feel. Surfaces stack: white base → ice-wash content bands → mist-bordered cards with a whisper shadow. The design leans cool and nautical — black is used sparingly and deep navy replaces it for all running type, while a single cyan CTA carries all interactive weight across the page.

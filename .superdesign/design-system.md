@@ -1,73 +1,63 @@
-# Dream Drifters — Luxury Editorial Design System
+# Dream Drifters Enhanced B Design System
 
-## Product and job to be done
+> **Canonical context:** Enhanced B is the sole production source of truth. `design.md` governs design decisions and `memory.md` governs implementation history and deployment state. External website studies and the former A/B/C prototypes are reference material only.
 
-Dream Drifters is a Chennai-based travel consultancy. The single-page experience is leisure-first: inspire a traveller, help them explore six curated journeys, collect a concise three-step brief, and hand the structured brief to WhatsApp. Corporate travel is a compact secondary offering. There is no booking engine, payment flow, account system or CMS.
+## Product and journey
 
-## Primary design source
+Dream Drifters is a Chennai-based travel consultancy serving leisure travellers, organisations and groups equally. The single page follows this fixed sequence:
 
-Use NUBA's cinematic, image-led luxury travel pacing as the primary style source. Black Tomato contributes emotion-led discovery and persistent enquiry behaviour only; do not copy its visual styling. Visit Jersey contributes mobile-first sequential discovery. Going contributes hierarchy discipline. The result must remain recognisably Dream Drifters and must use the supplied brand mark.
+**Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
 
-## Brand palette
+The conversion path is discovery, contextual package or service selection, one inline enquiry and an explicit WhatsApp continuation. There is no booking engine, payment flow, account system, CMS or automatic redirect.
 
-- Editorial ink `#071B2B`: navigation, footer, running dark copy and overlays.
-- Pearl `#F6F3EC`: primary page canvas and warm editorial whitespace.
-- Frost white `#FFFFFF`: inverted copy and lifted input surfaces.
-- Sea glass `#5F8585`: muted rules, metadata and quiet support accents.
-- Brand cyan `#04B2C9`: the only vivid action color; use for the primary CTA, active progress and small brand signals.
-- Mist `#DCE5E4`: borders and inactive controls.
+## Enhanced B direction
 
-Never introduce gold, purple, neon gradients, black body text or competing saturated accents. Cyan is sparse, not a section-fill color.
+- Editorial Intelligence supplies the full-page hierarchy, typography and trust-first pacing.
+- Cinematic Services is an inseparable Enhanced B chapter, not a separate A variant.
+- Packages uses a scroll-led depth carousel on desktop and native rails on smaller screens.
+- Hero, Services and Reviews include attached poster-first ambient video families.
+- NUBA, Black Tomato, Visit Jersey, Going, Homo Travellus and Alethia remain inspiration references only; do not reproduce their assets or identifiable compositions.
 
-## Typography
+## Visual system
 
-- Display: Instrument Serif, 400. Use for cinematic headings and destination names.
-- UI and body: Manrope Variable, 400–700.
-- Display scale: clamp from 56px mobile to 112px desktop, line-height 0.92–1.0, slight negative tracking.
-- Section headings: clamp 42–76px, line-height 1.0.
-- Body: 16–19px, line-height 1.55–1.7, maximum 68 characters.
-- Labels: 12–14px, uppercase, 0.12em tracking.
+- Deep ink `oklch(14% .034 230)` is the continuous canvas.
+- Raised and form inks use nearby tonal steps rather than alternating light themes.
+- Pearl `oklch(96% .012 86)` is the primary text color; mist and soft pearl carry secondary copy.
+- Cyan `oklch(73% .125 205)` is reserved for primary actions, focus, active states and small brand signals.
+- Display typography is self-hosted Instrument Serif 400; body and UI use self-hosted Manrope Variable.
+- Content width is 1360 px; panels use 14 px radii; interactive controls are fully rounded.
+- Glass is limited to navigation, proof dock, the foreground service panel, itinerary sheet and enquiry form. Reduced transparency uses solid ink.
+- Avoid repetitive cards, decorative numbering, badges, raw glyphs, excessive glass and unsupported proof.
 
-## Layout and surfaces
+## Canonical components
 
-- Desktop canvas: fluid 12-column grid, max content width 1360px, 32–64px gutters.
-- Mobile: single column, 20px gutters, no fixed minimum widths and no horizontal overflow.
-- Section spacing: 112–176px desktop, 72–104px mobile.
-- Images dominate the composition; avoid repetitive SaaS cards.
-- Image frames use 0–16px radius. Forms and package sheets use 20–28px radius. Buttons are full pills.
-- Shadows are rare and low-opacity; hierarchy comes from scale, crop, overlap and contrast.
+- Adaptive modal navigation with About, Services, Packages, Reviews and Get a quote.
+- Two-line poster-first Hero with `discovery` desktop/mobile video and two actions.
+- Verified four-item proof dock, editorial About and immersive Vision and Mission.
+- Six-capability Services progression: Tour Packages, Flights, Accommodation, Visas, Meeting Incentive, Conference Event (MICE), and Corporate Travel.
+- Eight-reason trust wall with mobile expanders.
+- Six-package depth carousel, responsive rails and accessible itinerary sheet.
+- Verification-gated Reviews with `travellers` background media.
+- Inline conditional Enquiry with consent, validation, API fallback and explicit WhatsApp continuation.
 
-## Core components
+## Motion and media
 
-- Adaptive navigation: transparent over the hero, then ink/pearl after scroll; logo left, five anchors and a persistent cyan `Plan my trip` CTA.
-- Hero: poster-first full-bleed cinematic media, quiet gradient overlay, emotional headline, two actions and a scroll cue. Ambient video loads after first paint only on capable devices.
-- Destination mosaic: six editorial photo tiles with staggered geometry, destination metadata and restrained hover/tap reveals.
-- Package sheet: full-screen accessible layer with a shared-image transition, overview, duration, from-price, inclusions, itinerary and `Plan this journey` CTA.
-- Planner: full-screen three-step layer with step progress, large option controls, inline validation, review state and explicit WhatsApp continuation.
-- Trust and testimonials: use only verified claims; typography and spacing carry authority rather than badge clutter.
-- Corporate band: one compact ink panel near the lower page, visually secondary to leisure journeys.
+- Preserve native scrolling; never add mandatory snapping or scroll hijacking.
+- Use 120 ms feedback, 240–420 ms state changes and 650–800 ms chapter entrances.
+- Use transforms and opacity; reserve clipping for signature media transitions.
+- Hero `discovery` video mounts after first paint. Services `operations` and Reviews `travellers` mount near their chapters and pause off-screen.
+- Capable phones receive mobile video sources. Reduced motion, Save-Data, 2G, low memory and playback failure remain poster-only.
+- GSAP ScrollTrigger communicates Services progression; Flip communicates itinerary continuity. Reduced motion removes both spatial behaviors.
 
-## Motion
+## Responsive and accessibility rules
 
-- Use native scrolling. Never hijack scroll or hide the scrollbar.
-- Entrance and section transitions: 600–900ms using `cubic-bezier(.22,1,.36,1)`.
-- Micro-interactions: 180–240ms.
-- Animate opacity and transforms; use masks/clip-path only on contained media.
-- Hero copy staggers in once, destination imagery reveals on entry, and package images transition into the full-screen sheet.
-- Reduced motion: remove parallax, scrubbing and shared-element travel; render content immediately with simple opacity changes or none.
-- Save-Data/mobile: use the optimized poster instead of autoplay video.
+- Below 700 px: normal flow, service accordion, trust expanders and one-card-plus-peek package rail.
+- 700–1099 px: shortened Services progression and two-card package rail.
+- 1100 px and above: full Services progression and three-card depth stage.
+- Minimum 320 px width, zero page overflow, 44 px targets and WCAG 2.2 AA contrast.
+- Menus and dialogs require focus containment, Escape dismissal, inert backgrounds and focus restoration.
+- Draft testimonials, hidden prices and unsupported claims must never bypass typed verification selectors.
 
-## Conversion and accessibility rules
+## Standard interface language
 
-- One dominant filled CTA per viewport.
-- Package actions prefill the planner; users must explicitly choose to continue to WhatsApp.
-- Provide skip navigation, semantic headings, keyboard operation, focus trapping, Escape/backdrop close, visible focus rings and ARIA live status.
-- Meet WCAG 2.2 AA contrast and 44px minimum touch targets.
-- Every image has explicit dimensions and useful alt text; decorative media has empty alt text.
-
-## Content constraints
-
-- The six existing packages and Chennai contact details are draft source content.
-- Prices use `From` and cannot ship until verified.
-- Do not publish the existing 5000+, 100% satisfaction or testimonial claims until the business verifies them.
-- Temporary stock media must be visibly documented for replacement before production.
+Use only: `Explore packages`, `View itinerary`, `Get a quote`, `Send enquiry`, and `Continue in WhatsApp`.

@@ -1,56 +1,24 @@
-# Shared UI Components
+# Enhanced B Shared UI Components
 
-The current production baseline is a single vanilla HTML document with no component library. Repeated visual patterns are implemented with CSS classes in `reference/archive/uploads/Harish's athai/index.html`.
+## Actions
 
-## Package card
+- Cyan filled pill: one dominant action per viewport.
+- Ghost pill: restrained secondary action over media.
+- Circular Phosphor icon control: carousel, dialog and menu actions.
+- Text action: contextual chapter handoff with a descriptive accessible name.
 
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Description: Repeated destination package card with inclusions, price and itinerary action.
+Approved labels are `Explore packages`, `View itinerary`, `Get a quote`, `Send enquiry`, and `Continue in WhatsApp`.
 
-```html
-<div class="pkg-card">
-  <div class="pkg-top">
-    <div class="pkg-flag">🏝️</div>
-    <h3>Maldives Paradise</h3>
-    <p>5 Days / 4 Nights</p>
-    <span class="pkg-badge">Best Seller</span>
-  </div>
-  <div class="pkg-body">
-    <ul class="pkg-features">
-      <li>5-star overwater resort stay</li>
-      <li>Water sports &amp; snorkeling</li>
-      <li>Sunset dolphin cruise</li>
-      <li>Full spa treatments</li>
-      <li>All meals included</li>
-    </ul>
-    <div class="pkg-price">₹95,000 <span>/ person</span></div>
-    <button class="btn-pkg" onclick="openModal('maldives')">View Full Itinerary</button>
-  </div>
-</div>
-```
+## Media
 
-## Enquiry fields
+The shared cinematic-media frame always renders a responsive poster first. Video is decorative, muted, looping and inline. The Hero uses `discovery`; Services uses `operations`; Reviews uses `travellers`. Poster-only states are intentional under accessibility, bandwidth, memory or failure constraints.
 
-- Source: `reference/archive/uploads/Harish's athai/index.html`
-- Description: Native HTML form fields and package selector used for the current lead form.
+## Content surfaces
 
-```html
-<form id="bookingForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-  <div class="form-group">
-    <label>Full Name *</label>
-    <input type="text" name="name" placeholder="Your full name" required>
-  </div>
-  <div class="form-group">
-    <label>Mobile Number *</label>
-    <input type="tel" name="mobile" placeholder="+91 XXXXX XXXXX" required>
-  </div>
-  <div class="form-group">
-    <label>Email Address *</label>
-    <input type="email" name="email" placeholder="your@email.com" required>
-  </div>
-  <button type="submit" class="btn-send" id="submitBtn">Send Enquiry</button>
-</form>
-```
+- Proof dock: four verified operational facts.
+- Service foreground: one restrained glass panel over full-bleed media.
+- Package cards: sharp centre card with contextual itinerary and quote actions; adjacent depth cards are non-primary.
+- Enquiry form: selected context, associated errors, focused summary, consent and explicit success handoff.
+- Itinerary: full-screen accessible sheet with close, overview, inclusions, itinerary and quote action.
 
-No reusable React/Vue/Svelte primitives exist yet.
-
+All reusable controls require visible focus, 44 px targets, contextual accessible names and reduced-motion behavior.

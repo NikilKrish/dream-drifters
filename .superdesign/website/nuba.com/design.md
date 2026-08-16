@@ -95,6 +95,8 @@ components:
     padding: "0px"
 ---
 # Expedition Editorial
+> **External reference only:** This NUBA study records inspiration and is not the Dream Drifters source of truth. Enhanced B is defined by the repository-root [design.md](../../../design.md) and [Enhanced B design system](../../design-system.md).
+
 Source: https://nuba.com/us/
 
 ## Overview

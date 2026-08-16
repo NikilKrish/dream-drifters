@@ -1,15 +1,12 @@
-# Routes
+# Enhanced B Routes
 
-## Framework and routing
+The production experience is a Vite, React and TypeScript single page.
 
-- Framework: none; static vanilla HTML/CSS/JavaScript.
-- Router: none.
-- Component library: none; custom CSS and inline SVG.
-- CSS approach: one embedded `<style>` block.
+| URL | Entry | Purpose |
+|---|---|---|
+| `/` | `src/main.tsx` → `src/App.tsx` | Canonical Enhanced B experience |
+| `/api/enquiry` | Vercel or Cloudflare server handler | Validated enquiry notification with safe WhatsApp fallback |
 
-| URL | Entry | Layout | Summary |
-|---|---|---|---|
-| `/` | `reference/archive/uploads/Harish's athai/index.html` | Whole document | Single-page travel agency site with anchor navigation, packages, itinerary modal, testimonials and enquiry form. |
+Navigation anchors are `#about`, `#services`, `#packages`, `#reviews` and `#contact`. The fixed content sequence is Hero, Metrics, About, Vision and Mission, Services, Why Us, Packages, Reviews, Enquiry and Footer.
 
-Anchor destinations: `#about`, `#services`, `#packages`, `#testimonials`, and `#contact`.
-
+There is no active variant query parameter, additional public route, booking flow, payment flow, account area or CMS.

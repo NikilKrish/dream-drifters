@@ -2,11 +2,19 @@
 
 > **Codex project:** Designed, implemented and verified with OpenAI Codex.
 
+> **Canonical experience:** Enhanced B is the sole production source of truth. It combines Editorial Intelligence, cinematic Services, a depth-of-field package carousel and attached Hero, Services and Reviews video backgrounds.
+
 A Vite, React and TypeScript single-page experience that follows the original trust-first journey:
 
 **Hero → Metrics → About → Vision & Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
 
-The interface uses one cinematic ink theme, self-hosted Instrument Serif and Manrope Variable fonts, responsive poster-first media, typed verification gates and breakpoint-specific service storytelling. Unsupported testimonials and pricing never render as verified content.
+The interface uses one cinematic ink theme, self-hosted Instrument Serif and Manrope Variable fonts, responsive poster-first media, typed verification gates and breakpoint-specific service storytelling. Unsupported testimonials and pricing never render as verified content. The original A/B/C prototypes and external inspiration studies are historical references rather than active specifications.
+
+The source-of-truth documents are:
+
+- `design.md` for design, interaction, responsive and media behavior.
+- `memory.md` for implementation history, deployment state and continuation rules.
+- `public/media/README.md` for the attached video/poster inventory, loading policy and licensing status.
 
 ## Local development
 
