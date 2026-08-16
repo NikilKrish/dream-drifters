@@ -1,12 +1,12 @@
 interface AmbientMediaPolicy {
   hasSource: boolean;
-  isWideScreen: boolean;
+  isDeviceCapable: boolean;
   saveData: boolean;
   reducedMotion: boolean;
 }
 
 export function shouldLoadAmbientVideo(policy: AmbientMediaPolicy): boolean {
-  return policy.hasSource && policy.isWideScreen && !policy.saveData && !policy.reducedMotion;
+  return policy.hasSource && policy.isDeviceCapable && !policy.saveData && !policy.reducedMotion;
 }
 
 export function prefersReducedMotion(): boolean {

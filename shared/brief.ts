@@ -1,5 +1,7 @@
 export type InterestKind = 'package' | 'service' | 'custom';
-export type ServiceId = 'corporate-travel' | 'flights' | 'hotels' | 'visa' | 'insurance' | 'events';
+export type ActiveServiceId = 'flights' | 'accommodation' | 'visa' | 'mice' | 'corporate-travel';
+export type LegacyServiceId = 'hotels' | 'events' | 'insurance';
+export type ServiceId = ActiveServiceId | LegacyServiceId;
 export type BudgetBand = 'under-100k' | '100k-200k' | '200k-400k' | '400k-plus' | 'discuss';
 
 export interface EnquiryBrief {
@@ -31,10 +33,18 @@ const packageNames: Record<string, string> = {
 };
 
 const serviceNames: Record<ServiceId, string> = {
-  'corporate-travel': 'Corporate Travel Management', flights: 'Flight Booking Service',
-  hotels: 'Hotel Booking Service', visa: 'Visa Consultancy', insurance: 'Travel Insurance',
-  events: 'Corporate Events and Incentives',
+  'corporate-travel': 'Corporate Travel', flights: 'Flights', accommodation: 'Accommodation',
+  visa: 'Visas', mice: 'Meeting Incentive, Conference Event (MICE)',
+  hotels: 'Accommodation', events: 'Meeting Incentive, Conference Event (MICE)',
+  insurance: 'Travel Insurance (legacy request)',
 };
+
+export function normalizeServiceId(value: unknown): ServiceId | undefined {
+  if (value === 'hotels') return 'accommodation';
+  if (value === 'events') return 'mice';
+  if (typeof value === 'string' && value in serviceNames) return value as ServiceId;
+  return undefined;
+}
 
 const budgetLabels: Record<BudgetBand, string> = {
   'under-100k': 'Under ₹1 lakh per person', '100k-200k': '₹1 to ₹2 lakh per person',
@@ -50,7 +60,7 @@ export function normalizeBrief(input: Partial<EnquiryBrief>): EnquiryBrief {
   return {
     interestKind,
     packageId: interestKind === 'package' ? normalizeText(input.packageId, 80) || undefined : undefined,
-    serviceId: interestKind === 'service' && input.serviceId && input.serviceId in serviceNames ? input.serviceId : undefined,
+    serviceId: interestKind === 'service' ? normalizeServiceId(input.serviceId) : undefined,
     travelWindow: normalizeText(input.travelWindow, 100) || undefined,
     durationDays: Number.isFinite(Number(input.durationDays)) ? Math.max(1, Math.min(60, Number(input.durationDays))) : undefined,
     adults: Number.isFinite(Number(input.adults)) ? Math.max(1, Math.min(20, Number(input.adults))) : undefined,

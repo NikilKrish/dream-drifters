@@ -54,6 +54,19 @@ export interface TravelService {
   imageAvif: string;
 }
 
+export type CapabilityId = 'tour-packages' | import('../shared/brief').ActiveServiceId;
+
+export interface TravelCapability {
+  id: CapabilityId;
+  title: string;
+  shortTitle: string;
+  summary: string;
+  features: string[];
+  image: string;
+  imageAvif: string;
+  action: { kind: 'packages' } | { kind: 'enquiry'; serviceId: import('../shared/brief').ActiveServiceId };
+}
+
 export interface TrustReason { title: string; detail: string; }
 
 export interface EnquirySelection {

@@ -8,12 +8,14 @@ interface CinematicVideoProps {
   mobilePosterAvif?: string;
   mp4: string;
   webm: string;
+  mobileMp4?: string;
+  mobileWebm?: string;
   alt: string;
   className?: string;
   eager?: boolean;
 }
 
-export function CinematicVideo({ poster, posterAvif, mobilePoster, mobilePosterAvif, mp4, webm, alt, className = '', eager = false }: CinematicVideoProps) {
+export function CinematicVideo({ poster, posterAvif, mobilePoster, mobilePosterAvif, mp4, webm, mobileMp4, mobileWebm, alt, className = '', eager = false }: CinematicVideoProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [shouldMount, setShouldMount] = useState(false);
@@ -24,10 +26,11 @@ export function CinematicVideo({ poster, posterAvif, mobilePoster, mobilePosterA
   useEffect(() => {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string }; deviceMemory?: number }).connection;
     const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+    const hasMobileSource = Boolean(mobileMp4 || mobileWebm);
     const allowed = shouldLoadAmbientVideo({
       hasSource: Boolean(mp4 || webm),
-      isWideScreen: window.matchMedia('(min-width: 1100px)').matches,
-      saveData: Boolean(connection?.saveData) || connection?.effectiveType === '2g' || (typeof deviceMemory === 'number' && deviceMemory < 4),
+      isDeviceCapable: !(typeof deviceMemory === 'number' && deviceMemory < 4) && (window.matchMedia('(min-width: 1100px)').matches || hasMobileSource),
+      saveData: Boolean(connection?.saveData) || connection?.effectiveType === '2g' || connection?.effectiveType === 'slow-2g',
       reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     });
     if (!allowed || !rootRef.current) return;
@@ -41,7 +44,7 @@ export function CinematicVideo({ poster, posterAvif, mobilePoster, mobilePosterA
     }, { rootMargin: '240px 0px', threshold: 0.05 });
     observer.observe(rootRef.current);
     return () => observer.disconnect();
-  }, [eager, mp4, webm]);
+  }, [eager, mp4, webm, mobileMp4, mobileWebm]);
 
   useEffect(() => {
     if (!videoRef.current || !ready || failed) return;
@@ -60,6 +63,8 @@ export function CinematicVideo({ poster, posterAvif, mobilePoster, mobilePosterA
       </picture>
       {shouldMount && !failed && (
         <video ref={videoRef} muted loop playsInline preload="metadata" onCanPlay={() => setReady(true)} onError={() => setFailed(true)} aria-hidden="true">
+          {mobileWebm && <source media="(max-width: 699px)" src={mobileWebm} type="video/webm" />}
+          {mobileMp4 && <source media="(max-width: 699px)" src={mobileMp4} type="video/mp4" />}
           <source src={webm} type="video/webm" /><source src={mp4} type="video/mp4" />
         </video>
       )}

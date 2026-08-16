@@ -54,6 +54,14 @@ describe('enquiry brief', () => {
     expect(formatBrief(validPackage)).toContain('Maldives Paradise');
     expect(formatBrief(validPackage)).toContain('December 2026');
     const service = normalizeBrief({ interestKind: 'service', serviceId: 'visa', name: 'Asha Kumar', mobile: '+91 98765 43210', email: 'asha@example.com', consent: true });
-    expect(formatBrief(service)).toContain('Visa Consultancy');
+    expect(formatBrief(service)).toContain('Visas');
+  });
+
+  it('normalizes renamed services while preserving legacy insurance requests', () => {
+    expect(normalizeBrief({ interestKind: 'service', serviceId: 'hotels' }).serviceId).toBe('accommodation');
+    expect(normalizeBrief({ interestKind: 'service', serviceId: 'events' }).serviceId).toBe('mice');
+    const legacy = normalizeBrief({ interestKind: 'service', serviceId: 'insurance', name: 'Asha Kumar', mobile: '+91 98765 43210', email: 'asha@example.com', consent: true });
+    expect(legacy.serviceId).toBe('insurance');
+    expect(formatBrief(legacy)).toContain('Travel Insurance (legacy request)');
   });
 });
