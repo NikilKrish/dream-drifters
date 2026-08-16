@@ -10,17 +10,29 @@ This file is the canonical implementation and project-history record for the Dre
 - Stack: Vite 8, React 19, TypeScript, GSAP, Phosphor Icons, Vitest and Playwright.
 - Architecture: one semantic single-page application plus `/api/enquiry` handlers for Vercel and Cloudflare Workers/Sites.
 - Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer.
-- Git branch: `codex/vercel-github-release`.
-- Production implementation commit: `6cf0d4f` — Build editorial cinematic production experience.
+- Git branch: `main` (release work was completed on `codex/vercel-github-release` and fast-forwarded).
+- Public GitHub repository: https://github.com/NikilKrish/dream-drifters
+- Validated Vercel implementation commit: `328178f` — Fix Vercel enquiry function module resolution.
+- Public Vercel URL: https://dream-drifters.vercel.app/
+- Vercel status: production, connected to GitHub `main`, with automatic releases enabled.
 - Initial commit: `ad08637` — Initial Dream Drifters Codex project.
 - Sites commit: `864c27b` — Add OpenAI Sites deployment.
 - Public Sites URL: https://dream-drifters-codex-preview.yenkay.chatgpt.site/
 - Sites access: public and shareable without a common Wi-Fi network.
-- The permanent Sites URL still serves the previous validated release; production commit `6cf0d4f` is intentionally not deployed until responsive visual approval.
-- Temporary external review URL: https://mods-substantial-possible-mutual.trycloudflare.com/ (ephemeral development tunnel).
+- The permanent Sites URL remains an independent preview path and was not changed during the Vercel release.
+- The old Cloudflare development tunnel was temporary and is no longer an active project address.
 - Sole production source of truth: **Enhanced B**, comprising Editorial Intelligence, cinematic Services, the depth-of-field Packages stage and the attached Hero, Services and Reviews video backgrounds.
 
 ## Progress timeline
+
+### 0. Public GitHub and Vercel release
+
+- Created the public `NikilKrish/dream-drifters` repository and published the complete source, local media, tests and plain-language documentation.
+- Connected GitHub `main` to the Vercel project named `dream-drifters` and released the exact production address `https://dream-drifters.vercel.app/`.
+- Re-encoded all MP4 loops as H.264 Main profile, Level 3.1, yuv420p with fast-start metadata so Chrome can decode them reliably.
+- Verified live Hero, Services and Reviews videos in Chrome with `readyState` 4 and no media errors.
+- Corrected Vercel's ESM resolution for the shared enquiry module and verified live `503 { ok: false, fallback: "whatsapp" }` behavior when Meta credentials are absent, plus `405` method enforcement.
+- Final pre-release validation passed 27 unit/component tests and 65 applicable browser checks across compact phone, mobile, tablet, desktop, wide desktop, Firefox and mobile WebKit; 12 platform-specific checks were intentionally skipped.
 
 ### 1. Source recovery and baseline
 
@@ -128,7 +140,7 @@ Corrections completed:
 
 ### 12. Editorial cinematic production implementation
 
-- Created `codex/editorial-cinematic-production` from prototype commit `16d7db9`; the production implementation is commit `6cf0d4f`.
+- At that historical stage, `codex/editorial-cinematic-production` was created from prototype commit `16d7db9`; commit `6cf0d4f` established the first production implementation.
 - Removed the A/B/C switcher, prototype query routing and in-memory prototype form behavior from the production root.
 - The root now renders Enhanced B directly and retains the real enquiry API, consent and WhatsApp fallback.
 - Rebuilt Services as a six-scene full-bleed progression with mobile accordion and static reduced-motion alternatives.
@@ -140,7 +152,7 @@ Corrections completed:
 - Reworked cold-load chapter navigation so header links remain accurate while lazy ScrollTrigger scenes initialise.
 - Added short-height desktop and tablet rules so Services actions remain visible on 720 px and 1024 px viewports.
 - The supplied inspiration MP4 was inspected only as a motion reference and is not bundled or published.
-- Production deployment to the permanent Sites URL is intentionally pending responsive visual approval.
+- That stage intentionally deferred the permanent Sites release. The later validated production release now runs on Vercel while Sites remains an independent preview.
 
 ### 13. Enhanced B source-of-truth rebaseline
 
@@ -171,18 +183,18 @@ The live notification path requires:
 - `META_GRAPH_API_VERSION`
 - `VITE_WHATSAPP_NUMBER`
 
-Until the Meta values are configured on Sites, form submission intentionally offers the explicit WhatsApp fallback.
+Until the Meta values are configured on a hosting platform, form submission intentionally offers the explicit WhatsApp fallback. The current Vercel production project has no Meta credentials and its live fallback response has been verified.
 
 ## Known remaining work
 
-1. Obtain responsive visual approval for Enhanced B.
-2. After approval, deploy this branch to the permanent Sites URL and verify root plus `/api/enquiry` fallback.
-3. Re-test motion on physical iOS and Android devices, including reduced motion and Data Saver.
-4. Configure and verify the Meta WhatsApp template and production phone values on Sites.
-5. Confirm all package prices, company facts, contact details and testimonials with the business owner.
-6. Replace or license every temporary image and video.
-7. Approve final privacy copy, canonical domain, Open Graph image and business structured data.
-8. Complete the final Lighthouse, screen-reader and real-device launch review.
+1. Complete owner visual approval of the public Vercel release.
+2. Re-test motion on physical iOS and Android devices, including reduced motion and Data Saver.
+3. Configure and verify the Meta WhatsApp template and production phone values when the business wants automatic owner notifications.
+4. Confirm all package prices, company facts, contact details and testimonials with the business owner.
+5. Replace or license every temporary image and video.
+6. Approve final privacy copy, any future custom domain, Open Graph image and business structured data.
+7. Complete the final Lighthouse, screen-reader and real-device launch review.
+8. Update the independent Sites deployment only if the business wants it to mirror the Vercel production release.
 
 ## Continuation rules
 

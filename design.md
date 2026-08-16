@@ -4,7 +4,7 @@ Last updated: 16 August 2026
 
 This is the canonical design specification for the current Dream Drifters Codex project. The sole production source of truth is **Enhanced B**, the approved Editorial Intelligence experience with cinematic Services, the depth package carousel and its attached video-background system. Superseded concepts remain available only as labelled historical references under `reference/` and `.superdesign/website/`.
 
-Production implementation commit: `6cf0d4f`. Permanent Sites deployment is pending responsive visual approval.
+Validated production implementation commit: `328178f`. The public Vercel release is available at https://dream-drifters.vercel.app/. The OpenAI Sites address remains an independent preview deployment.
 
 ## Product intent
 

@@ -4,6 +4,10 @@
 
 This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a depth package carousel and video backgrounds in Hero, Services and Reviews.
 
+- **Live website:** https://dream-drifters.vercel.app/
+- **Public source repository:** https://github.com/NikilKrish/dream-drifters
+- **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/
+
 The page follows one clear journey:
 
 **Hero → Proof → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
@@ -63,6 +67,8 @@ The repository supports two independent release paths:
 
 - **Vercel:** `npm run build:vercel`, with `api/enquiry.ts` as the server function.
 - **OpenAI Sites:** `npm run build:sites`, with `worker/index.ts` as the server function.
+
+The production Vercel project is connected to this repository's `main` branch. A successful push creates a new production deployment automatically.
 
 Full setup, environment variables, fallback behavior and verification steps are in [Deployment guide](docs/DEPLOYMENT.md).
 

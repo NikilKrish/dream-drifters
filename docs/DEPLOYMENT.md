@@ -2,6 +2,12 @@
 
 The same visitor experience can be released to Vercel and OpenAI Sites. Each platform has its own server entry point, but both use the same validation and WhatsApp summary rules from `shared/brief.ts`.
 
+Current production links:
+
+- Vercel website: https://dream-drifters.vercel.app/
+- GitHub source: https://github.com/NikilKrish/dream-drifters
+- OpenAI Sites preview: https://dream-drifters-codex-preview.yenkay.chatgpt.site/
+
 ## Vercel
 
 ### Project settings
@@ -15,7 +21,7 @@ The same visitor experience can be released to Vercel and OpenAI Sites. Each pla
 
 These settings are already recorded in `vercel.json` and `package.json`.
 
-Connect the public GitHub repository to Vercel so every pull request receives a preview and changes to `main` can produce a production release. The preferred project name is `dream-drifters`; if that name is unavailable, use a readable suffix while keeping `dream-drifters` in the domain.
+The public GitHub repository is connected to the Vercel project `dream-drifters`. Changes pushed to `main` produce a production release at `dream-drifters.vercel.app`; other branches can be used for preview deployments.
 
 ### Environment variables
 
