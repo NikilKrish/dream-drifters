@@ -483,6 +483,7 @@
   .depth-packages--depth .depth-packages__deck { height: min(72vh, 700px); }
   .depth-packages--depth .depth-packages__rail { position: relative; height: 100%; overflow: visible; }
   .depth-packages--depth .depth-card { position: absolute; top: 50%; left: 50%; width: min(45vw, 640px); transform: translate3d(calc(-50% + var(--depth-x, 0%)), -50%, 0) scale(var(--depth-scale, 1)); opacity: var(--depth-opacity, 0); transition: filter 280ms cubic-bezier(.22,1,.36,1); will-change: transform, opacity; }
+  .depth-packages--depth .depth-card.is-active { z-index: 20 !important; }
   .depth-packages--depth .depth-card[data-depth-visible='false'] { pointer-events: none; }
   .depth-packages--depth .depth-card.is-adjacent .depth-card__media img { filter: blur(5px) saturate(.72); }
   .depth-packages--depth .depth-card:not(.is-active) .depth-card__media > span { display: none; }

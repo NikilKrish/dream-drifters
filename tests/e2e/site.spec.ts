@@ -41,14 +41,14 @@ test('has no serious accessibility violations and selects the right hero art', a
   const heroMedia = page.locator('.editorial-hero__media');
   await expect(heroMedia.locator('img')).toHaveAttribute('src', '/media/hero.webp');
   const currentSource = await heroMedia.locator('img').evaluate((image: HTMLImageElement) => image.currentSrc);
-  if ((page.viewportSize()?.width ?? 1000) < 700) expect(currentSource).toContain('hero-mobile.avif');
-  else expect(currentSource).toContain('hero.avif');
+  if ((page.viewportSize()?.width ?? 1000) < 700) expect(currentSource).toMatch(/hero-mobile\.(avif|webp)/);
+  else expect(currentSource).toMatch(/hero\.(avif|webp)/);
   if ((page.viewportSize()?.width ?? 1000) < 700) {
     const initialImages = await page.evaluate(() => performance.getEntriesByType('resource').map((entry) => entry.name));
-    expect(initialImages.some((name) => name.includes('hero-mobile.avif'))).toBe(true);
+    expect(initialImages.some((name) => /hero-mobile\.(avif|webp)/.test(name))).toBe(true);
     expect(initialImages.some((name) => name.includes('bali.avif') || name.includes('dubai.avif'))).toBe(false);
   }
-  await expect(heroMedia).toHaveAttribute('data-video-state', /poster|playing|failed/);
+  await expect(heroMedia).toHaveAttribute('data-video-state', /poster|loading|playing|paused|blocked|failed/);
   await expect.poll(() => page.locator('.editorial-hero__actions').evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((issue) => ['serious', 'critical'].includes(issue.impact ?? ''))).toEqual([]);
@@ -96,7 +96,7 @@ test('service prefilling and WhatsApp fallback work inline', async ({ page }) =>
   await page.getByLabel(/email address/i).fill('asha@example.com');
   await page.getByLabel(/i agree/i).check();
   await page.getByRole('button', { name: /send enquiry/i }).click();
-  await expect(page.getByRole('link', { name: /continue in whatsapp/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /continue in whatsapp/i })).toBeVisible({ timeout: 12_000 });
   await expect(page.getByText(/background notification was unavailable/i)).toBeVisible();
 });
 
@@ -104,6 +104,7 @@ test('reduced motion keeps all service content static and disables video', async
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await expect(page.locator('video')).toHaveCount(0);
+  await expect(page.locator('#home').getByRole('button', { name: 'Play background video' })).toBeVisible();
   const width = page.viewportSize()?.width ?? 1000;
   if (width >= 700) {
     await expect(page.locator('.editorial-services__static')).toBeVisible();

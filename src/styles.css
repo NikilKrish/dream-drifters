@@ -96,6 +96,36 @@ main { overflow: clip; }
 .cinematic-media img, .cinematic-media video { object-fit: cover; }
 .cinematic-media video { opacity: 0; transition: opacity 650ms var(--ease-out); }
 .cinematic-media.is-video-ready video { opacity: 1; }
+.cinematic-media__play {
+  position: absolute;
+  right: clamp(1rem, 2vw, 1.75rem);
+  bottom: clamp(1rem, 2vw, 1.75rem);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: .65rem .9rem;
+  border: 1px solid rgb(255 255 255 / .34);
+  border-radius: 999px;
+  color: white;
+  background: rgb(7 27 43 / .72);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgb(0 0 0 / .22);
+  font: 650 .76rem/1 var(--font-sans);
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: transform 120ms var(--ease-out), border-color 120ms var(--ease-out), background-color 120ms var(--ease-out);
+}
+.cinematic-media__play:hover { transform: translateY(-2px); border-color: var(--cyan); background: rgb(7 27 43 / .9); }
+.cinematic-media__play:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+.cinematic-media__play svg { width: 1rem; height: 1rem; flex: none; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .cinematic-media__play { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--ink-1); }
+}
 .film-hero__wash { position: absolute; inset: 0; background: linear-gradient(0deg, oklch(14% .034 230 / .96) 0%, oklch(14% .034 230 / .42) 58%, oklch(14% .034 230 / .22) 100%), linear-gradient(90deg, oklch(14% .034 230 / .5), transparent 70%); }
 .film-hero__content { position: relative; display: flex; min-height: max(760px, 100svh); align-items: flex-start; flex-direction: column; justify-content: flex-end; padding-block: 7rem max(4.5rem, env(safe-area-inset-bottom)); }
 .film-hero h1 { max-width: none; margin: 0 0 1.25rem; font-family: var(--display); font-size: min(15vw, 5rem); font-weight: 400; letter-spacing: -.055em; line-height: .82; }
@@ -446,7 +476,6 @@ main { overflow: clip; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .hero-reveal, .content-reveal { opacity: 1; transform: none; }
-  .cinematic-media video { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) and (min-width: 700px) {

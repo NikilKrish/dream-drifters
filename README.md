@@ -1,61 +1,86 @@
-# Dream Drifters cinematic revamp
+# Dream Drifters website
 
-> **Codex project:** Designed, implemented and verified with OpenAI Codex.
+> A Codex project for Dream Drifters, a Chennai-based travel consultancy serving leisure, business and group travel.
 
-> **Canonical experience:** Enhanced B is the sole production source of truth. It combines Editorial Intelligence, cinematic Services, a depth-of-field package carousel and attached Hero, Services and Reviews video backgrounds.
+This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a depth package carousel and video backgrounds in Hero, Services and Reviews.
 
-A Vite, React and TypeScript single-page experience that follows the original trust-first journey:
+The page follows one clear journey:
 
-**Hero → Metrics → About → Vision & Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
+**Hero → Proof → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
 
-The interface uses one cinematic ink theme, self-hosted Instrument Serif and Manrope Variable fonts, responsive poster-first media, typed verification gates and breakpoint-specific service storytelling. Unsupported testimonials and pricing never render as verified content. The original A/B/C prototypes and external inspiration studies are historical references rather than active specifications.
+## What visitors can do
 
-The source-of-truth documents are:
+- Explore six travel and corporate capabilities.
+- Browse six holiday packages on phone, tablet or desktop.
+- Open complete itinerary details with a keyboard, mouse or touch.
+- Select a package or service and send one inline enquiry.
+- Continue in WhatsApp only after pressing an explicit button.
+- Choose to play a background video if their browser blocks autoplay or accessibility/data settings start it paused.
 
-- `design.md` for design, interaction, responsive and media behavior.
-- `memory.md` for implementation history, deployment state and continuation rules.
-- `public/media/README.md` for the attached video/poster inventory, loading policy and licensing status.
+There is no payment system, account, booking engine or automatic WhatsApp redirect.
 
-## Local development
+## View and run the project
+
+You need Node.js 22 and npm.
 
 ```bash
 npm install
 npm run dev
 ```
 
-The development server binds to `0.0.0.0`, so the same script works in Replit and can be opened from another device on the same network using the computer's LAN address and displayed port.
+Open the address shown in the terminal. For a beginner-friendly walkthrough, see [Getting started](docs/GETTING_STARTED.md).
 
-Copy `.env.example` to `.env.local` before testing the live WhatsApp integration. Submission always ends with an explicit WhatsApp continuation action and never redirects automatically.
-
-## Verification
+## Quality checks
 
 ```bash
-npm run build
 npm test
+npm run build:vercel
+npm run build:sites
 npm run test:e2e
 ```
 
-Playwright runs at 390px, 768px and 1440px. Coverage includes the exact restored section order, page-height and overflow budgets, anchor landing, mobile-menu focus containment, axe serious/critical findings, responsive poster selection, reduced motion, itinerary and privacy dialogs, package and service prefilling, conditional validation and API-failure WhatsApp handoff.
+The browser suite covers Chrome from a 320 px compact phone through tablet, desktop and 1920 px wide desktop, plus Firefox desktop and mobile Safari/WebKit checks.
 
-## Vercel and Meta configuration
+## Where things live
 
-Set these environment variables:
+| Folder or file | Plain-language purpose |
+|---|---|
+| `src/` | The visible website and interactions |
+| `src/data/` | Packages, services, proof and testimonials |
+| `public/media/` | Local video, image and poster files |
+| `api/enquiry.ts` | The Vercel enquiry endpoint |
+| `worker/index.ts` | The matching OpenAI Sites/Cloudflare endpoint |
+| `shared/brief.ts` | Shared validation and WhatsApp summary rules |
+| `tests/` | Browser checks for the full visitor journey |
+| `design.md` | Canonical design and behavior specification |
+| `memory.md` | Project history, decisions and release record |
 
-- `META_ACCESS_TOKEN`
-- `META_PHONE_NUMBER_ID`
-- `BUSINESS_OWNER_PHONE_NUMBER`
-- `META_MESSAGE_TEMPLATE`
-- `META_TEMPLATE_LANGUAGE`
-- `META_GRAPH_API_VERSION`
-- `VITE_WHATSAPP_NUMBER`
+See [Content and media](docs/CONTENT_AND_MEDIA.md) before editing copy, prices, testimonials or footage.
 
-The approved Meta template must contain one body text parameter for the structured enquiry summary. The endpoint normalizes and conditionally validates submissions, rejects oversized requests, quietly absorbs likely bots, and never persists or logs personal information.
+## Deployment
 
-## Production checklist
+The repository supports two independent release paths:
 
-- Replace the temporary local Coverr footage and all static stock imagery with licensed Dream Drifters media.
-- Record a source and usage right for every production media asset.
-- Verify package prices and testimonial drafts before changing their typed status to `verified`.
-- Confirm the WhatsApp template and owner number in a Vercel preview.
-- Approve the privacy notice, canonical domain and structured business data.
-- Complete the physical-device mobile review and manual screen-reader pass.
+- **Vercel:** `npm run build:vercel`, with `api/enquiry.ts` as the server function.
+- **OpenAI Sites:** `npm run build:sites`, with `worker/index.ts` as the server function.
+
+Full setup, environment variables, fallback behavior and verification steps are in [Deployment guide](docs/DEPLOYMENT.md).
+
+## Important launch notes
+
+- Package prices and supplied testimonials remain hidden until the business owner verifies them.
+- Current stock photos and Coverr video loops are temporary. Their source status is documented, but all production media still needs final approval.
+- If Meta WhatsApp credentials are absent, the form safely offers the visitor an explicit WhatsApp continuation link.
+- Never commit `.env` files, access tokens, phone credentials or generated build folders.
+
+## Canonical records
+
+- [Design specification](design.md)
+- [Implementation memory](memory.md)
+- [Media manifest](public/media/README.md)
+
+Historical prototypes and research remain in `reference/` and `.superdesign/` for provenance. They are not current implementation instructions.
+
+## Ownership
+
+Copyright © 2026 Dream Drifters. All rights reserved. See [LICENSE.md](LICENSE.md).

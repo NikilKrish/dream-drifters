@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DepthPackagesSection } from './components/DepthPackagesSection';
 import { EditorialHero, EditorialMetrics, EditorialReviews, EditorialServices, EditorialStory, EditorialTrust } from './components/EditorialSections';
 import { EnquirySection } from './components/EnquirySection';
@@ -14,6 +14,7 @@ export default function App() {
   const [activePackage, setActivePackage] = useState<TravelPackage | null>(null);
   const [sourceImage, setSourceImage] = useState<HTMLElement | null>(null);
   const [selection, setSelection] = useState<EnquirySelection | null>(null);
+  const scrollRequestRef = useRef(0);
   useEditorialMotion();
 
   useEffect(() => {
@@ -37,11 +38,26 @@ export default function App() {
   const scrollTo = (id: string) => requestAnimationFrame(() => {
     const target = document.getElementById(id);
     if (!target) return;
+    const requestId = ++scrollRequestRef.current;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
-    if (!reducedMotion) window.setTimeout(() => {
-      if (Math.abs(target.getBoundingClientRect().top) > 8) target.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }, 850);
+    if (!reducedMotion) {
+      const interrupt = () => { if (scrollRequestRef.current === requestId) scrollRequestRef.current += 1; };
+      const options = { once: true, passive: true } as const;
+      window.addEventListener('wheel', interrupt, options);
+      window.addEventListener('touchstart', interrupt, options);
+      window.addEventListener('keydown', interrupt, { once: true });
+      [850, 1800, 3200].forEach((delay) => window.setTimeout(() => {
+        if (scrollRequestRef.current === requestId && Math.abs(target.getBoundingClientRect().top) > 8) {
+          target.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
+      }, delay));
+      window.setTimeout(() => {
+        window.removeEventListener('wheel', interrupt);
+        window.removeEventListener('touchstart', interrupt);
+        window.removeEventListener('keydown', interrupt);
+      }, 3300);
+    }
   });
   const selectCustom = () => { setSelection({ interestKind: 'custom', label: 'Custom travel request', requestId: Date.now() }); scrollTo('contact'); };
   const selectCapability = (capability: TravelCapability) => {
@@ -53,5 +69,5 @@ export default function App() {
   const selectPackage = (item: TravelPackage) => { setSelection({ interestKind: 'package', packageId: item.id, label: item.title, requestId: Date.now() }); track('package_selected', { package_id: item.id }); setActivePackage(null); scrollTo('contact'); };
   const openPackage = (item: TravelPackage, image: HTMLElement | null) => { setSourceImage(image); setActivePackage(item); track('itinerary_opened', { package_id: item.id }); };
 
-  return <div className="prototype editorial-production"><a className="skip-link" href="#main-content">Skip to main content</a><Navigation onQuote={selectCustom} onNavigate={scrollTo} /><main id="main-content"><EditorialHero onPackages={() => scrollTo('packages')} onQuote={selectCustom} /><EditorialMetrics /><EditorialStory /><EditorialServices onSelect={selectCapability} /><EditorialTrust /><DepthPackagesSection onOpen={openPackage} onEnquire={selectPackage} /><EditorialReviews /><EnquirySection selection={selection} /></main><Footer onQuote={selectCustom} /><PackageSheet travelPackage={activePackage} sourceImage={sourceImage} onClose={() => setActivePackage(null)} onPlan={selectPackage} /></div>;
+  return <div className="prototype editorial-production"><a className="skip-link" href="#main-content">Skip to main content</a><Navigation onQuote={selectCustom} onNavigate={scrollTo} /><main id="main-content"><EditorialHero onPackages={() => scrollTo('packages')} onQuote={selectCustom} /><EditorialMetrics /><EditorialStory /><EditorialServices onSelect={selectCapability} /><EditorialTrust /><DepthPackagesSection onOpen={openPackage} onEnquire={selectPackage} suspended={Boolean(activePackage)} /><EditorialReviews /><EnquirySection selection={selection} /></main><Footer onQuote={selectCustom} /><PackageSheet travelPackage={activePackage} sourceImage={sourceImage} onClose={() => setActivePackage(null)} onPlan={selectPackage} /></div>;
 }

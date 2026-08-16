@@ -5,11 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc -b && vite build",
+    "build": "npm run build:sites",
+    "build:sites": "tsc -b && vite build --mode sites",
+    "build:vercel": "tsc -b && vite build --mode vercel",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",

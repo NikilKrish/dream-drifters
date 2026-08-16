@@ -1,5 +1,8 @@
 {
-  "rewrites": [{ "source": "/api/enquiry", "destination": "/api/enquiry" }],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/(.*)",
@@ -11,4 +14,3 @@
     }
   ]
 }
-

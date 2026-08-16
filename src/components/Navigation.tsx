@@ -71,17 +71,21 @@ export function Navigation({ onQuote, onNavigate }: NavigationProps) {
     return () => query.removeEventListener('change', closeDesktop);
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
+  const afterMenuClose = (action: () => void) => {
+    if (!menuOpen) { action(); return; }
+    setMenuOpen(false);
+    requestAnimationFrame(() => requestAnimationFrame(action));
+  };
   return (
     <header className={`site-nav${pastHero || menuOpen ? ' is-scrolled' : ''}${menuOpen ? ' is-open' : ''}`}>
       <div className="site-nav__inner">
-        <a className="site-nav__brand" href="#home" aria-label="Dream Drifters home" onClick={(event) => { event.preventDefault(); closeMenu(); onNavigate('home'); }}><BrandMark light /></a>
+        <a className="site-nav__brand" href="#home" aria-label="Dream Drifters home" onClick={(event) => { event.preventDefault(); afterMenuClose(() => onNavigate('home')); }}><BrandMark light /></a>
         <button ref={triggerRef} className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen((open) => !open)}>
           <span>{menuOpen ? 'Close' : 'Menu'}</span>{menuOpen ? <X aria-hidden="true" weight="bold" /> : <List aria-hidden="true" weight="bold" />}
         </button>
         <nav ref={menuRef} id="site-menu" className="site-menu" aria-label="Primary navigation">
-          {links.map((link) => <a key={link.id} href={link.href} aria-current={activeSection === link.id ? 'page' : undefined} onClick={(event) => { event.preventDefault(); closeMenu(); onNavigate(link.id); }}>{link.label}</a>)}
-          <button className="button button--accent button--small" type="button" onClick={() => { closeMenu(); onQuote(); }}>Get a quote</button>
+          {links.map((link) => <a key={link.id} href={link.href} aria-current={activeSection === link.id ? 'page' : undefined} onClick={(event) => { event.preventDefault(); afterMenuClose(() => onNavigate(link.id)); }}>{link.label}</a>)}
+          <button className="button button--accent button--small" type="button" onClick={() => afterMenuClose(onQuote)}>Get a quote</button>
         </nav>
       </div>
     </header>

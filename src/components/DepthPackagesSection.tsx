@@ -9,9 +9,10 @@ import { getPackagePriceLabel } from './PackagesSection';
 interface DepthPackagesSectionProps {
   onOpen: (travelPackage: TravelPackage, sourceImage: HTMLElement | null) => void;
   onEnquire: (travelPackage: TravelPackage) => void;
+  suspended?: boolean;
 }
 
-export function DepthPackagesSection({ onOpen, onEnquire }: DepthPackagesSectionProps) {
+export function DepthPackagesSection({ onOpen, onEnquire, suspended = false }: DepthPackagesSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const deckRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,8 @@ export function DepthPackagesSection({ onOpen, onEnquire }: DepthPackagesSection
   const dragStartRef = useRef<number | null>(null);
   const activeRef = useRef(0);
   const sourceRef = useRef<CarouselInputMethod>('scroll');
+  const manualLockRef = useRef(0);
+  const suspendedRef = useRef(suspended);
   const [activeIndex, setActiveIndex] = useState(0);
   const [mode, setMode] = useState(() => getCarouselMode(typeof window === 'undefined' ? 1440 : window.innerWidth, typeof window !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches));
   const activePackage = packages[activeIndex];
@@ -57,6 +60,11 @@ export function DepthPackagesSection({ onOpen, onEnquire }: DepthPackagesSection
   }, []);
 
   useEffect(() => {
+    suspendedRef.current = suspended;
+    if (!suspended) manualLockRef.current = performance.now() + 800;
+  }, [suspended]);
+
+  useEffect(() => {
     if (mode !== 'depth') {
       cardRefs.current.forEach((card) => {
         if (!card) return;
@@ -88,7 +96,13 @@ export function DepthPackagesSection({ onOpen, onEnquire }: DepthPackagesSection
             end: 'bottom bottom',
             scrub: .7,
             invalidateOnRefresh: true,
-            onUpdate: (self) => renderDepth(progressToPackagePosition(self.progress, packages.length), 'scroll'),
+            onUpdate: (self) => {
+              if (suspendedRef.current || performance.now() < manualLockRef.current) {
+                renderDepth(activeRef.current, sourceRef.current);
+                return;
+              }
+              renderDepth(progressToPackagePosition(self.progress, packages.length), 'scroll');
+            },
           });
           triggerRef.current = trigger;
         }, sectionRef);
@@ -110,13 +124,24 @@ export function DepthPackagesSection({ onOpen, onEnquire }: DepthPackagesSection
 
   const goTo = (index: number, source: CarouselInputMethod) => {
     const next = clampPackageIndex(index, packages.length);
+    manualLockRef.current = performance.now() + 800;
     setActive(next, source);
-    if (mode === 'depth' && triggerRef.current) {
+    if (mode === 'depth' && sectionRef.current) {
       const progress = next / (packages.length - 1);
-      window.scrollTo({ top: triggerRef.current.start + progress * (triggerRef.current.end - triggerRef.current.start), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY;
+      const sectionEnd = sectionTop + sectionRef.current.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: sectionTop + progress * (sectionEnd - sectionTop), behavior: 'auto' });
+      renderDepth(next, source);
+      window.setTimeout(() => {
+        if (!sectionRef.current || suspendedRef.current || performance.now() < manualLockRef.current) return;
+        const currentTop = sectionRef.current.getBoundingClientRect().top + window.scrollY;
+        const currentEnd = currentTop + sectionRef.current.offsetHeight - window.innerHeight;
+        const currentProgress = (window.scrollY - currentTop) / Math.max(1, currentEnd - currentTop);
+        renderDepth(progressToPackagePosition(currentProgress, packages.length), 'scroll');
+      }, 820);
       return;
     }
-    cardRefs.current[next]?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
+    cardRefs.current[next]?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
   };
 
   const openPackage = (event: MouseEvent<HTMLButtonElement>, item: TravelPackage) => {

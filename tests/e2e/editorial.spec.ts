@@ -55,4 +55,23 @@ test('capable phones use the mobile hero loop and reduced motion uses posters on
   await page.waitForTimeout(700);
   await expect(page.locator('video')).toHaveCount(0);
   await expect(page.locator('#home picture')).toBeVisible();
+  await expect(page.locator('#home').getByRole('button', { name: 'Play background video' })).toBeVisible();
+});
+
+test('all Enhanced B video families are attached and playable in Chrome', async ({ page, request }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Desktop Chrome media attachment check');
+  for (const file of ['discovery.mp4', 'discovery.webm', 'operations.mp4', 'operations.webm', 'travellers.mp4', 'travellers.webm']) {
+    const response = await request.get(`/media/${file}`);
+    expect(response.ok(), `${file} should be served`).toBe(true);
+    expect(response.headers()['content-type']).toContain('video/');
+  }
+
+  await page.goto('/');
+  await expect.poll(() => page.locator('#home video').evaluate((video: HTMLVideoElement) => video.currentSrc)).toContain('discovery.mp4');
+  await page.locator('#services').scrollIntoViewIfNeeded();
+  await expect(page.locator('#services video')).toHaveCount(1);
+  await expect.poll(() => page.locator('#services video').evaluate((video: HTMLVideoElement) => video.currentSrc)).toContain('operations.mp4');
+  await page.locator('#reviews').scrollIntoViewIfNeeded();
+  await expect(page.locator('#reviews video')).toHaveCount(1);
+  await expect.poll(() => page.locator('#reviews video').evaluate((video: HTMLVideoElement) => video.currentSrc)).toContain('travellers.mp4');
 });

@@ -10,7 +10,7 @@ This file is the canonical implementation and project-history record for the Dre
 - Stack: Vite 8, React 19, TypeScript, GSAP, Phosphor Icons, Vitest and Playwright.
 - Architecture: one semantic single-page application plus `/api/enquiry` handlers for Vercel and Cloudflare Workers/Sites.
 - Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer.
-- Git branch: `codex/editorial-cinematic-production`.
+- Git branch: `codex/vercel-github-release`.
 - Production implementation commit: `6cf0d4f` — Build editorial cinematic production experience.
 - Initial commit: `ad08637` — Initial Dream Drifters Codex project.
 - Sites commit: `864c27b` — Add OpenAI Sites deployment.
@@ -136,7 +136,7 @@ Corrections completed:
 - Added scroll, controls, keyboard, adjacent-card selection and 18 percent pointer-drag thresholds with bounded first and last states.
 - Added privacy-safe `package_stage_changed` analytics containing only package ID and input method.
 - Added connected chapter motion while preserving native scrolling.
-- Capable phones now load mobile hero video after the poster and first paint. Services and Reviews videos mount near their sections. Save-Data, 2G, low memory, reduced motion and playback failure remain poster-only.
+- Capable phones now load mobile hero video after the poster and first paint. Services and Reviews videos mount near their sections. Save-Data, 2G, low memory and reduced motion begin paused with an explicit play option; decoding or network failure remains poster-only.
 - Reworked cold-load chapter navigation so header links remain accurate while lazy ScrollTrigger scenes initialise.
 - Added short-height desktop and tablet rules so Services actions remain visible on 720 px and 1024 px viewports.
 - The supplied inspiration MP4 was inspected only as a motion reference and is not bundled or published.

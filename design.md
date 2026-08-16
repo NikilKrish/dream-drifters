@@ -142,8 +142,9 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 - A shared editorial motion director connects Hero to proof, About to Purpose, Purpose to Services, Trust to Packages, Packages to Reviews and Reviews to Enquiry through restrained scale, pan and crossfade relationships.
 - Off-screen ambient videos pause and lower-page videos are mounted only near their chapters.
 - Capable phones may use the supplied mobile WebM or MP4 loops after the poster and first paint.
-- Reduced motion removes video, pinning, scrubbing and spatial transitions while keeping all content functional.
-- Save-Data, 2G, reduced motion, low memory and playback failure preserve stable poster-only scenes.
+- Reduced motion removes automatic video playback, pinning, scrubbing and spatial transitions while keeping all content functional. A visitor may still request video through the accessible play control.
+- Save-Data, 2G and low-memory modes start with stable poster-only scenes and do not spend video data until the visitor explicitly requests playback.
+- Browser autoplay rejection keeps the video mounted and exposes a manual Play video control. MP4 is listed before WebM for Chrome reliability; decoding or network failure leaves the poster stable.
 
 Enhanced B includes three required ambient-media assignments:
 
