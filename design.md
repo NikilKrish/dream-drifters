@@ -1,8 +1,10 @@
 # Dream Drifters Design Record
 
-Last updated: 15 August 2026
+Last updated: 16 August 2026
 
 This is the canonical design record for the current Dream Drifters Codex project. It describes the implemented experience rather than the superseded concepts retained under `reference/` and `.superdesign/`.
+
+Production implementation commit: `6cf0d4f`. Permanent Sites deployment is pending responsive visual approval.
 
 ## Product intent
 
@@ -19,6 +21,8 @@ The primary conversion path is package or service discovery followed by an inlin
 - Tone: premium, cinematic, editorial, trustworthy and operationally competent.
 - Primary visual references: NUBA for full-bleed luxury travel pacing and Black Tomato for emotion-led storytelling.
 - Supporting references: Visit Jersey for mobile discovery, Going for hierarchy discipline and Homo Travellus for guided selection.
+- Final composition: Variant B Editorial Intelligence with Variant A's cinematic Services chapter.
+- Motion reference: Alethia's connected-scene principle, adapted without scroll hijacking or copied assets.
 - Brand continuity: preserve the supplied Dream Drifters mark and use cyan as a rare interaction signal.
 - Avoid: SaaS-like cyan layouts, repetitive card grids, decorative numbering, generic badges, excessive glass, raw symbol icons and unsupported proof claims.
 
@@ -81,16 +85,16 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 
 ### Services
 
-Six services are preserved:
+Six public capabilities are preserved:
 
-1. Corporate Travel
+1. Tour Packages
 2. Flights
-3. Hotels
-4. Visa Consultancy
-5. Travel Insurance
-6. Events and Incentives
+3. Accommodation
+4. Visas
+5. Meeting Incentive, Conference Event (MICE)
+6. Corporate Travel
 
-Desktop uses a 360 svh GSAP-pinned progression. Tablet uses a shorter paired sequence. Mobile uses a single-open accessible accordion.
+Desktop uses a 360 svh GSAP-pinned progression with full-bleed operations media, a six-scene active index and a restrained foreground panel. Tablet uses a shorter pinned treatment containing the same six capabilities. Mobile uses a single-open accessible accordion. Travel Insurance is not exposed publicly; legacy insurance submissions remain accepted by the API.
 
 ### Why Us
 
@@ -99,8 +103,11 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 ### Packages and itinerary
 
 - Six original journeys, inclusions and itineraries are preserved.
-- Mobile uses a native horizontal rail with visible previous and next controls.
-- Larger layouts use an asymmetric editorial grid.
+- Desktop uses a 360 svh depth-of-field stage. Vertical progress maps continuously across all six packages, with a sharp centre card, blurred adjacent cards, counter-panning destination typography and no autoplay or looping.
+- Previous and next controls, adjacent-card promotion, pointer dragging and Left or Right keyboard input all update the active package and its live announcement.
+- Tablet uses an unpinned two-card native rail with side peeks and no blur.
+- Mobile uses a one-card-plus-peek native rail with visible previous and next controls and no blur.
+- Reduced motion replaces the depth stage with a static editorial grid.
 - “View itinerary” opens an accessible full-screen sheet with GSAP entrance and shared-image continuity.
 - Package selection prefills the enquiry form and announces the change.
 - Stored prices are currently hidden; the interface requests a current quote until the owner verifies them.
@@ -127,19 +134,19 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 - Feedback: 120 ms; state changes: 240–420 ms; media transitions: 650–720 ms.
 - Easing favours quart and quint-style deceleration without bounce or elastic movement.
 - GSAP ScrollTrigger powers service progression; GSAP Flip supports itinerary continuity.
+- A shared editorial motion director connects Hero to proof, About to Purpose, Purpose to Services, Trust to Packages, Packages to Reviews and Reviews to Enquiry through restrained scale, pan and crossfade relationships.
 - Off-screen ambient videos pause and lower-page videos are mounted only near their chapters.
+- Capable phones may use the supplied mobile WebM or MP4 loops after the poster and first paint.
 - Reduced motion removes video, pinning, scrubbing and spatial transitions while keeping all content functional.
-
-### Important current limitation
-
-Ambient video currently requires a viewport of at least 1100 px. It is also disabled by reduced motion, Save-Data, a reported 2G connection or reported device memory below 4 GB. Consequently, phones always display static posters. Most remaining microanimations are subtle, one-time or hover-led, so the mobile experience can feel almost static. This was identified after the Sites deployment and is the primary unresolved experience concern.
+- Save-Data, 2G, reduced motion, low memory and playback failure preserve stable poster-only scenes.
 
 ## Responsive behavior
 
-- Below 700 px: document flow, service accordion, expandable trust rows and package rail.
-- 700–1099 px: paired service progression and tablet layouts.
+- Below 700 px: document flow, service accordion, expandable trust rows, one-card package rail and touch-visible transitions.
+- 700–1099 px: shortened pinned Services treatment and two-card package rail.
 - 861 px and above: desktop navigation replaces the modal menu.
-- 1100 px and above: full service progression and ambient background video become eligible.
+- 1100 px and above: full Services progression and desktop package depth stage.
+- Short-height desktop and tablet rules keep service context and its primary action inside the viewport.
 - Minimum supported width: 320 px.
 - No horizontal page overflow is permitted.
 
@@ -163,4 +170,3 @@ Ambient video currently requires a viewport of at least 1100 px. It is also disa
 - Continue in WhatsApp
 
 Avoid introducing competing CTA terminology without updating this record and the associated tests.
-

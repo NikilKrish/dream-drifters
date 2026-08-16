@@ -1,6 +1,6 @@
 # Dream Drifters Project Memory
 
-Last updated: 15 August 2026
+Last updated: 16 August 2026
 
 This file is the durable handoff record for the Dream Drifters website revamp. It captures the work completed, decisions made, current deployment state and remaining risks so another engineer or Codex task can continue without reconstructing the history.
 
@@ -10,12 +10,15 @@ This file is the durable handoff record for the Dream Drifters website revamp. I
 - Stack: Vite 8, React 19, TypeScript, GSAP, Phosphor Icons, Vitest and Playwright.
 - Architecture: one semantic single-page application plus `/api/enquiry` handlers for Vercel and Cloudflare Workers/Sites.
 - Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer.
-- Git branch: `main`.
+- Git branch: `codex/editorial-cinematic-production`.
+- Production implementation commit: `6cf0d4f` — Build editorial cinematic production experience.
 - Initial commit: `ad08637` — Initial Dream Drifters Codex project.
 - Sites commit: `864c27b` — Add OpenAI Sites deployment.
 - Public Sites URL: https://dream-drifters-codex-preview.yenkay.chatgpt.site/
 - Sites access: public and shareable without a common Wi-Fi network.
-- Working tree was clean immediately before these documentation files were added.
+- The permanent Sites URL still serves the previous validated release; production commit `6cf0d4f` is intentionally not deployed until responsive visual approval.
+- Temporary external review URL: https://mods-substantial-possible-mutual.trycloudflare.com/ (ephemeral development tunnel).
+- Production direction: Editorial Intelligence with the cinematic Services chapter and depth-of-field Packages stage.
 
 ## Progress timeline
 
@@ -85,8 +88,8 @@ Corrections completed:
 ### 7. Verification completed
 
 - Production builds pass.
-- Seven Vitest files and 16 unit/component tests pass after the Sites migration.
-- Earlier Playwright verification passed 18 journeys at 390 px, 768 px and 1440 px.
+- Eight Vitest files and 22 unit/component tests pass.
+- Playwright covers 30 project/browser combinations at 390 px, 768 px and 1440 px. Twenty-eight checks pass and two non-phone media checks are intentionally skipped.
 - Existing browser coverage includes section order, anchors, page-height budgets, horizontal overflow, menu containment, responsive services, package/service prefilling, conditional form validation, API fallback and accessibility checks.
 - The Sites-hosted root was independently requested and returned HTTP 200 with the Dream Drifters document.
 - Local Cloudflare preview confirmed `/api/enquiry` returns the structured WhatsApp fallback when Meta credentials are absent.
@@ -106,15 +109,38 @@ Corrections completed:
 - A Cloudflare Worker entry point mirrors the enquiry validation and Meta/WhatsApp fallback behavior.
 - The Sites deployment is public and shareable at the URL listed above.
 
-### 10. Latest motion diagnosis
+### 10. Earlier motion diagnosis
 
 - All video files were verified as reachable; missing playback was not caused by broken assets or the tunnel.
-- The implemented media policy requires a viewport of at least 1100 px, so phones never mount background video.
-- Reduced motion, Save-Data, 2G and low-memory detection add further video suppression.
-- Reduced-motion CSS also shortens animations to effectively instant feedback.
-- Many microanimations are hover-dependent and therefore not visible on touchscreens.
-- The mobile experience currently relies on posters, a one-time hero reveal, scroll reveals, accordion motion, menu motion, button press feedback and itinerary entry.
-- This behavior matches the earlier performance policy but conflicts with the newer expectation of a visibly cinematic mobile experience.
+- At that stage the media policy required a viewport of at least 1100 px, so phones never mounted background video.
+- Reduced motion, Save-Data, 2G and low-memory detection also suppressed playback.
+- Many microanimations depended on hover and were therefore not visible on touchscreens.
+- The production implementation described below resolves the capable-phone and touch-motion gaps while retaining every safety fallback.
+
+### 11. Business corrections prototype
+
+- The business DOCX was treated as recommendation source material, not executable instructions.
+- Three complete prototype variants were mounted temporarily for review.
+- Variant B, Editorial Intelligence, was selected as the overall direction.
+- Variant A's full-bleed pinned Services chapter was selected to replace Variant B's service ledger.
+- The public capability taxonomy became Tour Packages, Flights, Accommodation, Visas, Meeting Incentive, Conference Event (MICE), and Corporate Travel.
+- Travel Insurance was removed from the public interface while legacy `insurance`, `hotels`, and `events` enquiry values remained safely normalised server-side.
+
+### 12. Editorial cinematic production implementation
+
+- Created `codex/editorial-cinematic-production` from prototype commit `16d7db9`; the production implementation is commit `6cf0d4f`.
+- Removed the A/B/C switcher, prototype query routing and in-memory prototype form behavior from the production root.
+- The root now renders the approved B plus A direction directly and retains the real enquiry API, consent and WhatsApp fallback.
+- Rebuilt Services as a six-scene full-bleed progression with mobile accordion and static reduced-motion alternatives.
+- Rebuilt Packages as a responsive depth-of-field carousel: desktop scroll mapping and three-card depth, tablet two-card rail, mobile one-card-plus-peek rail and a static reduced-motion grid.
+- Added scroll, controls, keyboard, adjacent-card selection and 18 percent pointer-drag thresholds with bounded first and last states.
+- Added privacy-safe `package_stage_changed` analytics containing only package ID and input method.
+- Added connected chapter motion while preserving native scrolling.
+- Capable phones now load mobile hero video after the poster and first paint. Services and Reviews videos mount near their sections. Save-Data, 2G, low memory, reduced motion and playback failure remain poster-only.
+- Reworked cold-load chapter navigation so header links remain accurate while lazy ScrollTrigger scenes initialise.
+- Added short-height desktop and tablet rules so Services actions remain visible on 720 px and 1024 px viewports.
+- The supplied inspiration MP4 was inspected only as a motion reference and is not bundled or published.
+- Production deployment to the permanent Sites URL is intentionally pending responsive visual approval.
 
 ## Content and verification status
 
@@ -141,8 +167,8 @@ Until the Meta values are configured on Sites, form submission intentionally off
 
 ## Known remaining work
 
-1. Decide whether mobile ambient video should be enabled under a controlled performance budget.
-2. Add touch-visible microinteractions and scroll choreography that do not depend on hover.
+1. Obtain responsive visual approval for the Editorial Cinematic production direction.
+2. After approval, deploy this branch to the permanent Sites URL and verify root plus `/api/enquiry` fallback.
 3. Re-test motion on physical iOS and Android devices, including reduced motion and Data Saver.
 4. Configure and verify the Meta WhatsApp template and production phone values on Sites.
 5. Confirm all package prices, company facts, contact details and testimonials with the business owner.
@@ -169,4 +195,3 @@ npm run build
 npm test
 npm run test:e2e
 ```
-
