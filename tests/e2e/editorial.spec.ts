@@ -33,7 +33,10 @@ test('package carousel adapts by breakpoint and supports direct controls', async
   await expect(page.locator('.depth-packages__deck [aria-live="polite"]')).toContainText('package 1 of 6');
 
   const next = page.getByRole('button', { name: 'Show next package' });
-  await next.click();
+  // Dispatch directly so Firefox does not auto-scroll the pinned stage while
+  // making the already-visible control actionable, which would advance the
+  // scroll-led index before the click handler runs.
+  await next.dispatchEvent('click');
   await expect(page.locator('.depth-packages__deck [aria-live="polite"]')).toContainText('package 2 of 6');
   await page.locator('.depth-packages__deck').press('ArrowLeft');
   await expect(page.locator('.depth-packages__deck [aria-live="polite"]')).toContainText('package 1 of 6');
