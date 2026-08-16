@@ -22,6 +22,8 @@ export const capabilities: TravelCapability[] = [
   { id: 'corporate-travel', shortTitle: 'Corporate', title: 'Corporate Travel', summary: 'A managed travel programme that balances traveller care, control and business priorities.', image: '/media/dubai.webp', imageAvif: '/media/dubai.avif', features: ['Travel policy design and compliance', 'Budget and approval controls', 'Supplier and fare management', 'Programme reporting', 'Traveller support and risk coordination', 'Flights, stays and ground transport'], action: { kind: 'enquiry', serviceId: 'corporate-travel' } },
 ];
 
+export const activeEnquiryServices = capabilities.flatMap((capability) => capability.action.kind === 'enquiry' ? [{ id: capability.action.serviceId, title: capability.title }] : []);
+
 export const services: TravelService[] = [
   { id: 'corporate-travel', shortTitle: 'Corporate', title: 'Corporate Travel', summary: 'Complete business travel management with one accountable team.', image: '/media/dubai.webp', imageAvif: '/media/dubai.avif', features: ['Domestic and international flights', 'Hotel and ground transport', 'Travel expense optimisation', 'Traveller and emergency support', 'Vendor management'] },
   { id: 'flights', shortTitle: 'Flights', title: 'Flight Service', summary: 'Expert ticketing, smart routing and transparent fare strategy.', image: '/media/japan.webp', imageAvif: '/media/japan.avif', features: ['Domestic and international ticketing', 'Optimised routing', 'Group fare negotiation', 'Quick turnaround', 'No hidden charges'] },

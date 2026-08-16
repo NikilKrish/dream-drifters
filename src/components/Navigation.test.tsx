@@ -8,7 +8,7 @@ afterEach(cleanup);
 describe('Navigation', () => {
   it('traps focus, makes the page inert and closes with Escape', async () => {
     const user = userEvent.setup();
-    render(<><Navigation onQuote={vi.fn()} /><main><button type="button">Behind menu</button></main><footer className="footer" /></>);
+    render(<><Navigation onQuote={vi.fn()} onNavigate={vi.fn()} /><main><button type="button">Behind menu</button></main><footer className="footer" /></>);
     const trigger = screen.getByRole('button', { name: 'Menu' });
     await user.click(trigger);
     await waitFor(() => expect(document.querySelector('main')).toHaveProperty('inert', true));

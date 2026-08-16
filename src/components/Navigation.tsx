@@ -2,7 +2,7 @@ import { List, X } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 import { BrandMark } from './BrandMark';
 
-interface NavigationProps { onQuote: () => void; }
+interface NavigationProps { onQuote: () => void; onNavigate: (id: string) => void; }
 
 const links = [
   { href: '#about', label: 'About', id: 'about' },
@@ -13,7 +13,7 @@ const links = [
 
 const focusable = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export function Navigation({ onQuote }: NavigationProps) {
+export function Navigation({ onQuote, onNavigate }: NavigationProps) {
   const [pastHero, setPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -75,12 +75,12 @@ export function Navigation({ onQuote }: NavigationProps) {
   return (
     <header className={`site-nav${pastHero || menuOpen ? ' is-scrolled' : ''}${menuOpen ? ' is-open' : ''}`}>
       <div className="site-nav__inner">
-        <a className="site-nav__brand" href="#home" aria-label="Dream Drifters home" onClick={closeMenu}><BrandMark light /></a>
+        <a className="site-nav__brand" href="#home" aria-label="Dream Drifters home" onClick={(event) => { event.preventDefault(); closeMenu(); onNavigate('home'); }}><BrandMark light /></a>
         <button ref={triggerRef} className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen((open) => !open)}>
           <span>{menuOpen ? 'Close' : 'Menu'}</span>{menuOpen ? <X aria-hidden="true" weight="bold" /> : <List aria-hidden="true" weight="bold" />}
         </button>
         <nav ref={menuRef} id="site-menu" className="site-menu" aria-label="Primary navigation">
-          {links.map((link) => <a key={link.id} href={link.href} aria-current={activeSection === link.id ? 'page' : undefined} onClick={closeMenu}>{link.label}</a>)}
+          {links.map((link) => <a key={link.id} href={link.href} aria-current={activeSection === link.id ? 'page' : undefined} onClick={(event) => { event.preventDefault(); closeMenu(); onNavigate(link.id); }}>{link.label}</a>)}
           <button className="button button--accent button--small" type="button" onClick={() => { closeMenu(); onQuote(); }}>Get a quote</button>
         </nav>
       </div>

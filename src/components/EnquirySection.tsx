@@ -2,7 +2,7 @@ import { ArrowRight, CheckCircle, CircleNotch, WhatsappLogo, X } from '@phosphor
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import type { BudgetBand, EnquiryBrief, InterestKind, ServiceId, ValidationErrors } from '../../shared/brief';
 import { formatBrief, normalizeBrief, validateBrief } from '../../shared/brief';
-import { services } from '../data/company';
+import { activeEnquiryServices } from '../data/company';
 import { packages } from '../data/packages';
 import { track } from '../lib/analytics';
 import type { EnquirySelection } from '../types';
@@ -52,7 +52,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
     setErrors({}); setStatus('idle'); setAnnouncement(`${kind === 'custom' ? 'Custom journey' : kind} selected.`);
   };
 
-  const selectedLabel = brief.interestKind === 'package' ? packages.find((item) => item.id === brief.packageId)?.title : brief.interestKind === 'service' ? services.find((item) => item.id === brief.serviceId)?.title : undefined;
+  const selectedLabel = brief.interestKind === 'package' ? packages.find((item) => item.id === brief.packageId)?.title : brief.interestKind === 'service' ? activeEnquiryServices.find((item) => item.id === brief.serviceId)?.title : undefined;
   const whatsappText = useMemo(() => formatBrief(normalizeBrief(brief)), [brief]);
   const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER || '919363312124').replace(/\D/g, '');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
@@ -103,7 +103,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
                 <Field label="Children"><input aria-label="Children" type="number" min="0" max="20" value={brief.children ?? 0} onChange={(event) => setField('children', Number(event.target.value))} /></Field>
                 <Field label="Budget per person *" error={errors.budgetBand} errorId="budget-error" wide><select aria-label="Budget per person" value={brief.budgetBand ?? ''} aria-invalid={Boolean(errors.budgetBand)} aria-describedby={errors.budgetBand ? 'budget-error' : undefined} onBlur={() => validateField('budgetBand')} onChange={(event) => setField('budgetBand', (event.target.value || undefined) as BudgetBand | undefined)}><option value="">Choose a range</option>{budgetOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></Field>
               </div>}
-              {brief.interestKind === 'service' && <Field label="Select service *" error={errors.serviceId} errorId="service-error" wide><select aria-label="Select service" value={brief.serviceId ?? ''} aria-invalid={Boolean(errors.serviceId)} aria-describedby={errors.serviceId ? 'service-error' : undefined} onBlur={() => validateField('serviceId')} onChange={(event) => setField('serviceId', (event.target.value || undefined) as ServiceId | undefined)}><option value="">Choose a service</option>{services.map((service) => <option key={service.id} value={service.id}>{service.title}</option>)}</select></Field>}
+              {brief.interestKind === 'service' && <Field label="Select service *" error={errors.serviceId} errorId="service-error" wide><select aria-label="Select service" value={brief.serviceId ?? ''} aria-invalid={Boolean(errors.serviceId)} aria-describedby={errors.serviceId ? 'service-error' : undefined} onBlur={() => validateField('serviceId')} onChange={(event) => setField('serviceId', (event.target.value || undefined) as ServiceId | undefined)}><option value="">Choose a service</option>{activeEnquiryServices.map((service) => <option key={service.id} value={service.id}>{service.title}</option>)}</select></Field>}
               <div className="contact-fields">
                 <Field label="Full name *" error={errors.name} errorId="name-error"><input aria-label="Full name" autoComplete="name" value={brief.name} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'name-error' : undefined} onBlur={() => validateField('name')} onChange={(event) => setField('name', event.target.value)} /></Field>
                 <Field label="Mobile number *" error={errors.mobile} errorId="mobile-error"><input aria-label="Mobile number" type="tel" autoComplete="tel" placeholder="+91 98765 43210" value={brief.mobile} aria-invalid={Boolean(errors.mobile)} aria-describedby={errors.mobile ? 'mobile-error' : undefined} onBlur={() => validateField('mobile')} onChange={(event) => setField('mobile', event.target.value)} /></Field>

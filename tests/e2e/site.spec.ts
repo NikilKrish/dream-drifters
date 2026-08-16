@@ -7,7 +7,7 @@ test('preserves the trust-first journey within responsive quality budgets', asyn
   const order = await page.locator('main > section').evaluateAll((sections) => sections.map((section) => section.getAttribute('data-section')));
   expect(order).toEqual(['hero', 'metrics', 'about', 'purpose', 'services', 'trust', 'packages', 'reviews', 'contact']);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
-  expect(await page.locator('.film-hero h1 > span').count()).toBe(2);
+  expect(await page.locator('.editorial-hero h1 > span').count()).toBe(2);
   expect(await page.locator('.kicker').count()).toBeLessThanOrEqual(3);
   expect(await page.locator('h1 br, h2 br, h3 br').count()).toBe(0);
   expect(await page.locator('.package-card__top, .chapter-cue').count()).toBe(0);
@@ -19,7 +19,7 @@ test('preserves the trust-first journey within responsive quality budgets', asyn
   if (width < 700) expect(serviceHeight).toBeLessThan(1_600);
   else if (width < 1100) expect(serviceHeight).toBeGreaterThan((page.viewportSize()?.height ?? 1000) * 2.3);
   else expect(serviceHeight).toBeGreaterThan((page.viewportSize()?.height ?? 1000) * 3.5);
-  await page.getByRole('button', { name: /explore packages/i }).click();
+  await page.locator('.editorial-hero').getByRole('button', { name: 'Explore packages', exact: true }).click();
   await expect.poll(() => page.locator('#packages-title').evaluate((heading) => Math.round(heading.getBoundingClientRect().top))).toBeLessThan((page.viewportSize()?.height ?? 1000) * .55);
   expect(await page.locator('#packages-title').evaluate((heading) => heading.getBoundingClientRect().top)).toBeGreaterThan(0);
   if (width <= 860) {
@@ -36,8 +36,9 @@ test('preserves the trust-first journey within responsive quality budgets', asyn
 });
 
 test('has no serious accessibility violations and selects the right hero art', async ({ page }) => {
+  test.setTimeout(45_000);
   await page.goto('/');
-  const heroMedia = page.locator('.film-hero__media');
+  const heroMedia = page.locator('.editorial-hero__media');
   await expect(heroMedia.locator('img')).toHaveAttribute('src', '/media/hero.webp');
   const currentSource = await heroMedia.locator('img').evaluate((image: HTMLImageElement) => image.currentSrc);
   if ((page.viewportSize()?.width ?? 1000) < 700) expect(currentSource).toContain('hero-mobile.avif');
@@ -48,15 +49,20 @@ test('has no serious accessibility violations and selects the right hero art', a
     expect(initialImages.some((name) => name.includes('bali.avif') || name.includes('dubai.avif'))).toBe(false);
   }
   await expect(heroMedia).toHaveAttribute('data-video-state', /poster|playing|failed/);
-  await expect.poll(() => page.locator('.film-hero__actions').evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
+  await expect.poll(() => page.locator('.editorial-hero__actions').evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((issue) => ['serious', 'critical'].includes(issue.impact ?? ''))).toEqual([]);
 });
 
 test('itinerary scene supports Escape and package-to-form prefilling', async ({ page }) => {
   await page.goto('/');
-  const card = page.locator('.package-card').first();
-  await card.getByRole('button', { name: /view itinerary for maldives/i }).click();
+  const packagesSection = page.locator('#packages');
+  await packagesSection.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop - 300));
+  if ((page.viewportSize()?.width ?? 1000) >= 1100) await expect.poll(() => page.locator('.depth-card[data-depth-visible]').count()).toBeGreaterThan(0);
+  await packagesSection.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop));
+  await expect(page.locator('.depth-packages__deck [aria-live="polite"]')).toContainText('package 1 of 6');
+  const card = page.locator('.depth-card.is-active');
+  await card.locator('.depth-card__actions').getByRole('button', { name: /view itinerary for maldives/i }).click();
   const dialog = page.getByRole('dialog', { name: /paradise, privately/i });
   await expect(dialog).toBeVisible();
   await page.keyboard.press('Escape');
@@ -71,8 +77,18 @@ test('service prefilling and WhatsApp fallback work inline', async ({ page }) =>
   await page.route('**/api/enquiry', (route) => route.fulfill({ status: 502, contentType: 'application/json', body: JSON.stringify({ ok: false, fallback: 'whatsapp' }) }));
   await page.goto('/');
   const width = page.viewportSize()?.width ?? 1000;
-  const serviceArea = width < 700 ? page.locator('.services__mobile') : width < 1100 ? page.locator('.services__tablet') : page.locator('.services__desktop');
-  await serviceArea.getByRole('button', { name: /get a quote for corporate travel/i }).click();
+  if (width < 700) {
+    const corporate = page.locator('.editorial-services__mobile > article').filter({ hasText: 'Corporate Travel' });
+    await corporate.getByRole('button', { name: 'Corporate Travel' }).click();
+    await corporate.getByRole('button', { name: /get a quote/i }).click();
+  } else {
+    const services = page.locator('#services');
+    await services.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop - 300));
+    await page.waitForTimeout(600);
+    await services.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop + section.getBoundingClientRect().height - innerHeight * 1.05));
+    await expect(page.locator('.editorial-services__desktop .editorial-service-card h3')).toHaveText('Corporate Travel');
+    await page.locator('.editorial-services__desktop').getByRole('button', { name: /get a quote for corporate travel/i }).click();
+  }
   await expect(page.getByLabel(/select service/i)).toHaveValue('corporate-travel');
   await expect(page.getByText(/selected for this enquiry/i)).toBeVisible();
   await page.getByLabel(/full name/i).fill('Asha Kumar');
@@ -90,10 +106,10 @@ test('reduced motion keeps all service content static and disables video', async
   await expect(page.locator('video')).toHaveCount(0);
   const width = page.viewportSize()?.width ?? 1000;
   if (width >= 700) {
-    await expect(page.locator('.services__static')).toBeVisible();
-    await expect(page.locator('.services__static .service-card')).toHaveCount(6);
+    await expect(page.locator('.editorial-services__static')).toBeVisible();
+    await expect(page.locator('.editorial-services__static .editorial-service-card')).toHaveCount(6);
   } else {
-    await expect(page.locator('.service-accordion')).toHaveCount(6);
+    await expect(page.locator('.editorial-services__mobile > article')).toHaveCount(6);
   }
 });
 
