@@ -1,5 +1,5 @@
-import type { EnquiryBrief } from '../shared/brief';
-import { formatBrief, normalizeBrief, validateBrief } from '../shared/brief';
+import type { EnquiryBrief } from '../shared/brief.js';
+import { formatBrief, normalizeBrief, validateBrief } from '../shared/brief.js';
 
 interface ApiRequest {
   method?: string;
