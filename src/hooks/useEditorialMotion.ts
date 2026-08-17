@@ -1,14 +1,36 @@
 import { useEffect } from 'react';
 
+export function revealEditorialDestination(target: HTMLElement) {
+  if (target.matches('.content-reveal')) target.classList.add('is-visible');
+  target.querySelectorAll('.content-reveal').forEach((node) => node.classList.add('is-visible'));
+}
+
 export function useEditorialMotion() {
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) return;
+    const motionRoot = document.documentElement;
     const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add('is-visible');
       revealObserver.unobserve(entry.target);
     }), { rootMargin: '0px 0px -8%', threshold: .08 });
     document.querySelectorAll('.content-reveal').forEach((node) => revealObserver.observe(node));
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return () => revealObserver.disconnect();
+    const revealHashDestination = () => {
+      let id = '';
+      try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
+      const target = id ? document.getElementById(id) : null;
+      if (!target) return;
+      revealEditorialDestination(target);
+      requestAnimationFrame(() => target.scrollIntoView({ behavior: 'auto', block: 'start' }));
+    };
+    revealHashDestination();
+    window.addEventListener('hashchange', revealHashDestination);
+    motionRoot.classList.add('editorial-motion-ready');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {
+      window.removeEventListener('hashchange', revealHashDestination);
+      motionRoot.classList.remove('editorial-motion-ready');
+      revealObserver.disconnect();
+    };
 
     let cancelled = false;
     let cleanup = () => {};
@@ -34,6 +56,13 @@ export function useEditorialMotion() {
       });
     }, { rootMargin: '600px 0px', threshold: .01 });
     if (hero) approach.observe(hero);
-    return () => { cancelled = true; revealObserver.disconnect(); approach.disconnect(); cleanup(); };
+    return () => {
+      cancelled = true;
+      window.removeEventListener('hashchange', revealHashDestination);
+      motionRoot.classList.remove('editorial-motion-ready');
+      revealObserver.disconnect();
+      approach.disconnect();
+      cleanup();
+    };
   }, []);
 }

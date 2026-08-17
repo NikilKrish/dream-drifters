@@ -5,7 +5,7 @@ import { EnquirySection } from './components/EnquirySection';
 import { Footer } from './components/Footer';
 import { Navigation } from './components/Navigation';
 import { PackageSheet } from './components/PackageSheet';
-import { useEditorialMotion } from './hooks/useEditorialMotion';
+import { revealEditorialDestination, useEditorialMotion } from './hooks/useEditorialMotion';
 import { track } from './lib/analytics';
 import type { EnquirySelection, TravelCapability, TravelPackage } from './types';
 import './prototype/prototype.css';
@@ -38,6 +38,7 @@ export default function App() {
   const scrollTo = (id: string) => requestAnimationFrame(() => {
     const target = document.getElementById(id);
     if (!target) return;
+    revealEditorialDestination(target);
     const requestId = ++scrollRequestRef.current;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
