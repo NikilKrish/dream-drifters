@@ -91,6 +91,8 @@ test('service prefilling and WhatsApp fallback work inline', async ({ page }) =>
   }
   await expect(page.getByLabel(/select service/i)).toHaveValue('corporate-travel');
   await expect(page.getByText(/selected for this enquiry/i)).toBeVisible();
+  const next = page.getByRole('button', { name: /continue to contact details/i });
+  if (await next.isVisible()) await next.click();
   await page.getByLabel(/full name/i).fill('Asha Kumar');
   await page.getByLabel(/mobile number/i).fill('+91 98765 43210');
   await page.getByLabel(/email address/i).fill('asha@example.com');
@@ -116,6 +118,8 @@ test('reduced motion keeps all service content static and disables video', async
 
 test('privacy notice opens in the top layer and closes with Escape', async ({ page }) => {
   await page.goto('/');
+  const next = page.getByRole('button', { name: /continue to contact details/i });
+  if (await next.isVisible()) await next.click();
   await page.getByRole('button', { name: /read privacy notice/i }).click();
   const dialog = page.getByRole('dialog', { name: 'Privacy notice' });
   await expect(dialog).toBeVisible();

@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, CircleNotch, WhatsappLogo, X } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, CheckCircle, CircleNotch, WhatsappLogo, X } from '@phosphor-icons/react';
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import type { BudgetBand, EnquiryBrief, InterestKind, ServiceId, ValidationErrors } from '../../shared/brief';
 import { formatBrief, normalizeBrief, validateBrief } from '../../shared/brief';
@@ -9,6 +9,9 @@ import type { EnquirySelection } from '../types';
 
 interface EnquirySectionProps { selection: EnquirySelection | null; }
 type FormStatus = 'idle' | 'submitting' | 'success';
+type EnquiryStep = 'interest' | 'contact';
+
+const tallDesktopQuery = '(min-width: 900px) and (min-height: 820px)';
 
 const initialBrief = (): EnquiryBrief => ({ interestKind: 'custom', name: '', mobile: '', email: '', consent: false, website: '', startedAt: Date.now() });
 const budgetOptions: Array<{ value: BudgetBand; label: string }> = [
@@ -19,11 +22,28 @@ const budgetOptions: Array<{ value: BudgetBand; label: string }> = [
   { value: 'discuss', label: 'Let’s discuss' },
 ];
 
+function useTallDesktop() {
+  const [matches, setMatches] = useState(() => typeof window !== 'undefined' && window.matchMedia?.(tallDesktopQuery).matches === true);
+  useEffect(() => {
+    const media = window.matchMedia?.(tallDesktopQuery);
+    if (!media) return;
+    const update = (event: MediaQueryListEvent) => setMatches(event.matches);
+    setMatches(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  return matches;
+}
+
 export function EnquirySection({ selection }: EnquirySectionProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
+  const stageHeadingRef = useRef<HTMLHeadingElement>(null);
+  const shouldFocusStage = useRef(false);
+  const isTallDesktop = useTallDesktop();
   const [brief, setBrief] = useState<EnquiryBrief>(initialBrief);
+  const [step, setStep] = useState<EnquiryStep>('interest');
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [status, setStatus] = useState<FormStatus>('idle');
   const [notified, setNotified] = useState(false);
@@ -34,10 +54,19 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
     if (!selection) return;
     const item = selection.packageId ? packages.find((entry) => entry.id === selection.packageId) : undefined;
     setBrief((current) => normalizeBrief({ ...current, interestKind: selection.interestKind, packageId: selection.packageId, serviceId: selection.serviceId, durationDays: item?.durationDays, startedAt: Date.now() }));
-    setErrors({}); setStatus('idle'); setAnnouncement(`${selection.label} selected. The enquiry form has been updated.`);
+    setStep('interest'); setErrors({}); setStatus('idle'); setAnnouncement(`${selection.label} selected. The enquiry form has been updated.`);
   }, [selection]);
 
   useEffect(() => { if (status === 'success') successRef.current?.focus(); }, [status]);
+
+  const staged = brief.interestKind === 'package' || !isTallDesktop;
+  const activeStep: EnquiryStep = staged ? step : 'interest';
+
+  useEffect(() => {
+    if (!shouldFocusStage.current) return;
+    shouldFocusStage.current = false;
+    stageHeadingRef.current?.focus();
+  }, [activeStep]);
 
   const setField = <K extends keyof EnquiryBrief>(key: K, value: EnquiryBrief[K]) => {
     setBrief((current) => ({ ...current, [key]: value }));
@@ -49,7 +78,32 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   };
   const chooseKind = (kind: InterestKind) => {
     setBrief((current) => ({ ...current, interestKind: kind, packageId: undefined, serviceId: undefined, travelWindow: kind === 'package' ? current.travelWindow : undefined, budgetBand: kind === 'package' ? current.budgetBand : undefined, startedAt: Date.now() }));
-    setErrors({}); setStatus('idle'); setAnnouncement(`${kind === 'custom' ? 'Custom journey' : kind} selected.`);
+    setStep('interest'); setErrors({}); setStatus('idle'); setAnnouncement(`${kind === 'custom' ? 'Custom journey' : kind} selected.`);
+  };
+
+  const goToContact = () => {
+    const validation = validateBrief(normalizeBrief(brief));
+    const keys: Array<keyof EnquiryBrief> = brief.interestKind === 'package'
+      ? ['packageId', 'travelWindow', 'adults', 'budgetBand']
+      : brief.interestKind === 'service' ? ['serviceId'] : [];
+    const stageErrors = Object.fromEntries(keys.flatMap((key) => validation[key] ? [[key, validation[key]]] : [])) as ValidationErrors;
+    if (Object.keys(stageErrors).length) {
+      setErrors(stageErrors);
+      setAnnouncement('Please review the highlighted enquiry details.');
+      window.setTimeout(() => errorRef.current?.focus(), 0);
+      return;
+    }
+    shouldFocusStage.current = true;
+    setErrors({});
+    setStep('contact');
+    setAnnouncement('Step 2 of 2: your contact details.');
+  };
+
+  const goToInterest = () => {
+    shouldFocusStage.current = true;
+    setErrors({});
+    setStep('interest');
+    setAnnouncement('Step 1 of 2: choose your enquiry.');
   };
 
   const selectedLabel = brief.interestKind === 'package' ? packages.find((item) => item.id === brief.packageId)?.title : brief.interestKind === 'service' ? activeEnquiryServices.find((item) => item.id === brief.serviceId)?.title : undefined;
@@ -57,9 +111,15 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER || '919363312124').replace(/\D/g, '');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
   const errorEntries = Object.entries(errors).filter(([, message]) => Boolean(message));
+  const showInterest = !staged || activeStep === 'interest';
+  const showContact = !staged || activeStep === 'contact';
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
+    if (staged && activeStep === 'interest') {
+      goToContact();
+      return;
+    }
     const normalized = normalizeBrief(brief);
     const validation = validateBrief(normalized);
     if (Object.keys(validation).length) {
@@ -85,34 +145,50 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
       <div className="enquiry__backdrop"><picture><source type="image/avif" srcSet="/media/dubai.avif" /><img src="/media/dubai.webp" width="1600" height="1100" loading="lazy" decoding="async" alt="" /></picture></div><div className="enquiry__wash" />
       <div className="shell enquiry__layout">
         <div className="enquiry__intro"><h2 id="enquiry-title">Plan your trip with us.</h2><p>Tell us what you need. A Dream Drifters travel expert will respond with clear next steps and considered options.</p><address><a href="tel:+919363312124">+91 93633 12124</a><a href="mailto:info@dreamdrifters.in">info@dreamdrifters.in</a><span>68, Dhanalakshmi Nagar, 3rd Street<br />Nerkundram, Chennai 600 107</span><small>GST 33AAMCD2807P1ZC</small></address></div>
-        <form ref={formRef} className="enquiry-form glass-panel" onSubmit={submit} noValidate aria-busy={status === 'submitting'}>
-          <div className="sr-status" aria-live="polite">{announcement}</div>
+        <form ref={formRef} className="enquiry-form glass-panel" data-flow={staged ? 'staged' : 'compact'} onSubmit={submit} noValidate aria-busy={status === 'submitting'}>
+          <div className="sr-status" role="status" aria-live="polite">{announcement}</div>
           {status === 'success' ? (
-            <div className="enquiry-success"><CheckCircle aria-hidden="true" weight="thin" /><h3 ref={successRef} tabIndex={-1}>Your enquiry is ready.</h3><p>{notified ? 'Our team has also received a secure notification.' : 'The background notification was unavailable, but your prepared WhatsApp brief is ready.'}</p><pre>{whatsappText}</pre><a className="button button--accent" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => track('whatsapp_continued', { interest_kind: brief.interestKind })}>Continue in WhatsApp <WhatsappLogo aria-hidden="true" weight="fill" /></a><button className="button button--text-light" type="button" onClick={() => { setBrief(initialBrief()); setStatus('idle'); setAnnouncement('The form is ready for a new enquiry.'); }}>Start another enquiry</button></div>
+            <div className="enquiry-success"><CheckCircle aria-hidden="true" weight="thin" /><h3 ref={successRef} tabIndex={-1}>Your enquiry is ready.</h3><p>{notified ? 'Our team has also received a secure notification.' : 'The background notification was unavailable, but your prepared WhatsApp brief is ready.'}</p><pre>{whatsappText}</pre><a className="button button--accent" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => track('whatsapp_continued', { interest_kind: brief.interestKind })}>Continue in WhatsApp <WhatsappLogo aria-hidden="true" weight="fill" /></a><button className="button button--text-light" type="button" onClick={() => { setBrief(initialBrief()); setStep('interest'); setStatus('idle'); setAnnouncement('The form is ready for a new enquiry.'); }}>Start another enquiry</button></div>
           ) : (
             <>
-              <div className="enquiry-form__heading"><h3>Send us an enquiry</h3><small>Required fields are marked *</small></div>
-              {selectedLabel && <div className="selection-banner"><div><span>Selected for this enquiry</span><strong>{selectedLabel}</strong></div><button type="button" onClick={() => chooseKind('custom')} aria-label={`Clear ${selectedLabel} selection`}><X aria-hidden="true" weight="bold" />Change</button></div>}
-              {errorEntries.length > 0 && <div ref={errorRef} className="error-summary" role="alert" tabIndex={-1}><strong>Please check the following:</strong><ul>{errorEntries.map(([key, message]) => <li key={key}>{message}</li>)}</ul></div>}
-              <fieldset className="interest-picker"><legend>What can we help with? *</legend>{(['package', 'service', 'custom'] as InterestKind[]).map((kind) => <label key={kind} className={brief.interestKind === kind ? 'is-selected' : ''}><input type="radio" name="interestKind" value={kind} checked={brief.interestKind === kind} onChange={() => chooseKind(kind)} /><span>{kind === 'package' ? 'Travel package' : kind === 'service' ? 'Travel service' : 'Custom journey'}</span></label>)}</fieldset>
-              {brief.interestKind === 'package' && <div className="conditional-fields">
-                <Field label="Select package *" error={errors.packageId} errorId="package-error" wide><select aria-label="Select package" value={brief.packageId ?? ''} aria-invalid={Boolean(errors.packageId)} aria-describedby={errors.packageId ? 'package-error' : undefined} onBlur={() => validateField('packageId')} onChange={(event) => { const item = packages.find((entry) => entry.id === event.target.value); setField('packageId', event.target.value || undefined); if (item) setField('durationDays', item.durationDays); }}><option value="">Choose a journey</option>{packages.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}</select></Field>
-                <Field label="Travel window *" error={errors.travelWindow} errorId="window-error"><input aria-label="Travel window" value={brief.travelWindow ?? ''} placeholder="October 2026 or flexible" aria-invalid={Boolean(errors.travelWindow)} aria-describedby={errors.travelWindow ? 'window-error' : undefined} onBlur={() => validateField('travelWindow')} onChange={(event) => setField('travelWindow', event.target.value)} /></Field>
-                <Field label="Duration"><input aria-label="Duration" type="number" min="1" max="60" value={brief.durationDays ?? ''} onChange={(event) => setField('durationDays', event.target.value ? Number(event.target.value) : undefined)} /></Field>
-                <Field label="Adults *" error={errors.adults} errorId="adults-error"><input aria-label="Adults" type="number" min="1" max="20" value={brief.adults ?? ''} aria-invalid={Boolean(errors.adults)} aria-describedby={errors.adults ? 'adults-error' : undefined} onBlur={() => validateField('adults')} onChange={(event) => setField('adults', event.target.value ? Number(event.target.value) : undefined)} /></Field>
-                <Field label="Children"><input aria-label="Children" type="number" min="0" max="20" value={brief.children ?? 0} onChange={(event) => setField('children', Number(event.target.value))} /></Field>
-                <Field label="Budget per person *" error={errors.budgetBand} errorId="budget-error" wide><select aria-label="Budget per person" value={brief.budgetBand ?? ''} aria-invalid={Boolean(errors.budgetBand)} aria-describedby={errors.budgetBand ? 'budget-error' : undefined} onBlur={() => validateField('budgetBand')} onChange={(event) => setField('budgetBand', (event.target.value || undefined) as BudgetBand | undefined)}><option value="">Choose a range</option>{budgetOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></Field>
-              </div>}
-              {brief.interestKind === 'service' && <Field label="Select service *" error={errors.serviceId} errorId="service-error" wide><select aria-label="Select service" value={brief.serviceId ?? ''} aria-invalid={Boolean(errors.serviceId)} aria-describedby={errors.serviceId ? 'service-error' : undefined} onBlur={() => validateField('serviceId')} onChange={(event) => setField('serviceId', (event.target.value || undefined) as ServiceId | undefined)}><option value="">Choose a service</option>{activeEnquiryServices.map((service) => <option key={service.id} value={service.id}>{service.title}</option>)}</select></Field>}
-              <div className="contact-fields">
-                <Field label="Full name *" error={errors.name} errorId="name-error"><input aria-label="Full name" autoComplete="name" value={brief.name} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'name-error' : undefined} onBlur={() => validateField('name')} onChange={(event) => setField('name', event.target.value)} /></Field>
-                <Field label="Mobile number *" error={errors.mobile} errorId="mobile-error"><input aria-label="Mobile number" type="tel" autoComplete="tel" placeholder="+91 98765 43210" value={brief.mobile} aria-invalid={Boolean(errors.mobile)} aria-describedby={errors.mobile ? 'mobile-error' : undefined} onBlur={() => validateField('mobile')} onChange={(event) => setField('mobile', event.target.value)} /></Field>
-                <Field label="Email address *" error={errors.email} errorId="email-error" wide><input aria-label="Email address" type="email" autoComplete="email" placeholder="name@example.com" value={brief.email} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'email-error' : undefined} onBlur={() => validateField('email')} onChange={(event) => setField('email', event.target.value)} /></Field>
-                <Field label="Message" wide><textarea aria-label="Message" rows={4} placeholder="Tell us about your requirements" value={brief.notes ?? ''} onChange={(event) => setField('notes', event.target.value)} /></Field>
+              <div className="enquiry-form__heading">
+                <div>
+                  <h3 ref={stageHeadingRef} tabIndex={staged ? -1 : undefined}>{staged ? activeStep === 'interest' ? 'Choose your enquiry' : 'Your contact details' : 'Send us an enquiry'}</h3>
+                  <small>Required fields are marked *</small>
+                </div>
+                {staged && <div className="enquiry-progress" role="progressbar" aria-label="Enquiry progress" aria-valuemin={1} aria-valuemax={2} aria-valuenow={activeStep === 'interest' ? 1 : 2}><span>Step {activeStep === 'interest' ? 1 : 2} of 2</span><i aria-hidden="true"><b /></i></div>}
               </div>
-              <label className="honeypot" aria-hidden="true"><span>Website</span><input tabIndex={-1} autoComplete="off" value={brief.website ?? ''} onChange={(event) => setField('website', event.target.value)} /></label>
-              <label className="consent"><input type="checkbox" checked={brief.consent} aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? 'consent-error' : undefined} onBlur={() => validateField('consent')} onChange={(event) => setField('consent', event.target.checked)} /><span>I agree that Dream Drifters may contact me about this enquiry. <button type="button" onClick={() => setPrivacyOpen(true)}>Read privacy notice</button>. *</span></label>{errors.consent && <small id="consent-error" className="field-error field-error--block">{errors.consent}</small>}
-              <button className="button button--accent enquiry-form__submit" type="submit" disabled={status === 'submitting'}>{status === 'submitting' ? <>Preparing your enquiry <CircleNotch className="spin" aria-hidden="true" /></> : <>Send enquiry <ArrowRight aria-hidden="true" weight="bold" /></>}</button>
+              {errorEntries.length > 0 && <div ref={errorRef} className="error-summary" role="alert" tabIndex={-1}><strong>Please check the following:</strong><ul>{errorEntries.map(([key, message]) => <li key={key}>{message}</li>)}</ul></div>}
+              {showInterest && <div className="enquiry-stage enquiry-stage--interest">
+                {selectedLabel && <div className="selection-banner"><div><span>Selected for this enquiry</span><strong>{selectedLabel}</strong></div><button type="button" onClick={() => chooseKind('custom')} aria-label={`Clear ${selectedLabel} selection`}><X aria-hidden="true" weight="bold" />Change</button></div>}
+                <fieldset className="interest-picker"><legend>What can we help with? *</legend>{(['package', 'service', 'custom'] as InterestKind[]).map((kind) => <label key={kind} className={brief.interestKind === kind ? 'is-selected' : ''}><input type="radio" name="interestKind" value={kind} checked={brief.interestKind === kind} onChange={() => chooseKind(kind)} /><span>{kind === 'package' ? 'Travel package' : kind === 'service' ? 'Travel service' : 'Custom journey'}</span></label>)}</fieldset>
+                {brief.interestKind === 'package' && <div className="conditional-fields">
+                  <Field label="Select package *" error={errors.packageId} errorId="package-error" wide><select aria-label="Select package" value={brief.packageId ?? ''} aria-invalid={Boolean(errors.packageId)} aria-describedby={errors.packageId ? 'package-error' : undefined} onBlur={() => validateField('packageId')} onChange={(event) => { const item = packages.find((entry) => entry.id === event.target.value); setField('packageId', event.target.value || undefined); if (item) setField('durationDays', item.durationDays); }}><option value="">Choose a journey</option>{packages.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}</select></Field>
+                  <Field label="Travel window *" error={errors.travelWindow} errorId="window-error"><input aria-label="Travel window" value={brief.travelWindow ?? ''} placeholder="October 2026 or flexible" aria-invalid={Boolean(errors.travelWindow)} aria-describedby={errors.travelWindow ? 'window-error' : undefined} onBlur={() => validateField('travelWindow')} onChange={(event) => setField('travelWindow', event.target.value)} /></Field>
+                  <Field label="Duration"><input aria-label="Duration" type="number" min="1" max="60" value={brief.durationDays ?? ''} onChange={(event) => setField('durationDays', event.target.value ? Number(event.target.value) : undefined)} /></Field>
+                  <Field label="Adults *" error={errors.adults} errorId="adults-error"><input aria-label="Adults" type="number" min="1" max="20" value={brief.adults ?? ''} aria-invalid={Boolean(errors.adults)} aria-describedby={errors.adults ? 'adults-error' : undefined} onBlur={() => validateField('adults')} onChange={(event) => setField('adults', event.target.value ? Number(event.target.value) : undefined)} /></Field>
+                  <Field label="Children"><input aria-label="Children" type="number" min="0" max="20" value={brief.children ?? 0} onChange={(event) => setField('children', Number(event.target.value))} /></Field>
+                  <Field label="Budget per person *" error={errors.budgetBand} errorId="budget-error" wide><select aria-label="Budget per person" value={brief.budgetBand ?? ''} aria-invalid={Boolean(errors.budgetBand)} aria-describedby={errors.budgetBand ? 'budget-error' : undefined} onBlur={() => validateField('budgetBand')} onChange={(event) => setField('budgetBand', (event.target.value || undefined) as BudgetBand | undefined)}><option value="">Choose a range</option>{budgetOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></Field>
+                </div>}
+                {brief.interestKind === 'service' && <Field label="Select service *" error={errors.serviceId} errorId="service-error" wide><select aria-label="Select service" value={brief.serviceId ?? ''} aria-invalid={Boolean(errors.serviceId)} aria-describedby={errors.serviceId ? 'service-error' : undefined} onBlur={() => validateField('serviceId')} onChange={(event) => setField('serviceId', (event.target.value || undefined) as ServiceId | undefined)}><option value="">Choose a service</option>{activeEnquiryServices.map((service) => <option key={service.id} value={service.id}>{service.title}</option>)}</select></Field>}
+                {staged && <button className="button button--accent enquiry-form__next" type="button" onClick={goToContact}>Continue to contact details <ArrowRight aria-hidden="true" weight="bold" /></button>}
+              </div>}
+              {showContact && <div className="enquiry-stage enquiry-stage--contact">
+                <div className="contact-fields">
+                  <Field label="Full name *" error={errors.name} errorId="name-error"><input aria-label="Full name" autoComplete="name" value={brief.name} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'name-error' : undefined} onBlur={() => validateField('name')} onChange={(event) => setField('name', event.target.value)} /></Field>
+                  <Field label="Mobile number *" error={errors.mobile} errorId="mobile-error"><input aria-label="Mobile number" type="tel" autoComplete="tel" placeholder="+91 98765 43210" value={brief.mobile} aria-invalid={Boolean(errors.mobile)} aria-describedby={errors.mobile ? 'mobile-error' : undefined} onBlur={() => validateField('mobile')} onChange={(event) => setField('mobile', event.target.value)} /></Field>
+                  <Field label="Email address *" error={errors.email} errorId="email-error"><input aria-label="Email address" type="email" autoComplete="email" placeholder="name@example.com" value={brief.email} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'email-error' : undefined} onBlur={() => validateField('email')} onChange={(event) => setField('email', event.target.value)} /></Field>
+                  <Field label="Message"><textarea aria-label="Message" rows={2} placeholder="Tell us about your requirements" value={brief.notes ?? ''} onChange={(event) => setField('notes', event.target.value)} /></Field>
+                </div>
+                <label className="honeypot" aria-hidden="true"><span>Website</span><input tabIndex={-1} autoComplete="off" value={brief.website ?? ''} onChange={(event) => setField('website', event.target.value)} /></label>
+                <div className="enquiry-form__closing">
+                  <div><label className="consent"><input type="checkbox" checked={brief.consent} aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? 'consent-error' : undefined} onBlur={() => validateField('consent')} onChange={(event) => setField('consent', event.target.checked)} /><span>I agree that Dream Drifters may contact me about this enquiry. <button type="button" onClick={() => setPrivacyOpen(true)}>Read privacy notice</button>. *</span></label>{errors.consent && <small id="consent-error" className="field-error field-error--block">{errors.consent}</small>}</div>
+                  <div className="enquiry-form__actions">
+                    {staged && <button className="button button--text-light enquiry-form__back" type="button" onClick={goToInterest}><ArrowLeft aria-hidden="true" weight="bold" />Back to enquiry details</button>}
+                    <button className="button button--accent enquiry-form__submit" type="submit" disabled={status === 'submitting'}>{status === 'submitting' ? <>Preparing your enquiry <CircleNotch className="spin" aria-hidden="true" /></> : <>Send enquiry <ArrowRight aria-hidden="true" weight="bold" /></>}</button>
+                  </div>
+                </div>
+              </div>}
             </>
           )}
         </form>

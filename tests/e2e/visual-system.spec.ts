@@ -113,6 +113,42 @@ test('keeps functional text at 14px and form text at 16px', async ({ page }) => 
   expect(sizes.form.filter(({ size }) => size < 16)).toEqual([]);
 });
 
+test('keeps the adaptive enquiry action and control geometry in view', async ({ page }) => {
+  for (const viewport of desktopScenes) {
+    await test.step(`${viewport.width}x${viewport.height}`, async () => {
+      await page.setViewportSize(viewport);
+      await page.goto(`/?viewport=${viewport.width}x${viewport.height}#contact`);
+      await page.evaluate(() => document.fonts.ready);
+
+      const form = page.locator('.enquiry-form');
+      await expect(form).toHaveAttribute('data-flow', viewport.height < 820 ? 'staged' : 'compact');
+      if (viewport.height < 820) await form.getByRole('button', { name: /continue to contact details/i }).click();
+
+      const submit = form.getByRole('button', { name: /send enquiry/i });
+      await expect(submit).toBeVisible();
+      const geometry = await form.evaluate((element) => {
+        const controls = [...element.querySelectorAll<HTMLElement>('.field input, .field select')];
+        const labels = [...element.querySelectorAll<HTMLElement>('.field > span')];
+        const submitButton = element.querySelector<HTMLElement>('.enquiry-form__submit')!;
+        return {
+          controlHeights: controls.map((control) => control.getBoundingClientRect().height),
+          inputSizes: controls.map((control) => Number.parseFloat(getComputedStyle(control).fontSize)),
+          labelSizes: labels.map((label) => Number.parseFloat(getComputedStyle(label).fontSize)),
+          submitHeight: submitButton.getBoundingClientRect().height,
+          activeStageHeight: submitButton.getBoundingClientRect().bottom - element.getBoundingClientRect().top,
+        };
+      });
+
+      expect(geometry.controlHeights.length).toBeGreaterThanOrEqual(3);
+      expect(geometry.controlHeights.every((height) => Math.abs(height - 48) <= 1)).toBe(true);
+      expect(geometry.inputSizes.every((size) => size >= 16)).toBe(true);
+      expect(geometry.labelSizes.every((size) => size >= 14)).toBe(true);
+      expect(geometry.submitHeight).toBeGreaterThanOrEqual(44);
+      expect(geometry.activeStageHeight).toBeLessThanOrEqual(viewport.height);
+    });
+  }
+});
+
 test('keeps selected-package controls and package-sheet copy above their text floors', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
