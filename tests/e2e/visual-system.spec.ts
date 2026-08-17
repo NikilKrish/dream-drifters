@@ -113,6 +113,38 @@ test('keeps functional text at 14px and form text at 16px', async ({ page }) => 
   expect(sizes.form.filter(({ size }) => size < 16)).toEqual([]);
 });
 
+test('keeps selected-package controls and package-sheet copy above their text floors', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+
+  const packagesSection = page.locator('#packages');
+  await packagesSection.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop - 300));
+  await expect.poll(() => page.locator('.depth-card[data-depth-visible]').count()).toBeGreaterThan(0);
+  await packagesSection.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop));
+  await expect(page.locator('.depth-packages__deck [aria-live="polite"]')).toContainText('package 1 of 6');
+  await page.locator('.depth-card.is-active').getByRole('button', { name: /view itinerary for maldives/i }).click();
+
+  const sheet = page.getByRole('dialog', { name: /paradise, privately/i });
+  await expect(sheet).toBeVisible();
+  const sheetCopySizes = await sheet.locator('ul li, ol p').evaluateAll((elements) => elements.map((element) => ({
+    text: element.textContent?.trim(),
+    size: Number.parseFloat(getComputedStyle(element).fontSize),
+  })));
+  await sheet.getByRole('button', { name: /get a quote for maldives/i }).click();
+
+  const selectionControl = page.getByRole('button', { name: /clear maldives paradise selection/i });
+  await expect(selectionControl).toBeVisible();
+  const functionalSizes = await page.evaluate(() => ({
+    selectionControl: Number.parseFloat(getComputedStyle(document.querySelector<HTMLElement>('.selection-banner button')!).fontSize),
+    navigationBrand: Number.parseFloat(getComputedStyle(document.querySelector<HTMLElement>('.brand-mark__name')!).fontSize),
+  }));
+
+  expect(sheetCopySizes.length).toBeGreaterThan(5);
+  expect(sheetCopySizes.filter(({ size }) => size < 16)).toEqual([]);
+  expect(functionalSizes.selectionControl).toBeGreaterThanOrEqual(14);
+  expect(functionalSizes.navigationBrand).toBeGreaterThanOrEqual(14);
+});
+
 test('reveals a direct anchor immediately and keeps default content visible without enhancement', async ({ page }) => {
   await page.setViewportSize({ width: 1366, height: 768 });
   await page.addInitScript(() => {
