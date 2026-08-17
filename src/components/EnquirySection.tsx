@@ -11,7 +11,7 @@ interface EnquirySectionProps { selection: EnquirySelection | null; }
 type FormStatus = 'idle' | 'submitting' | 'success';
 type EnquiryStep = 'interest' | 'contact';
 
-const tallDesktopQuery = '(min-width: 900px) and (min-height: 820px)';
+const tallDesktopQuery = '(min-width: 861px) and (min-height: 820px)';
 
 const initialBrief = (): EnquiryBrief => ({ interestKind: 'custom', name: '', mobile: '', email: '', consent: false, website: '', startedAt: Date.now() });
 const budgetOptions: Array<{ value: BudgetBand; label: string }> = [
@@ -40,10 +40,11 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   const errorRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
   const stageHeadingRef = useRef<HTMLHeadingElement>(null);
-  const shouldFocusStage = useRef(false);
   const isTallDesktop = useTallDesktop();
+  const previousTallDesktop = useRef(isTallDesktop);
   const [brief, setBrief] = useState<EnquiryBrief>(initialBrief);
   const [step, setStep] = useState<EnquiryStep>('interest');
+  const [stageFocusRequest, setStageFocusRequest] = useState(0);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [status, setStatus] = useState<FormStatus>('idle');
   const [notified, setNotified] = useState(false);
@@ -63,10 +64,19 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   const activeStep: EnquiryStep = staged ? step : 'interest';
 
   useEffect(() => {
-    if (!shouldFocusStage.current) return;
-    shouldFocusStage.current = false;
+    const changed = previousTallDesktop.current !== isTallDesktop;
+    previousTallDesktop.current = isTallDesktop;
+    if (!changed || brief.interestKind === 'package' || status !== 'idle') return;
+    setStep('interest');
+    setErrors({});
+    setAnnouncement(isTallDesktop ? 'Compact enquiry form. All details are shown.' : 'Step 1 of 2: choose your enquiry.');
+    setStageFocusRequest((current) => current + 1);
+  }, [brief.interestKind, isTallDesktop, status]);
+
+  useEffect(() => {
+    if (stageFocusRequest === 0) return;
     stageHeadingRef.current?.focus();
-  }, [activeStep]);
+  }, [activeStep, stageFocusRequest]);
 
   const setField = <K extends keyof EnquiryBrief>(key: K, value: EnquiryBrief[K]) => {
     setBrief((current) => ({ ...current, [key]: value }));
@@ -93,14 +103,14 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
       window.setTimeout(() => errorRef.current?.focus(), 0);
       return;
     }
-    shouldFocusStage.current = true;
+    setStageFocusRequest((current) => current + 1);
     setErrors({});
     setStep('contact');
     setAnnouncement('Step 2 of 2: your contact details.');
   };
 
   const goToInterest = () => {
-    shouldFocusStage.current = true;
+    setStageFocusRequest((current) => current + 1);
     setErrors({});
     setStep('interest');
     setAnnouncement('Step 1 of 2: choose your enquiry.');
@@ -153,7 +163,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
             <>
               <div className="enquiry-form__heading">
                 <div>
-                  <h3 ref={stageHeadingRef} tabIndex={staged ? -1 : undefined}>{staged ? activeStep === 'interest' ? 'Choose your enquiry' : 'Your contact details' : 'Send us an enquiry'}</h3>
+                  <h3 ref={stageHeadingRef} tabIndex={-1}>{staged ? activeStep === 'interest' ? 'Choose your enquiry' : 'Your contact details' : 'Send us an enquiry'}</h3>
                   <small>Required fields are marked *</small>
                 </div>
                 {staged && <div className="enquiry-progress" role="progressbar" aria-label="Enquiry progress" aria-valuemin={1} aria-valuemax={2} aria-valuenow={activeStep === 'interest' ? 1 : 2}><span>Step {activeStep === 'interest' ? 1 : 2} of 2</span><i aria-hidden="true"><b /></i></div>}

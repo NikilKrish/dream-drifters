@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { EnquirySection } from './EnquirySection';
@@ -8,17 +8,42 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-function useViewport({ desktop, tall }: { desktop: boolean; tall: boolean }) {
-  vi.stubGlobal('matchMedia', vi.fn((query: string) => ({
-    matches: query.includes('min-width') ? desktop && tall : false,
-    media: query,
-    onchange: null,
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })));
+function useViewport(initial: { width: number; height: number }) {
+  let viewport = initial;
+  const queries = new Set<MediaQueryList & { listeners: Set<(event: MediaQueryListEvent) => void> }>();
+  const matches = (query: string) => {
+    const minWidth = Number(query.match(/min-width:\s*(\d+)px/)?.[1] ?? 0);
+    const minHeight = Number(query.match(/min-height:\s*(\d+)px/)?.[1] ?? 0);
+    return viewport.width >= minWidth && viewport.height >= minHeight;
+  };
+  vi.stubGlobal('matchMedia', vi.fn((query: string) => {
+    const listeners = new Set<(event: MediaQueryListEvent) => void>();
+    const media = {
+      matches: matches(query),
+      media: query,
+      onchange: null,
+      listeners,
+      addEventListener: (_type: string, listener: (event: MediaQueryListEvent) => void) => listeners.add(listener),
+      removeEventListener: (_type: string, listener: (event: MediaQueryListEvent) => void) => listeners.delete(listener),
+      addListener: (listener: (event: MediaQueryListEvent) => void) => listeners.add(listener),
+      removeListener: (listener: (event: MediaQueryListEvent) => void) => listeners.delete(listener),
+      dispatchEvent: vi.fn(),
+    } as unknown as MediaQueryList & { listeners: Set<(event: MediaQueryListEvent) => void> };
+    queries.add(media);
+    return media;
+  }));
+  return {
+    resize(next: { width: number; height: number }) {
+      viewport = next;
+      queries.forEach((query) => {
+        const nextMatches = matches(query.media);
+        if (nextMatches === query.matches) return;
+        Object.defineProperty(query, 'matches', { value: nextMatches, configurable: true });
+        const event = { matches: nextMatches, media: query.media } as MediaQueryListEvent;
+        query.listeners.forEach((listener) => listener(event));
+      });
+    },
+  };
 }
 
 describe('EnquirySection', () => {
@@ -40,7 +65,7 @@ describe('EnquirySection', () => {
 
   it('focuses a linked error summary when required details are missing', async () => {
     const user = userEvent.setup();
-    useViewport({ desktop: true, tall: true });
+    useViewport({ width: 1000, height: 820 });
     render(<EnquirySection selection={null} />);
     await user.click(screen.getByRole('button', { name: /send enquiry/i }));
     const summary = screen.getByRole('alert');
@@ -52,7 +77,7 @@ describe('EnquirySection', () => {
 
   it('moves a short-viewport custom enquiry from interest to contact', async () => {
     const user = userEvent.setup();
-    useViewport({ desktop: true, tall: false });
+    useViewport({ width: 1000, height: 819 });
     render(<EnquirySection selection={null} />);
 
     expect(screen.getByRole('heading', { name: /choose your enquiry/i })).toBeVisible();
@@ -67,7 +92,7 @@ describe('EnquirySection', () => {
 
   it('preserves contact values after navigating Back', async () => {
     const user = userEvent.setup();
-    useViewport({ desktop: false, tall: true });
+    useViewport({ width: 860, height: 900 });
     render(<EnquirySection selection={null} />);
 
     await user.click(screen.getByRole('button', { name: /continue to contact details/i }));
@@ -86,7 +111,7 @@ describe('EnquirySection', () => {
 
   it('exposes progress and announces focused stage changes', async () => {
     const user = userEvent.setup();
-    useViewport({ desktop: false, tall: false });
+    useViewport({ width: 390, height: 800 });
     render(<EnquirySection selection={null} />);
 
     const progress = screen.getByRole('progressbar', { name: /enquiry progress/i });
@@ -109,7 +134,7 @@ describe('EnquirySection', () => {
 
   it('keeps package enquiries staged on a tall desktop', async () => {
     const user = userEvent.setup();
-    useViewport({ desktop: true, tall: true });
+    useViewport({ width: 1000, height: 820 });
     render(<EnquirySection selection={null} />);
 
     await user.click(screen.getByLabelText(/travel package/i));
@@ -121,7 +146,7 @@ describe('EnquirySection', () => {
 
   it('keeps custom and service enquiries compact on a tall desktop', async () => {
     const user = userEvent.setup();
-    useViewport({ desktop: true, tall: true });
+    useViewport({ width: 1000, height: 820 });
     const { container } = render(<EnquirySection selection={null} />);
 
     expect(container.querySelector('.enquiry-form')).toHaveAttribute('data-flow', 'compact');
@@ -137,5 +162,49 @@ describe('EnquirySection', () => {
     expect(screen.getByLabelText(/select service/i)).toBeVisible();
     expect(screen.getByLabelText(/full name/i)).toBeVisible();
     expect(screen.getByRole('button', { name: /send enquiry/i })).toBeVisible();
+  });
+
+  it('uses the established 861px desktop boundary for compact enquiries', () => {
+    useViewport({ width: 860, height: 820 });
+    const atMobileBoundary = render(<EnquirySection selection={null} />);
+    expect(atMobileBoundary.container.querySelector('.enquiry-form')).toHaveAttribute('data-flow', 'staged');
+
+    atMobileBoundary.unmount();
+    vi.unstubAllGlobals();
+    useViewport({ width: 861, height: 820 });
+    const atDesktopBoundary = render(<EnquirySection selection={null} />);
+    expect(atDesktopBoundary.container.querySelector('.enquiry-form')).toHaveAttribute('data-flow', 'compact');
+  });
+
+  it('reconciles both responsive flow transitions without losing contact values', async () => {
+    const user = userEvent.setup();
+    const viewport = useViewport({ width: 1000, height: 819 });
+    const { container } = render(<EnquirySection selection={null} />);
+
+    await user.click(screen.getByRole('button', { name: /continue to contact details/i }));
+    fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'Ananya Rao' } });
+    fireEvent.change(screen.getByLabelText(/mobile number/i), { target: { value: '+91 98765 43210' } });
+    fireEvent.change(screen.getByLabelText(/email address/i), { target: { value: 'ananya@example.com' } });
+
+    await act(() => viewport.resize({ width: 1000, height: 820 }));
+
+    expect(container.querySelector('.enquiry-form')).toHaveAttribute('data-flow', 'compact');
+    expect(screen.queryByRole('progressbar', { name: /enquiry progress/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /send us an enquiry/i })).toHaveFocus();
+    expect(screen.getByRole('status')).toHaveTextContent('Compact enquiry form. All details are shown.');
+    expect(screen.getByLabelText(/full name/i)).toHaveValue('Ananya Rao');
+
+    await act(() => viewport.resize({ width: 1000, height: 819 }));
+
+    expect(container.querySelector('.enquiry-form')).toHaveAttribute('data-flow', 'staged');
+    expect(screen.getByRole('progressbar', { name: /enquiry progress/i })).toHaveAttribute('aria-valuenow', '1');
+    expect(screen.getByRole('heading', { name: /choose your enquiry/i })).toHaveFocus();
+    expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 2: choose your enquiry.');
+    expect(screen.queryByLabelText(/full name/i)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /continue to contact details/i }));
+    expect(screen.getByLabelText(/full name/i)).toHaveValue('Ananya Rao');
+    expect(screen.getByLabelText(/mobile number/i)).toHaveValue('+91 98765 43210');
+    expect(screen.getByLabelText(/email address/i)).toHaveValue('ananya@example.com');
   });
 });
