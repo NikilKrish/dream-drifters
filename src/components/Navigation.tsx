@@ -8,7 +8,7 @@ const links = [
   { href: '#about', label: 'About', id: 'about' },
   { href: '#services', label: 'Services', id: 'services' },
   { href: '#packages', label: 'Packages', id: 'packages' },
-  { href: '#reviews', label: 'Reviews', id: 'reviews' },
+  { href: '#reviews', label: 'Assurance', id: 'reviews' },
 ];
 
 const focusable = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';

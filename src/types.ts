@@ -76,3 +76,38 @@ export interface EnquirySelection {
   label: string;
   requestId: number;
 }
+
+export type MediaChapter = 'hero' | 'about' | 'direction' | 'services' | 'assurance' | 'enquiry';
+export type MediaFormatKind = 'avif' | 'webp' | 'mp4' | 'webm';
+export type MediaLicenceStatus = 'approved' | 'review-required';
+export type MediaConsentStatus = 'confirmed' | 'not-applicable' | 'required';
+export type MediaReplacementState = 'approved' | 'replace-before-production';
+
+export interface MediaFormat {
+  kind: MediaFormatKind;
+  path: string;
+}
+
+export interface MediaAsset {
+  id: string;
+  source: {
+    family: string;
+    origin: string;
+    reference?: string;
+  };
+  chapter: MediaChapter;
+  focalPoint: { x: number; y: number };
+  formats: MediaFormat[];
+  posters: MediaFormat[];
+  mobileSources: MediaFormat[];
+  licenceStatus: MediaLicenceStatus;
+  consentStatus: MediaConsentStatus;
+  replacementState: MediaReplacementState;
+}
+
+export interface ChapterMediaAssignment {
+  chapter: MediaChapter;
+  assetId: string;
+  semanticUse: string;
+  active: boolean;
+}

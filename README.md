@@ -2,7 +2,7 @@
 
 > A Codex project for Dream Drifters, a Chennai-based travel consultancy serving leisure, business and group travel.
 
-This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a depth package carousel and video backgrounds in Hero, Services and Reviews.
+This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a depth package carousel and video backgrounds in Hero, Services and Assurance.
 
 - **Live website:** https://dream-drifters.vercel.app/
 - **Public source repository:** https://github.com/NikilKrish/dream-drifters
@@ -10,7 +10,7 @@ This repository contains the complete public website, its enquiry service, all l
 
 The page follows one clear journey:
 
-**Hero → Proof → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
+**Hero → Proof → About → Vision and Mission → Services → Why Us → Packages → Assurance → Enquiry → Footer**
 
 ## What visitors can do
 
@@ -43,14 +43,14 @@ npm run build:sites
 npm run test:e2e
 ```
 
-The browser suite covers Chrome from a 320 px compact phone through tablet, desktop and 1920 px wide desktop, plus Firefox desktop and mobile Safari/WebKit checks.
+The browser suite covers Chrome from a 320 px compact phone through tablet, desktop and 1920 px wide desktop, plus Firefox desktop and mobile Safari/WebKit checks. The visual-system gate explicitly covers 1424×696, 1366×768, 1440×900, 768×1024 and 390×844, including overflow, anchor arrival, type floors and serious/critical axe findings.
 
 ## Where things live
 
 | Folder or file | Plain-language purpose |
 |---|---|
 | `src/` | The visible website and interactions |
-| `src/data/` | Packages, services, proof and testimonials |
+| `src/data/` | Packages, services, proof, testimonials and the typed media registry |
 | `public/media/` | Local video, image and poster files |
 | `api/enquiry.ts` | The Vercel enquiry endpoint |
 | `worker/index.ts` | The matching OpenAI Sites/Cloudflare endpoint |
@@ -58,6 +58,7 @@ The browser suite covers Chrome from a 320 px compact phone through tablet, desk
 | `tests/` | Browser checks for the full visitor journey |
 | `design.md` | Canonical design and behavior specification |
 | `memory.md` | Project history, decisions and release record |
+| `PROJECT_STATUS.md` | Plain-language current checkpoint and remaining work |
 
 See [Content and media](docs/CONTENT_AND_MEDIA.md) before editing copy, prices, testimonials or footage.
 
@@ -75,7 +76,7 @@ Full setup, environment variables, fallback behavior and verification steps are 
 ## Important launch notes
 
 - Package prices and supplied testimonials remain hidden until the business owner verifies them.
-- Current stock photos and Coverr video loops are temporary. Their source status is documented, but all production media still needs final approval.
+- Current stock photos, Coverr video loops and their derived chapter stills are preview-only. The typed licence/consent/replacement gate currently approves no media asset for production, so production media approval remains blocked.
 - If Meta WhatsApp credentials are absent, the form safely offers the visitor an explicit WhatsApp continuation link.
 - Never commit `.env` files, access tokens, phone credentials or generated build folders.
 
@@ -83,6 +84,7 @@ Full setup, environment variables, fallback behavior and verification steps are 
 
 - [Design specification](design.md)
 - [Implementation memory](memory.md)
+- [Current project status](PROJECT_STATUS.md)
 - [Media manifest](public/media/README.md)
 
 Historical prototypes and research remain in `reference/` and `.superdesign/` for provenance. They are not current implementation instructions.

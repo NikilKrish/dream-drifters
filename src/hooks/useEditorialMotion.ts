@@ -15,18 +15,42 @@ export function useEditorialMotion() {
       revealObserver.unobserve(entry.target);
     }), { rootMargin: '0px 0px -8%', threshold: .08 });
     document.querySelectorAll('.content-reveal').forEach((node) => revealObserver.observe(node));
+    let hashScrollRequest = 0;
+    let hashScrollTimers: number[] = [];
+    const cancelHashScroll = () => {
+      hashScrollRequest += 1;
+      hashScrollTimers.forEach((timer) => window.clearTimeout(timer));
+      hashScrollTimers = [];
+      window.removeEventListener('wheel', cancelHashScroll);
+      window.removeEventListener('touchstart', cancelHashScroll);
+      window.removeEventListener('keydown', cancelHashScroll);
+    };
     const revealHashDestination = () => {
+      cancelHashScroll();
       let id = '';
       try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
       const target = id ? document.getElementById(id) : null;
       if (!target) return;
       revealEditorialDestination(target);
-      requestAnimationFrame(() => target.scrollIntoView({ behavior: 'auto', block: 'start' }));
+      const request = hashScrollRequest;
+      const settle = () => {
+        if (request !== hashScrollRequest || window.location.hash.slice(1) !== id) return;
+        if (target.getBoundingClientRect().top < 0 || target.getBoundingClientRect().top > 96) {
+          target.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
+      };
+      requestAnimationFrame(settle);
+      hashScrollTimers = [250, 850, 1800, 3200].map((delay) => window.setTimeout(settle, delay));
+      const options = { once: true, passive: true } as const;
+      window.addEventListener('wheel', cancelHashScroll, options);
+      window.addEventListener('touchstart', cancelHashScroll, options);
+      window.addEventListener('keydown', cancelHashScroll, { once: true });
     };
     revealHashDestination();
     window.addEventListener('hashchange', revealHashDestination);
     motionRoot.classList.add('editorial-motion-ready');
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {
+      cancelHashScroll();
       window.removeEventListener('hashchange', revealHashDestination);
       motionRoot.classList.remove('editorial-motion-ready');
       revealObserver.disconnect();
@@ -58,6 +82,7 @@ export function useEditorialMotion() {
     if (hero) approach.observe(hero);
     return () => {
       cancelled = true;
+      cancelHashScroll();
       window.removeEventListener('hashchange', revealHashDestination);
       motionRoot.classList.remove('editorial-motion-ready');
       revealObserver.disconnect();

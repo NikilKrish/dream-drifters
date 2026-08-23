@@ -57,7 +57,7 @@ The Cloudflare worker mirrors the Vercel endpoint's method enforcement, request 
 2. Run `npm run build:vercel`.
 3. Run `npm run build:sites` separately; both builds use `dist`, so do not run them at the same time.
 4. Run `npm run test:e2e` across the configured phone, tablet and desktop browsers.
-5. Confirm Hero, Services and Reviews each show video or a working manual play control.
+5. Confirm Hero, Services and Assurance each show video or a working manual play control.
 6. Confirm the six packages, itineraries and enquiry handoffs work with keyboard, touch and mouse.
 7. Submit one valid enquiry and verify either Meta success or the explicit WhatsApp fallback.
 8. Confirm no price, testimonial or unsupported claim is accidentally published.

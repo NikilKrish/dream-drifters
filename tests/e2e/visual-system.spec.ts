@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 const desktopScenes = [
@@ -6,8 +7,54 @@ const desktopScenes = [
   { width: 1440, height: 900 },
 ] as const;
 
+const requiredValidationViewports = [
+  ...desktopScenes,
+  { width: 768, height: 1024 },
+  { width: 390, height: 844 },
+] as const;
+
 test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Visual-system geometry runs once in desktop Chrome');
+});
+
+test('passes the integrated anchor, overflow, type-floor and axe gate at every required viewport', async ({ page }) => {
+  test.setTimeout(90_000);
+  for (const viewport of requiredValidationViewports) {
+    await test.step(`${viewport.width}x${viewport.height}`, async () => {
+      await page.setViewportSize(viewport);
+      await page.goto('/#reviews');
+      await page.evaluate(() => document.fonts.ready);
+
+      const assurance = page.getByRole('heading', { name: 'Support you can see.' });
+      await expect(assurance).toBeVisible();
+      await expect.poll(() => page.locator('#reviews').evaluate((section) => section.getBoundingClientRect().top)).toBeLessThan(viewport.height);
+      const measurements = await page.evaluate(() => {
+        const section = document.querySelector<HTMLElement>('#reviews')!;
+        const heading = document.querySelector<HTMLElement>('#reviews-title')!;
+        const nav = document.querySelector<HTMLElement>('.site-nav__inner')!;
+        const functional = [...document.querySelectorAll<HTMLElement>('.site-menu > a, .button, .kicker, .chapter-index, .field > span, .consent, .depth-card__actions button')]
+          .map((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+        return {
+          overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+          sectionTop: section.getBoundingClientRect().top,
+          navBottom: nav.getBoundingClientRect().bottom,
+          headingOpacity: getComputedStyle(heading).opacity,
+          undersizedFunctionalText: functional.filter((size) => size < 14),
+        };
+      });
+
+      expect(measurements.overflow).toBeLessThanOrEqual(1);
+      expect(measurements.sectionTop).toBeGreaterThanOrEqual(measurements.navBottom);
+      expect(measurements.sectionTop).toBeLessThan(viewport.height);
+      expect(measurements.headingOpacity).toBe('1');
+      expect(measurements.undersizedFunctionalText).toEqual([]);
+      await page.goto(`/?axe=${viewport.width}x${viewport.height}`);
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(800);
+      const axe = await new AxeBuilder({ page }).analyze();
+      expect(axe.violations.filter((issue) => ['serious', 'critical'].includes(issue.impact ?? ''))).toEqual([]);
+    });
+  }
 });
 
 test('keeps the hero and About compositions within each desktop viewport', async ({ page }) => {

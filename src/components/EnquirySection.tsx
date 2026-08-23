@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import type { BudgetBand, EnquiryBrief, InterestKind, ServiceId, ValidationErrors } from '../../shared/brief';
 import { formatBrief, normalizeBrief, validateBrief } from '../../shared/brief';
 import { activeEnquiryServices } from '../data/company';
+import { getChapterMedia, getMediaPath } from '../data/media';
 import { packages } from '../data/packages';
 import { track } from '../lib/analytics';
 import type { EnquirySelection } from '../types';
@@ -12,6 +13,7 @@ type FormStatus = 'idle' | 'submitting' | 'success';
 type EnquiryStep = 'interest' | 'contact';
 
 const tallDesktopQuery = '(min-width: 861px) and (min-height: 820px)';
+const enquiryMedia = getChapterMedia('enquiry');
 
 const initialBrief = (): EnquiryBrief => ({ interestKind: 'custom', name: '', mobile: '', email: '', consent: false, website: '', startedAt: Date.now() });
 const budgetOptions: Array<{ value: BudgetBand; label: string }> = [
@@ -152,7 +154,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
 
   return (
     <section id="contact" className="enquiry chapter" aria-labelledby="enquiry-title" data-section="contact">
-      <div className="enquiry__backdrop"><picture><source type="image/avif" srcSet="/media/dubai.avif" /><img src="/media/dubai.webp" width="1600" height="1100" loading="lazy" decoding="async" alt="" /></picture></div><div className="enquiry__wash" />
+      <div className="enquiry__backdrop"><picture><source type="image/avif" srcSet={getMediaPath(enquiryMedia, 'avif')} /><img src={getMediaPath(enquiryMedia, 'webp')} width="1280" height="800" loading="lazy" decoding="async" alt="" /></picture></div><div className="enquiry__wash" />
       <div className="shell enquiry__layout">
         <div className="enquiry__intro"><h2 id="enquiry-title">Plan your trip with us.</h2><p>Tell us what you need. A Dream Drifters travel expert will respond with clear next steps and considered options.</p><address><a href="tel:+919363312124">+91 93633 12124</a><a href="mailto:info@dreamdrifters.in">info@dreamdrifters.in</a><span>68, Dhanalakshmi Nagar, 3rd Street<br />Nerkundram, Chennai 600 107</span><small>GST 33AAMCD2807P1ZC</small></address></div>
         <form ref={formRef} className="enquiry-form glass-panel" data-flow={staged ? 'staged' : 'compact'} onSubmit={submit} noValidate aria-busy={status === 'submitting'}>

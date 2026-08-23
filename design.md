@@ -1,10 +1,10 @@
 # Dream Drifters Design Record
 
-Last updated: 16 August 2026
+Last updated: 23 August 2026
 
 This is the canonical design specification for the current Dream Drifters Codex project. The sole production source of truth is **Enhanced B**, the approved Editorial Intelligence experience with cinematic Services, the depth package carousel and its attached video-background system. Superseded concepts remain available only as labelled historical references under `reference/` and `.superdesign/website/`.
 
-Validated production implementation commit: `328178f`. The public Vercel release is available at https://dream-drifters.vercel.app/. The OpenAI Sites address remains an independent preview deployment.
+Validated deployed implementation commit: `328178f`. The public Vercel release is available at https://dream-drifters.vercel.app/. The OpenAI Sites address remains an independent preview deployment. Visual-scrutiny corrections are being completed on `codex/visual-system-scrutiny`; they are not deployed and remain subject to the media-approval and final validation gates recorded in `PROJECT_STATUS.md`.
 
 ## Product intent
 
@@ -12,7 +12,7 @@ Dream Drifters is a Chennai-based travel consultancy serving leisure travellers,
 
 The approved single-page sequence is:
 
-**Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer**
+**Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Assurance → Enquiry → Footer**
 
 The primary conversion path is package or service discovery followed by an inline enquiry and an explicit WhatsApp continuation. There is no booking engine, payment flow, account system, CMS or automatic WhatsApp redirect.
 
@@ -49,8 +49,9 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 
 - Display: self-hosted Instrument Serif, weight 400.
 - Body and interface: self-hosted Manrope Variable.
-- Headings use large fluid sizes, compressed line-height and restrained negative tracking.
-- Body copy is limited to readable editorial measures.
+- Functional text uses `clamp(14px, 13.44px + .16vw, 16px)`; body and inputs never fall below 16px.
+- Section display text uses `clamp(56px, 6.6vw, 120px)`. The two-line desktop Hero uses 96–144px, approximately .87 line-height and -.035em tracking, with a short-desktop cap of 136px and at least 12px optical clearance before its lead.
+- Headings use compressed line-height and restrained negative tracking; body copy is limited to readable editorial measures.
 - Eyebrow labels are intentionally rare and currently limited to high-value chapter markers.
 
 ### Geometry and surfaces
@@ -66,7 +67,7 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 
 ### Navigation
 
-- Fixed adaptive navigation with the brand mark, About, Services, Packages, Reviews and Get a quote.
+- Fixed adaptive navigation with the brand mark, About, Services, Packages, Assurance and Get a quote. Assurance retains the historical `#reviews` anchor for compatible links.
 - Navigation gains an ink glass surface after the hero.
 - Mobile navigation behaves as a modal: focus containment, background inertness, scroll locking, Escape dismissal and focus restoration.
 - The active chapter is exposed with `aria-current`.
@@ -84,6 +85,7 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 - The proof dock contains only four verified operational facts, not unsupported traveller totals or satisfaction percentages.
 - About uses a large editorial image and concise company positioning.
 - Vision and Mission share one immersive image chapter with two restrained statements.
+- At 1424×696, 1366×768 and 1440×900, About stays within one viewport with a 420–620px height-aware media frame. The side-by-side split starts at 1000px, leaving the 768px composition stacked.
 
 ### Services
 
@@ -99,6 +101,8 @@ Six public capabilities are preserved:
 Desktop uses a 360 svh GSAP-pinned progression with full-bleed operations media, a six-scene active index and a restrained foreground panel. Tablet uses a shorter pinned treatment containing the same six capabilities. Mobile uses a single-open accessible accordion. Travel Insurance is not exposed publicly; legacy insurance submissions remain accepted by the API.
 
 The attached `operations` WebM/MP4 loop is part of this chapter's canonical background treatment. It lazy-mounts near Services and falls back to its poster whenever ambient playback is inappropriate or unavailable.
+
+The operations family is the only active Services imagery. Destination/package stills are not reused as capability decoration.
 
 ### Why Us
 
@@ -116,17 +120,20 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 - Package selection prefills the enquiry form and announces the change.
 - Stored prices are currently hidden; the interface requests a current quote until the owner verifies them.
 
-### Reviews
+### Assurance
 
 - All supplied testimonials remain typed as drafts and do not render as verified endorsements.
-- Until verification, the chapter displays service-process assurance and notes that references are available directly.
+- The visible chapter is titled “Support you can see.” and always presents three operating commitments: a named point of contact, clear options before commitment and support through the journey.
+- Public copy does not describe the testimonial verification process. If approved testimonials enter the existing verified selector, they may render after the commitments.
 - The attached `travellers` WebM/MP4 loop provides the chapter background on capable devices and otherwise remains a stable poster composition.
 
 ### Enquiry
 
-- One inline form replaces the earlier multi-step planner overlay.
+- One adaptive inline form replaces the earlier planner overlay.
 - Interests can be package, service or custom.
-- Package enquiries reveal travel window, party and budget fields.
+- Package enquiries always use two inline stages: travel intent/details, then contact/notes/consent/submission.
+- Custom and service enquiries remain compact on desktop at least 861px wide and 820px high; short desktop, tablet and mobile use the same two-stage treatment.
+- Back preserves values. Stage changes expose progress semantics, announce the new stage and move focus to its heading.
 - Name, mobile, email and consent remain required.
 - Successful submission presents an inline review state and an explicit “Continue in WhatsApp” action.
 - The site never redirects to WhatsApp automatically.
@@ -139,7 +146,7 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 - Feedback: 120 ms; state changes: 240–420 ms; media transitions: 650–720 ms.
 - Easing favours quart and quint-style deceleration without bounce or elastic movement.
 - GSAP ScrollTrigger powers service progression; GSAP Flip supports itinerary continuity.
-- A shared editorial motion director connects Hero to proof, About to Purpose, Purpose to Services, Trust to Packages, Packages to Reviews and Reviews to Enquiry through restrained scale, pan and crossfade relationships.
+- A shared editorial motion director connects Hero to proof, About to Purpose, Purpose to Services, Trust to Packages, Packages to Assurance and Assurance to Enquiry through restrained scale, pan and crossfade relationships.
 - Off-screen ambient videos pause and lower-page videos are mounted only near their chapters.
 - Capable phones may use the supplied mobile WebM or MP4 loops after the poster and first paint.
 - Reduced motion removes automatic video playback, pinning, scrubbing and spatial transitions while keeping all content functional. A visitor may still request video through the accessible play control.
@@ -152,9 +159,11 @@ Enhanced B includes three required ambient-media assignments:
 |---|---|---|---|
 | Hero | `discovery` | Delayed until after first paint | Eager responsive hero poster |
 | Services | `operations` | Lazy-mounted near the chapter | Lazy poster retained through failure |
-| Reviews | `travellers` | Lazy-mounted near the chapter | Lazy poster retained through failure |
+| Assurance | `travellers` | Lazy-mounted near the chapter | Lazy poster retained through failure |
 
 Both WebM and MP4 encodes are required for each assignment. Mobile-specific video sources are used below 700 px when the device passes the motion, bandwidth and memory policy. Detailed filenames, budgets and licensing notes are maintained in `public/media/README.md`.
+
+The typed registry in `src/data/media.ts` records source family, chapter, focal point, desktop formats, poster formats, mobile sources, licence/consent status and replacement state. Active Hero, About, Direction, Services, Assurance and Enquiry assignments are unique and do not borrow package files. A media asset is production-approved only when its licence is approved, consent is confirmed or not applicable, and replacement state is approved. No current asset passes that gate.
 
 ## Responsive behavior
 
@@ -163,6 +172,7 @@ Both WebM and MP4 encodes are required for each assignment. Mobile-specific vide
 - 861 px and above: desktop navigation replaces the modal menu.
 - 1100 px and above: full Services progression and desktop package depth stage.
 - Short-height desktop and tablet rules keep service context and its primary action inside the viewport.
+- Below 820px height, custom and service enquiries switch to two stages so the contact action remains reachable without a second-page composition; package enquiries are staged at every size.
 - Minimum supported width: 320 px.
 - No horizontal page overflow is permitted.
 
@@ -175,7 +185,7 @@ Both WebM and MP4 encodes are required for each assignment. Mobile-specific vide
 - Form errors are associated with fields and summarized for focused correction.
 - Reduced-motion and reduced-transparency alternatives are mandatory.
 - Proof, prices and testimonials are filtered through typed verification metadata before rendering.
-- Temporary stock media must be replaced or fully licensed before production launch.
+- Temporary stock media must pass the typed licence, consent and replacement gate before production launch. Current production media approval is blocked.
 
 ## Standard interface language
 

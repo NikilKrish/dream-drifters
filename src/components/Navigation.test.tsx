@@ -6,6 +6,17 @@ import { Navigation } from './Navigation';
 afterEach(cleanup);
 
 describe('Navigation', () => {
+  it('labels the compatible reviews anchor as Assurance', async () => {
+    const user = userEvent.setup();
+    const onNavigate = vi.fn();
+    render(<Navigation onQuote={vi.fn()} onNavigate={onNavigate} />);
+
+    const assurance = screen.getByRole('link', { name: 'Assurance' });
+    expect(assurance).toHaveAttribute('href', '#reviews');
+    await user.click(assurance);
+    expect(onNavigate).toHaveBeenCalledWith('reviews');
+  });
+
   it('traps focus, makes the page inert and closes with Escape', async () => {
     const user = userEvent.setup();
     render(<><Navigation onQuote={vi.fn()} onNavigate={vi.fn()} /><main><button type="button">Behind menu</button></main><footer className="footer" /></>);

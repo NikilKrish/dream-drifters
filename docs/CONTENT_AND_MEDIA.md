@@ -27,9 +27,9 @@ Enhanced B requires three local media families:
 
 - `discovery`: Hero
 - `operations`: Services
-- `travellers`: Reviews
+- `travellers`: Assurance
 
-Each family contains MP4 and WebM files. Hero also has a smaller phone encode; Services and Reviews have mobile-labelled files within their agreed budgets. Chrome receives MP4 first, with WebM as the alternate source.
+Each family contains MP4 and WebM files. Hero also has a smaller phone encode; Services and Assurance have mobile-labelled files within their agreed budgets. Chrome receives MP4 first, with WebM as the alternate source.
 
 The complete filename, byte size, source and licensing record is in `public/media/README.md`.
 

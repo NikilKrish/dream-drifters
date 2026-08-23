@@ -1,6 +1,6 @@
 # Dream Drifters Project Memory
 
-Last updated: 16 August 2026
+Last updated: 23 August 2026
 
 This file is the canonical implementation and project-history record for the Dream Drifters website revamp. It captures the work completed, decisions made, current deployment state and remaining risks so another engineer or Codex task can continue without reconstructing the history. `design.md` is the companion canonical design specification.
 
@@ -9,8 +9,9 @@ This file is the canonical implementation and project-history record for the Dre
 - Project type: Codex project.
 - Stack: Vite 8, React 19, TypeScript, GSAP, Phosphor Icons, Vitest and Playwright.
 - Architecture: one semantic single-page application plus `/api/enquiry` handlers for Vercel and Cloudflare Workers/Sites.
-- Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Reviews → Enquiry → Footer.
-- Git branch: `main` (release work was completed on `codex/vercel-github-release` and fast-forwarded).
+- Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Assurance → Enquiry → Footer.
+- Deployed release branch: `main` at the existing public release.
+- Active local implementation branch: `codex/visual-system-scrutiny`; typography/viewport and enquiry tasks are committed, while Assurance/media/documentation integration is awaiting final review and commit.
 - Public GitHub repository: https://github.com/NikilKrish/dream-drifters
 - Validated Vercel implementation commit: `328178f` — Fix Vercel enquiry function module resolution.
 - Public Vercel URL: https://dream-drifters.vercel.app/
@@ -21,7 +22,9 @@ This file is the canonical implementation and project-history record for the Dre
 - Sites access: public and shareable without a common Wi-Fi network.
 - The permanent Sites URL remains an independent preview path and was not changed during the Vercel release.
 - The old Cloudflare development tunnel was temporary and is no longer an active project address.
-- Sole production source of truth: **Enhanced B**, comprising Editorial Intelligence, cinematic Services, the depth-of-field Packages stage and the attached Hero, Services and Reviews video backgrounds.
+- Sole production source of truth: **Enhanced B**, comprising Editorial Intelligence, cinematic Services, the depth-of-field Packages stage and the attached Hero, Services and Assurance video backgrounds.
+- The visual-scrutiny branch is not deployed. Its current stock-media gate blocks production approval pending licence, consent and replacement sign-off.
+- The concise current checkpoint is maintained in `PROJECT_STATUS.md`.
 
 ## Progress timeline
 
@@ -162,14 +165,33 @@ Corrections completed:
 - Active repository and Superdesign context documents were synchronized to Enhanced B. Archived plans and external inspiration studies were retained with notices that prevent them from being mistaken for current requirements.
 - This documentation rebaseline does not deploy or alter the permanent Sites release.
 
+### 14. Visual-system scrutiny rebaseline
+
+- Corrected the active typography floors to 14px functional text and 16px body/input text, with a 96–144px two-line desktop Hero, a 136px short-desktop cap, approximately .87 line-height and explicit lead clearance.
+- Made Hero a single 100svh scene and made About height-aware across 1424×696, 1366×768 and 1440×900; the About split now begins at 1000px so 768px remains stacked.
+- Made direct-anchor destinations reveal immediately while default content remains visible before progressive enhancement starts.
+- Added adaptive `interest` and `contact` enquiry stages. Packages are always staged; custom/service enquiries are compact only from 861px wide and 820px high. Back, focus, progress, announcements and field values survive responsive transitions without changing `EnquiryBrief` or the API payload.
+- Renamed the visible Reviews navigation/chapter treatment to Assurance while retaining `#reviews`. “Support you can see.” and the three operating commitments now render without public verification-process language; the verified testimonial selector remains available.
+- Added typed `MediaAsset` and `ChapterMediaAssignment` records and unique active assignments for Hero, About, Direction, Services, Assurance and Enquiry. Active non-package chapters no longer reuse package files.
+- Preserved the `discovery`, `operations` and `travellers` video families and their poster-first, responsive-source, reduced-motion, low-bandwidth and playback-failure behavior.
+- Every current media record remains `review-required` and `replace-before-production`; recognisable-person footage additionally requires consent confirmation. Consequently, no media asset passes the production approval gate.
+- This branch makes no permanent deployment.
+
+Verification checkpoint on 23 August 2026:
+
+- 39 unit/component tests passed and the OpenAI Sites production build completed.
+- The eight-check visual-system gate passed across 1424×696, 1366×768, 1440×900, 768×1024 and 390×844.
+- The seven-project browser matrix produced 72 passes, 60 intentional project skips and one Firefox carousel timing failure. The failed itinerary case passed immediately in isolation; a clean full-matrix rerun remains a release requirement.
+- The verification environment used Node 25.1.0 while production declares Node 22.x.
+
 ## Content and verification status
 
 - Four operational proof items are marked verified and currently render.
 - Six testimonials remain drafts and are excluded from public rendering.
 - All six stored package prices are marked hidden and display as requests for a current quote.
 - The six packages, all itineraries, service descriptions and Chennai contact details remain business-owner draft content pending final review.
-- Temporary Coverr footage is documented in `public/media/README.md`.
-- Static stock-image licensing still needs a complete production trail.
+- Temporary Coverr footage, locally derived stills and replacement briefs are documented in `public/media/README.md`.
+- The typed media gate currently approves zero assets for production; complete licence provenance, consent where people are recognisable and explicit replacement approval are still required.
 
 ## Environment configuration
 
@@ -191,7 +213,7 @@ Until the Meta values are configured on a hosting platform, form submission inte
 2. Re-test motion on physical iOS and Android devices, including reduced motion and Data Saver.
 3. Configure and verify the Meta WhatsApp template and production phone values when the business wants automatic owner notifications.
 4. Confirm all package prices, company facts, contact details and testimonials with the business owner.
-5. Replace or license every temporary image and video.
+5. Replace or license every temporary image and video, confirm consent where people are recognisable, then update the typed approval states.
 6. Approve final privacy copy, any future custom domain, Open Graph image and business structured data.
 7. Complete the final Lighthouse, screen-reader and real-device launch review.
 8. Update the independent Sites deployment only if the business wants it to mirror the Vercel production release.
@@ -205,6 +227,7 @@ Until the Meta values are configured on a hosting platform, form submission inte
 - Do not reintroduce automatic WhatsApp redirects.
 - Keep native scrolling and accessible reduced-motion alternatives.
 - Any mobile-video change must include a poster fallback, playback-failure state, off-screen pause behavior and a measurable media budget.
+- Do not assign a package destination file to About, Services, Assurance or Enquiry. Add or approve a semantically specific registry asset instead.
 - Update both `design.md` and `memory.md` when a major design, architecture, deployment or content-verification decision changes.
 
 ## Useful commands
