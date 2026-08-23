@@ -11,7 +11,8 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 - **Deployed production:** https://dream-drifters.vercel.app/ remains on the earlier validated `main` release.
 - **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/ remains unchanged.
 - **Public repository:** https://github.com/NikilKrish/dream-drifters.
-- **Deployment state:** the visual-scrutiny corrections described below are local to the feature branch and have not been pushed, merged or deployed.
+- **Latest local checkpoint:** `b91bd38` (`feat: complete visual scrutiny rebaseline`).
+- **Deployment state:** the visual-scrutiny corrections described below are committed locally on the feature branch and have not been pushed, merged or deployed.
 
 ## Completed on the visual-scrutiny branch
 
@@ -51,21 +52,19 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 
 ## What is not complete
 
-1. The Assurance/media/documentation integration still needs its final task review and commit.
-2. The full Playwright matrix needs one clean rerun after review.
-3. Final business-original or fully licensed media has not been supplied.
-4. Business approval is still required for package prices, testimonials, claims, contact information and privacy copy.
-5. Meta WhatsApp production credentials and the approved message template still require environment verification.
-6. The visual-scrutiny branch has not been merged, pushed or deployed.
-7. Final real-device, screen-reader and Lighthouse launch review remains outstanding.
+1. The full Playwright matrix needs one clean rerun before release because the long run recorded one transient Firefox timing failure.
+2. Final business-original or fully licensed media has not been supplied.
+3. Business approval is still required for package prices, testimonials, claims, contact information and privacy copy.
+4. Meta WhatsApp production credentials and the approved message template still require environment verification.
+5. The visual-scrutiny branch has not been merged, pushed or deployed.
+6. Final real-device, screen-reader and Lighthouse launch review remains outstanding.
 
 ## Safe next sequence
 
-1. Review and commit the current Assurance/media/documentation task.
-2. Run the complete unit, Sites/Vercel build and seven-project browser matrix on Node 22.
-3. Conduct the responsive visual review on phone, tablet, short laptop and wide desktop.
-4. Obtain and approve the replacement media library and update its typed approval states.
-5. Merge and push only after approval, then create a preview deployment before updating production.
+1. Run the complete unit, Sites/Vercel build and seven-project browser matrix on Node 22.
+2. Conduct the responsive visual review on phone, tablet, short laptop and wide desktop.
+3. Obtain and approve the replacement media library and update its typed approval states.
+4. Merge and push only after approval, then create a preview deployment before updating production.
 
 ## Canonical records
 

@@ -11,7 +11,7 @@ This file is the canonical implementation and project-history record for the Dre
 - Architecture: one semantic single-page application plus `/api/enquiry` handlers for Vercel and Cloudflare Workers/Sites.
 - Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Assurance → Enquiry → Footer.
 - Deployed release branch: `main` at the existing public release.
-- Active local implementation branch: `codex/visual-system-scrutiny`; typography/viewport and enquiry tasks are committed, while Assurance/media/documentation integration is awaiting final review and commit.
+- Active local implementation branch: `codex/visual-system-scrutiny`; the typography, viewport, adaptive enquiry, Assurance and media-governance rebaseline is committed locally through `b91bd38`.
 - Public GitHub repository: https://github.com/NikilKrish/dream-drifters
 - Validated Vercel implementation commit: `328178f` — Fix Vercel enquiry function module resolution.
 - Public Vercel URL: https://dream-drifters.vercel.app/
