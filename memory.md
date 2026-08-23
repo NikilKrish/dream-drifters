@@ -13,6 +13,8 @@ This file is the canonical implementation and project-history record for the Dre
 - Deployed release branch: `main` at the existing public release.
 - Active local implementation branch: `codex/visual-system-scrutiny`; the typography, viewport, adaptive enquiry, Assurance and media-governance rebaseline is committed locally through `b91bd38`.
 - Public GitHub repository: https://github.com/NikilKrish/dream-drifters
+- Cloud continuation branch: `origin/codex/visual-system-scrutiny`.
+- Stable cloud handoff tag: `cloud-handoff-2026-08-23`.
 - Validated Vercel implementation commit: `328178f` — Fix Vercel enquiry function module resolution.
 - Public Vercel URL: https://dream-drifters.vercel.app/
 - Vercel status: production, connected to GitHub `main`, with automatic releases enabled.
@@ -25,6 +27,7 @@ This file is the canonical implementation and project-history record for the Dre
 - Sole production source of truth: **Enhanced B**, comprising Editorial Intelligence, cinematic Services, the depth-of-field Packages stage and the attached Hero, Services and Assurance video backgrounds.
 - The visual-scrutiny branch is not deployed. Its current stock-media gate blocks production approval pending licence, consent and replacement sign-off.
 - The concise current checkpoint is maintained in `PROJECT_STATUS.md`.
+- A fresh Codex cloud task should begin with `CLOUD_HANDOFF.md` and check out the handoff tag or continuation branch before attempting deployment.
 
 ## Progress timeline
 
@@ -183,6 +186,15 @@ Verification checkpoint on 23 August 2026:
 - The eight-check visual-system gate passed across 1424×696, 1366×768, 1440×900, 768×1024 and 390×844.
 - The seven-project browser matrix produced 72 passes, 60 intentional project skips and one Firefox carousel timing failure. The failed itinerary case passed immediately in isolation; a clean full-matrix rerun remains a release requirement.
 - The verification environment used Node 25.1.0 while production declares Node 22.x.
+
+### 15. GitHub cloud handoff
+
+- Published the complete latest implementation and its media files to `origin/codex/visual-system-scrutiny` without changing `main` or either live deployment.
+- Added `CLOUD_HANDOFF.md` as the required starting point for a fresh Codex cloud conversation.
+- Reserved the stable tag `cloud-handoff-2026-08-23` for the final synchronized handoff commit.
+- Re-ran all 39 unit/component tests and the Vercel production build successfully before tagging.
+- Confirmed that no private environment file is tracked and that the tracked source contains no detected access-token or private-key patterns.
+- The handoff makes the latest source reproducible in the cloud; it does not waive the media, business-content, accessibility, browser-matrix or Meta launch gates.
 
 ## Content and verification status
 

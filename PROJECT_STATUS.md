@@ -11,8 +11,10 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 - **Deployed production:** https://dream-drifters.vercel.app/ remains on the earlier validated `main` release.
 - **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/ remains unchanged.
 - **Public repository:** https://github.com/NikilKrish/dream-drifters.
+- **Cloud handoff branch:** `origin/codex/visual-system-scrutiny`.
+- **Stable cloud handoff tag:** `cloud-handoff-2026-08-23`.
 - **Latest implementation checkpoint:** `b91bd38` (`feat: complete visual scrutiny rebaseline`); later commits only synchronize this documentation.
-- **Deployment state:** the visual-scrutiny corrections described below are committed locally on the feature branch and have not been pushed, merged or deployed.
+- **Deployment state:** the complete visual-scrutiny source and context are published to the feature branch for cloud continuation. They have not been merged into `main` or deployed.
 
 ## Completed on the visual-scrutiny branch
 
@@ -45,10 +47,12 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 
 - Unit/component suite: **39 passed, 0 failed**.
 - OpenAI Sites production build: **passed**.
+- Vercel production build: **passed again during the GitHub cloud handoff**.
 - Required visual-system gate in desktop Chrome: **8 passed**, covering all five required viewports, hero/About geometry, form visibility, type floors, direct anchors, reduced motion, horizontal overflow and serious/critical axe findings.
 - Full seven-project Playwright run: **72 passed, 60 intentionally skipped, 1 Firefox timing failure**.
 - The failed Firefox itinerary test passed immediately when rerun alone in **4.6 seconds**. A completely clean full-matrix rerun is still required before release.
 - Verification used Node 25.1.0 although the project declares Node 22.x; production should build with Node 22.
+- A tracked-file credential scan found no embedded access-token or private-key patterns. Only the intentionally blank `.env.example` is tracked.
 
 ## What is not complete
 
@@ -56,7 +60,7 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 2. Final business-original or fully licensed media has not been supplied.
 3. Business approval is still required for package prices, testimonials, claims, contact information and privacy copy.
 4. Meta WhatsApp production credentials and the approved message template still require environment verification.
-5. The visual-scrutiny branch has not been merged, pushed or deployed.
+5. The visual-scrutiny branch has not been merged into `main` or deployed.
 6. Final real-device, screen-reader and Lighthouse launch review remains outstanding.
 
 ## Safe next sequence
@@ -73,3 +77,4 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 - `public/media/README.md`: active media assignments, file budgets, provenance and replacement briefs.
 - `docs/CONTENT_AND_MEDIA.md`: business content and media editing rules.
 - `docs/DEPLOYMENT.md`: Vercel and OpenAI Sites release procedure.
+- `CLOUD_HANDOFF.md`: exact Git source and clean-cloud startup procedure.

@@ -59,6 +59,7 @@ The browser suite covers Chrome from a 320 px compact phone through tablet, desk
 | `design.md` | Canonical design and behavior specification |
 | `memory.md` | Project history, decisions and release record |
 | `PROJECT_STATUS.md` | Plain-language current checkpoint and remaining work |
+| `CLOUD_HANDOFF.md` | Exact branch, tag and startup instructions for a fresh Codex cloud environment |
 
 See [Content and media](docs/CONTENT_AND_MEDIA.md) before editing copy, prices, testimonials or footage.
 
@@ -85,6 +86,7 @@ Full setup, environment variables, fallback behavior and verification steps are 
 - [Design specification](design.md)
 - [Implementation memory](memory.md)
 - [Current project status](PROJECT_STATUS.md)
+- [Cloud handoff](CLOUD_HANDOFF.md)
 - [Media manifest](public/media/README.md)
 
 Historical prototypes and research remain in `reference/` and `.superdesign/` for provenance. They are not current implementation instructions.
