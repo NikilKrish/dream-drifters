@@ -11,7 +11,7 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 - **Deployed production:** https://dream-drifters.vercel.app/ remains on the earlier validated `main` release.
 - **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/ remains unchanged.
 - **Public repository:** https://github.com/NikilKrish/dream-drifters.
-- **Latest local checkpoint:** `b91bd38` (`feat: complete visual scrutiny rebaseline`).
+- **Latest implementation checkpoint:** `b91bd38` (`feat: complete visual scrutiny rebaseline`); later commits only synchronize this documentation.
 - **Deployment state:** the visual-scrutiny corrections described below are committed locally on the feature branch and have not been pushed, merged or deployed.
 
 ## Completed on the visual-scrutiny branch
