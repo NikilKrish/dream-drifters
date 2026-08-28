@@ -88,7 +88,7 @@ export async function persistEnquiry(
     return {
       stored: payload.stored,
       notified: payload.notified,
-      submissionId: payload.submissionId,
+      submissionId,
     };
   } catch (error) {
     return {

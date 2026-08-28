@@ -35,7 +35,7 @@ describe('persistEnquiry', () => {
       ok: true,
       stored: true,
       notified: true,
-      submissionId: 'enq_20250101_1735689600000',
+      submissionId: 'provider-echoed-id',
       sheetUrl: 'https://docs.google.com/spreadsheets/d/restricted',
     }), { status: 200 }));
 
@@ -67,10 +67,10 @@ describe('persistEnquiry', () => {
       submissionId: 'enq_20260825_0001',
     }), { status: 200 }));
 
-    await expect(persistEnquiry(validBrief, config, fetchMock)).resolves.toMatchObject({
+    await expect(persistEnquiry(validBrief, config, fetchMock, () => 1735689600000)).resolves.toMatchObject({
       stored: true,
       notified: false,
-      submissionId: 'enq_20260825_0001',
+      submissionId: 'enq_20250101_1735689600000',
     });
   });
 
