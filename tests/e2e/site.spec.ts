@@ -74,7 +74,7 @@ test('itinerary scene supports Escape and package-to-form prefilling', async ({ 
 });
 
 test('service prefilling and WhatsApp fallback work inline', async ({ page }) => {
-  await page.route('**/api/enquiry', (route) => route.fulfill({ status: 502, contentType: 'application/json', body: JSON.stringify({ ok: false, fallback: 'whatsapp' }) }));
+  await page.route('**/api/enquiry', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, stored: true, notified: false }) }));
   await page.goto('/');
   const width = page.viewportSize()?.width ?? 1000;
   if (width < 700) {
@@ -103,7 +103,7 @@ test('service prefilling and WhatsApp fallback work inline', async ({ page }) =>
   await page.getByLabel(/i agree/i).check();
   await page.getByRole('button', { name: /send enquiry/i }).click();
   await expect(page.getByRole('link', { name: /continue in whatsapp/i })).toBeVisible({ timeout: 12_000 });
-  await expect(page.getByText(/background notification was unavailable/i)).toBeVisible();
+  await expect(page.getByText(/saved successfully.*email notification is pending and will retry/i)).toBeVisible();
 });
 
 test('reduced motion keeps all service content static and disables video', async ({ page }) => {
