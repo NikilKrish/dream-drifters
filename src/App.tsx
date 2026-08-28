@@ -39,9 +39,12 @@ export default function App() {
     const target = document.getElementById(id);
     if (!target) return;
     revealEditorialDestination(target);
+    const destination = id === 'contact' && window.innerWidth < 900
+      ? target.querySelector<HTMLElement>('.enquiry-form') ?? target
+      : target;
     const requestId = ++scrollRequestRef.current;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    destination.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
     if (!reducedMotion) {
       const interrupt = () => { if (scrollRequestRef.current === requestId) scrollRequestRef.current += 1; };
       const options = { once: true, passive: true } as const;
@@ -49,8 +52,8 @@ export default function App() {
       window.addEventListener('touchstart', interrupt, options);
       window.addEventListener('keydown', interrupt, { once: true });
       [850, 1800, 3200].forEach((delay) => window.setTimeout(() => {
-        if (scrollRequestRef.current === requestId && Math.abs(target.getBoundingClientRect().top) > 8) {
-          target.scrollIntoView({ behavior: 'auto', block: 'start' });
+        if (scrollRequestRef.current === requestId && Math.abs(destination.getBoundingClientRect().top - 88) > 8) {
+          destination.scrollIntoView({ behavior: 'auto', block: 'start' });
         }
       }, delay));
       window.setTimeout(() => {

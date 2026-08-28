@@ -144,6 +144,35 @@ describe('EnquirySection', () => {
     expect(screen.queryByLabelText(/full name/i)).not.toBeInTheDocument();
   });
 
+  it('uses three focused stages for a package enquiry', async () => {
+    const user = userEvent.setup();
+    useViewport({ width: 1000, height: 820 });
+    render(<EnquirySection selection={{ interestKind: 'package', packageId: 'maldives', label: 'Maldives Paradise', requestId: 7 }} />);
+
+    const progress = screen.getByRole('progressbar', { name: /enquiry progress/i });
+    expect(progress).toHaveAttribute('aria-valuemax', '3');
+    expect(progress).toHaveTextContent('Step 1 of 3');
+    expect(screen.queryByLabelText(/travel package/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /change enquiry type/i })).toBeVisible();
+
+    await user.type(screen.getByLabelText(/travel window/i), 'October 2026');
+    await user.click(screen.getByRole('button', { name: /continue to travellers and budget/i }));
+
+    expect(progress).toHaveAttribute('aria-valuenow', '2');
+    expect(screen.getByRole('heading', { name: /travellers and budget/i })).toHaveFocus();
+    expect(screen.getByLabelText(/adults/i)).toBeVisible();
+    expect(screen.queryByLabelText(/travel window/i)).not.toBeInTheDocument();
+
+    await user.type(screen.getByLabelText(/adults/i), '2');
+    await user.selectOptions(screen.getByLabelText(/budget per person/i), '100k-200k');
+    await user.click(screen.getByRole('button', { name: /continue to contact details/i }));
+
+    expect(progress).toHaveAttribute('aria-valuenow', '3');
+    expect(screen.getByRole('heading', { name: /your contact details/i })).toHaveFocus();
+    await user.click(screen.getByRole('button', { name: /back to travellers and budget/i }));
+    expect(screen.getByLabelText(/adults/i)).toHaveValue(2);
+  });
+
   it('keeps custom and service enquiries compact on a tall desktop', async () => {
     const user = userEvent.setup();
     useViewport({ width: 1000, height: 820 });

@@ -28,4 +28,4 @@ class IntersectionObserverMock {
   disconnect() {}
 }
 
-Object.defineProperty(window, 'IntersectionObserver', { value: IntersectionObserverMock });
+Object.defineProperty(window, 'IntersectionObserver', { value: IntersectionObserverMock, configurable: true });

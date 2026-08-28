@@ -1,6 +1,6 @@
 # Enhanced B media manifest
 
-This manifest is the operational companion to the typed registry in `src/data/media.ts`. The current files keep previews and tests complete, but **no current media asset is approved for production**.
+This manifest is the operational companion to the typed registry in `src/data/media.ts`. The Hero aerial, About still and six package destination families are approved for their recorded editorial placements. The remaining ambient chapter media is still preview-only.
 
 ## Approval gate
 
@@ -10,7 +10,7 @@ An asset may be approved only when all three registry conditions are true:
 2. `consentStatus` is `confirmed` or `not-applicable`.
 3. `replacementState` is `approved`.
 
-Every current record is `review-required` and `replace-before-production`. About and Assurance also remain `consentStatus: required` because recognisable people appear and no release record is present. `isMediaAssetApproved` therefore returns false for every current asset; the branch is not production-media ready.
+Hero is now `approved` / `not-applicable` / `approved`; About is `approved` / `confirmed` / `approved`. Both pass `isMediaAssetApproved`. Direction, Services, Assurance and Enquiry remain `review-required` and `replace-before-production`; Assurance also remains `consentStatus: required`. Package still approval is recorded separately in `packageMediaAssets`. The branch is not fully production-media ready until the remaining chapter families are cleared.
 
 ## Active chapter assignments
 
@@ -18,20 +18,21 @@ Each active non-package chapter has one unique registry asset. Package destinati
 
 | Chapter | Registry asset | Active files | Focal point | Semantic purpose | Status |
 |---|---|---|---|---|---|
-| Hero | `hero-discovery` | `discovery.mp4` / `.webm`; `hero.avif` / `.webp`; responsive mobile sources and posters | 50% 50% | Open-ended discovery and the start of a journey | Replace or establish complete provenance |
-| About | `about-people` | `about-people.avif` (16,848 B), `.webp` (39,972 B) | 62% 48% | People moving through a managed travel moment | Replace with business-original team/client-consultation image; licence and consent unresolved |
-| Direction | `direction-horizon` | `direction-horizon.avif` (22,292 B), `.webp` (52,900 B) | 63% 45% | Broad horizon for vision and mission | Replace or establish inherited source licence |
+| Hero | `hero-tropical-aerial` | 3840×2160, 2560×1440, 1920×1080 and 1080×1920 MP4/WebM loops with matched AVIF/WebP posters | 56% 50% | Open-ended discovery and the start of a journey | Approved Pexels source by Adrien JACTA; empty shoreline, illustrative use only |
+| About | `about-people` | 4096×3072 AVIF/WebP master plus 1920×1440 and 960×720 variants | 68% 50% | Generic advisor/client consultation | Approved Pexels source by Kindel Media; illustrative use only, with no endorsement or affiliation implied |
+| Direction | `direction-train` | `direction-train.mp4` (3,356,270 B), `.webm` (2,311,061 B); desktop and mobile AVIF/WebP posters | 48% 42% | Forward movement seen through a train window | User-supplied generated source; confirm usage rights before production |
 | Services | `services-operations` | `operations.mp4` / `.webm`; `operations-poster.avif` (17,006 B), `.webp` (41,690 B); mobile video sources | 56% 45% | Aviation operations and coordination | Replace with approved operational footage |
 | Assurance | `assurance-travellers` | `travellers.mp4` / `.webm`; `travellers-poster.avif` (16,329 B), `.webp` (37,982 B); mobile video sources | 52% 50% | Travellers supported through an active journey | Replace with released support footage; licence and consent unresolved |
 | Enquiry | `enquiry-airport` | `enquiry-airport.avif` (16,159 B), `.webp` (41,146 B) | 60% 42% | Operational readiness behind a request | Replace with business-original Chennai service image |
 
-The About, Direction, Services-poster, Assurance-poster and Enquiry files are local frame derivatives from the existing video families. They do not create new licence rights; they inherit the unresolved approval status of their sources.
+The Services-poster, Assurance-poster and Enquiry files are local frame derivatives from the existing video families. The Direction derivatives come from the user-supplied train-window source. Derivatives do not create new licence rights; each inherits the unresolved approval status of its source. About is a separately licensed Pexels still.
 
 ## Required ambient video families
 
 | Chapter | Family and source record | Desktop video | Mobile video | Poster policy | Loading policy |
 |---|---|---|---|---|---|
-| Hero | `discovery` — [A tropical landscape](https://coverr.co/videos/a-tropical-landscape-0lb0joigvv) | `discovery.mp4` (1,809,240 B), `discovery.webm` (1,844,837 B) | `discovery-mobile.mp4` (602,909 B), `discovery-mobile.webm` (648,318 B) | Eager responsive `hero` poster remains until `canplay` | Delayed until after first paint |
+| Hero | `pexels-video-14920039` — Adrien JACTA, [empty tropical beach aerial](https://www.pexels.com/video/drone-footage-of-an-empty-tropical-beach-14920039/) | Adaptive 3840×2160, 2560×1440 or 1920×1080 MP4-first pairs | Dedicated 1080×1920 MP4/WebM crop | Eager responsive first-frame poster remains until `loadeddata` | Delayed until after first paint; Save-Data, slow links, reduced motion and low-memory devices remain poster-only |
+| Direction | `train-window` — user-supplied generated video | `direction-train.mp4` (3,356,270 B), `direction-train.webm` (2,311,061 B) | Poster only: `direction-train-mobile.avif` (9,780 B), `.webp` (29,312 B) | Lazy desktop and portrait mobile posters | Mounted near Direction; no mobile loop |
 | Services | `operations` — [Planes heading to the runway](https://coverr.co/videos/planes-heading-to-the-runway-s88pegx0yt) | `operations.mp4` (451,186 B), `operations.webm` (234,403 B) | `operations-mobile.mp4` (404,672 B), `operations-mobile.webm` (234,403 B) | Lazy frame-derived `operations-poster` remains through failure | Mounted near Services |
 | Assurance | `travellers` — [Boarding a plane](https://coverr.co/videos/boarding-a-plane-5jd0b6okwj) | `travellers.mp4` (510,885 B), `travellers.webm` (377,979 B) | `travellers-mobile.mp4` (426,186 B), `travellers-mobile.webm` (377,979 B) | Lazy frame-derived `travellers-poster` remains through failure | Mounted near Assurance |
 
@@ -39,19 +40,19 @@ MP4 is offered before WebM for reliable Chrome playback. Videos are muted, loopi
 
 ## Playback and fallback policy
 
-- Capable phones may load mobile video below 700px after the poster is established.
-- Reduced motion, Save-Data, 2G/slow-2G and device memory below 4GB start poster-first and paused. Visitors may explicitly request playback with the accessible Play video control.
-- A video never replaces its poster until `canplay`; failed playback leaves the poster stable.
+- Capable phones may load the dedicated portrait video below 700px after the poster is established.
+- Hero remains poster-only for reduced motion, Save-Data, 2G/slow-2G and device memory below 4GB. Later chapter videos retain their accessible manual playback recovery.
+- A video never replaces its poster until the browser has decoded its first frame (`loadeddata`); failed playback leaves the poster stable.
 - Autoplay rejection retains the mounted video and exposes the same Play video control for a user-initiated retry.
 - Hero is the only eager media chapter. Services and Assurance are observed and mounted near their sections.
 - Poster-only presentation is an intentional accessibility/performance mode, not an error.
 
-The MP4 files use H.264 Main profile, Level 3.1, 8-bit `yuv420p` and fast-start metadata. Chrome `canplay` verification was recorded on 16 August 2026.
+The Hero MP4 files use H.264 `yuv420p` with fast-start metadata; WebM fallbacks use VP9. All Hero outputs are 12 seconds at 25fps and loop through a matched forward/reverse edit. The remaining legacy chapter encodes retain their existing profiles.
 
 ## Production replacement briefs
 
-- **Hero:** one approved establishing journey with calm directional movement, clean two-line-title space on the left and dedicated desktop/mobile crops.
-- **About:** a business-original Dream Drifters consultation or team coordination moment in Chennai, 4:3 landscape, with written releases for recognisable people.
+- **Hero:** approved tropical shoreline aerial is in place. Future replacements must retain calm directional movement, clean two-line-title contrast and dedicated desktop/mobile crops.
+- **About:** approved Pexels consultation still is in place as an illustrative, non-endorsement image. A business-original Dream Drifters consultation remains an optional future authenticity upgrade.
 - **Direction:** a wide, quiet horizon or onward route with lower-third text contrast and no destination/package specificity.
 - **Services:** real or licensed travel operations showing coordination rather than a destination montage; provide MP4, WebM, mobile derivatives and matching AVIF/WebP posters.
 - **Assurance:** a credible human support moment with documented model consent; provide the same hybrid video/poster family and preserve foreground reading space.
@@ -59,6 +60,18 @@ The MP4 files use H.264 Main profile, Level 3.1, 8-bit `yuv420p` and fast-start 
 
 For every replacement, record the owner/source, licence terms, consent or release reference, capture/download date, focal point, dimensions, file sizes, format variants and approver. Update the registry statuses only after the evidence is stored.
 
-## Package media boundary
+## Approved responsive stills
 
-`maldives`, `japan`, `switzerland`, `bali`, `paris` and `dubai` AVIF/WebP pairs remain temporary destination images used only by package cards and itinerary sheets in the active interface. Their original source records were not present in the supplied archive. They must be replaced or receive documented licensing provenance before production approval.
+All seven families were downloaded on 25 August 2026 and are registered with source page, photographer, Pexels licence and terms links, original dimensions, source crop, focal point, output dimensions, production approval and consent/release rationale. Masters use AVIF and WebP with `-1920` and `-960` variants. The [Pexels licence](https://www.pexels.com/license/) permits website and commercial use and modification, subject to its restrictions; the [terms](https://www.pexels.com/terms-of-service/) remain the controlling record. Depicted people must never be presented as endorsing or being affiliated with Dream Drifters.
+
+| Family | Photographer / source | Original | Source crop | Outputs |
+|---|---|---:|---:|---|
+| `about-people` | Kindel Media, [Pexels 7979588](https://www.pexels.com/photo/man-couple-love-people-7979588/) | 5196×3464 | 4616×3462 at 290,1 (4:3 centred) | 4096×3072, 1920×1440, 960×720 |
+| `maldives` | Ken Cheung, [Pexels 32807065](https://www.pexels.com/photo/aerial-view-of-pristine-maldives-beach-at-daytime-32807065/) | 4770×2680 | 4752×2673 at 9,3 | 3840×2160, 1920×1080, 960×540 |
+| `japan` | Brellbell PJ, [Pexels 918275](https://www.pexels.com/photo/mount-fuji-918275/) | 4896×3264 | 4896×2754 at 0,180 | 3840×2160, 1920×1080, 960×540 |
+| `switzerland` | Ákos Szűcs, [Pexels 36614033](https://www.pexels.com/photo/stunning-alpine-lake-scenery-in-swiss-alps-36614033/) | 4775×2985 | 4768×2682 at 3,150 | 3840×2160, 1920×1080, 960×540 |
+| `bali` | Tom Fisk, [Pexels 36699649](https://www.pexels.com/photo/lush-green-rice-fields-in-bali-s-tropical-paradise-36699649/) | 8640×5760 | 8640×4860 at 0,450 | 3840×2160, 1920×1080, 960×540 |
+| `paris` | Denitsa Kireva, [Pexels 15576446](https://www.pexels.com/photo/the-eiffel-tower-at-sunset-15576446/) | 6720×4480 | 6720×3780 at 0,0 | 3840×2160, 1920×1080, 960×540 |
+| `dubai` | Michael Kabus, [Pexels 5288791](https://www.pexels.com/photo/the-dubai-skyline-during-sunset-5288791/) | 4912×3264 | 4896×2754 at 8,350 | 3840×2160, 1920×1080, 960×540 |
+
+Package file names remain `maldives`, `japan`, `switzerland`, `bali`, `paris` and `dubai`, so cards and itinerary sheets retain their existing public data contract. Responsive package markup selects `<id>-960`, `<id>-1920` or the 3840 master; only the active package image is mounted.

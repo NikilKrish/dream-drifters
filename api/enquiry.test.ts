@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import handler from './enquiry';
+import handler from './enquiry.js';
 
 function responseDouble() {
   const state = { status: 200, body: {} as Record<string, unknown>, headers: {} as Record<string, string> };

@@ -70,10 +70,12 @@ export function useEditorialMotion() {
         const context = gsap.context(() => {
           gsap.to('.editorial-hero__media', { scale: 1.07, ease: 'none', scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: .65 } });
           gsap.to('.editorial-hero__content', { yPercent: -8, opacity: .25, ease: 'none', scrollTrigger: { trigger: '#home', start: '45% top', end: 'bottom top', scrub: .65 } });
-          gsap.fromTo('.editorial-about__media', { yPercent: 7, scale: .94 }, { yPercent: 0, scale: 1, ease: 'power4.out', scrollTrigger: { trigger: '.editorial-about', start: 'top 80%', end: '55% 55%', scrub: .7 } });
-          gsap.to('.editorial-purpose__media', { scale: 1.065, ease: 'none', scrollTrigger: { trigger: '.editorial-purpose', start: 'top bottom', end: 'bottom top', scrub: .75 } });
+          gsap.fromTo('.editorial-about__media', { yPercent: 4, scale: .98 }, { yPercent: 0, scale: 1, ease: 'power4.out', scrollTrigger: { trigger: '.editorial-about', start: 'top 80%', end: '55% 55%', scrub: .7 } });
+          const purposeTimeline = gsap.timeline({ scrollTrigger: { trigger: '.editorial-purpose', start: 'top 82%', end: 'bottom 28%', scrub: .75 } });
+          purposeTimeline
+            .fromTo('.editorial-purpose__heading', { y: 16, opacity: .7 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0)
+            .fromTo('.editorial-purpose__statements article', { y: 16, opacity: .35 }, { y: 0, opacity: 1, stagger: .06, ease: 'power2.out' }, .06);
           gsap.fromTo('.editorial-services__pin', { opacity: .7 }, { opacity: 1, ease: 'none', scrollTrigger: { trigger: '.editorial-services', start: 'top bottom', end: 'top top', scrub: .6 } });
-          gsap.fromTo('.depth-packages__deck', { xPercent: 4 }, { xPercent: 0, ease: 'power4.out', scrollTrigger: { trigger: '.depth-packages', start: 'top 80%', end: 'top 20%', scrub: .7 } });
           gsap.to('.editorial-reviews__wash', { opacity: .94, ease: 'none', scrollTrigger: { trigger: '.editorial-reviews', start: '55% 55%', end: 'bottom top', scrub: .7 } });
         });
         cleanup = () => context.revert();

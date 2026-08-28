@@ -1,20 +1,20 @@
 # Dream Drifters Project Status
 
-Last updated: 23 August 2026
+Last updated: 28 August 2026
 
 This is the plain-language checkpoint for the Dream Drifters Codex project. Use `design.md` for the canonical design specification and `memory.md` for the complete implementation and decision history.
 
 ## Where the project stands
 
-- **Active design direction:** Enhanced B: Editorial Intelligence with cinematic Services, the depth package carousel and attached Hero, Services and Assurance video backgrounds.
-- **Current implementation branch:** `codex/visual-system-scrutiny`.
+- **Active design direction:** Enhanced B: Editorial Intelligence with cinematic Services, a desktop scroll-linked package depth carousel with a stable opening rest state, and attached ambient video backgrounds.
+- **Current workspace branch:** `codex/premium-hero-nav` at local checkpoint `d5f3cc3`, with the cinematic cleanup and Hero/navigation repair present as uncommitted working-tree changes.
 - **Deployed production:** https://dream-drifters.vercel.app/ remains on the earlier validated `main` release.
 - **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/ remains unchanged.
 - **Public repository:** https://github.com/NikilKrish/dream-drifters.
 - **Cloud handoff branch:** `origin/codex/visual-system-scrutiny`.
 - **Stable cloud handoff tag:** `cloud-handoff-2026-08-23`.
-- **Latest implementation checkpoint:** `b91bd38` (`feat: complete visual scrutiny rebaseline`); later commits only synchronize this documentation.
-- **Deployment state:** the complete visual-scrutiny source and context are published to the feature branch for cloud continuation. They have not been merged into `main` or deployed.
+- **Latest committed checkpoint:** `d5f3cc3`; the current cleanup remains local and uncommitted.
+- **Deployment state:** this cleanup is implemented and verified locally but has not been committed, pushed or deployed by this task.
 
 ## Completed on the visual-scrutiny branch
 
@@ -41,27 +41,26 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 - The chapter now uses `Support you can see.` and three operating commitments without exposing internal testimonial-verification language.
 - Added typed media records for Hero, About, Direction, Services, Assurance and Enquiry.
 - Removed package-image reuse from active non-package chapters and preserved the three ambient video families with their poster and mobile fallbacks.
-- Current assets are explicitly preview-only. No asset passes the production approval gate because licensing, consent and/or replacement approval remains unresolved.
+- Hero now uses an approved Pexels tropical shoreline aerial with native 4K, 1440p, 1080p and portrait-mobile MP4/WebM loops plus matching AVIF/WebP posters. About and all six package still families retain their recorded Pexels provenance and responsive 4K approval. Direction, Services, Assurance and Enquiry remain review-required.
 
-## Verification recorded on 23 August 2026
+## Verification recorded on 27 August 2026
 
-- Unit/component suite: **39 passed, 0 failed**.
+- Unit/component suite after the Direction repair: **70 passed, 0 failed** across 14 files.
 - OpenAI Sites production build: **passed**.
 - Vercel production build: **passed again during the GitHub cloud handoff**.
-- Required visual-system gate in desktop Chrome: **8 passed**, covering all five required viewports, hero/About geometry, form visibility, type floors, direct anchors, reduced motion, horizontal overflow and serious/critical axe findings.
-- Full seven-project Playwright run: **72 passed, 60 intentionally skipped, 1 Firefox timing failure**.
-- The failed Firefox itinerary test passed immediately when rerun alone in **4.6 seconds**. A completely clean full-matrix rerun is still required before release.
+- Required visual-system gate in desktop Chrome: **9 passed**, now also covering Direction geometry and a clean Direction → Services media-control handoff alongside all five required viewports, hero/About geometry, form visibility, type floors, direct anchors, reduced motion, horizontal overflow and serious/critical axe findings.
+- The post-Direction seven-project Playwright run completed **91 applicable passes** and **96 intentional project-scoped skips**; two desktop visual harness checks failed from a navigation timeout and a conditional-control lookup. Both assumptions were hardened and the complete desktop visual-system file then passed **9/9**.
 - Verification used Node 25.1.0 although the project declares Node 22.x; production should build with Node 22.
 - A tracked-file credential scan found no embedded access-token or private-key patterns. Only the intentionally blank `.env.example` is tracked.
 
 ## What is not complete
 
-1. The full Playwright matrix needs one clean rerun before release because the long run recorded one transient Firefox timing failure.
-2. Final business-original or fully licensed media has not been supplied.
+1. Direction, Services, Assurance and Enquiry still need final production media approval or replacement.
+2. A real-device and screen-reader launch review remains outstanding.
 3. Business approval is still required for package prices, testimonials, claims, contact information and privacy copy.
 4. Meta WhatsApp production credentials and the approved message template still require environment verification.
-5. The visual-scrutiny branch has not been merged into `main` or deployed.
-6. Final real-device, screen-reader and Lighthouse launch review remains outstanding.
+5. The current working-tree cleanup has not been committed, pushed or deployed.
+6. Lighthouse launch review remains outstanding.
 
 ## Safe next sequence
 
@@ -78,3 +77,4 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 - `docs/CONTENT_AND_MEDIA.md`: business content and media editing rules.
 - `docs/DEPLOYMENT.md`: Vercel and OpenAI Sites release procedure.
 - `CLOUD_HANDOFF.md`: exact Git source and clean-cloud startup procedure.
+- `LOCAL_SESSION_HANDOFF_2026-08-27.md`: exact uncommitted local source state, approved requirements, implementation map, current verification, evidence and next-session startup procedure.

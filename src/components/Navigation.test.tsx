@@ -1,11 +1,45 @@
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Navigation } from './Navigation';
 
-afterEach(cleanup);
+function setScrollY(value: number) {
+  Object.defineProperty(window, 'scrollY', { configurable: true, value });
+}
+
+afterEach(() => {
+  cleanup();
+  setScrollY(0);
+});
 
 describe('Navigation', () => {
+  it('restores the opaque surface immediately when the page loads below 24px', () => {
+    setScrollY(240);
+    const { container } = render(<Navigation onQuote={vi.fn()} onNavigate={vi.fn()} />);
+
+    expect(container.querySelector('.site-nav')).toHaveClass('is-scrolled');
+  });
+
+  it('uses 8px and 24px hysteresis without flickering between thresholds', () => {
+    setScrollY(0);
+    const { container } = render(<Navigation onQuote={vi.fn()} onNavigate={vi.fn()} />);
+    const navigation = container.querySelector('.site-nav')!;
+
+    expect(navigation).not.toHaveClass('is-scrolled');
+    setScrollY(24);
+    fireEvent.scroll(window);
+    expect(navigation).toHaveClass('is-scrolled');
+    setScrollY(16);
+    fireEvent.scroll(window);
+    expect(navigation).toHaveClass('is-scrolled');
+    setScrollY(8);
+    fireEvent.scroll(window);
+    expect(navigation).not.toHaveClass('is-scrolled');
+    setScrollY(16);
+    fireEvent.scroll(window);
+    expect(navigation).not.toHaveClass('is-scrolled');
+  });
+
   it('labels the compatible reviews anchor as Assurance', async () => {
     const user = userEvent.setup();
     const onNavigate = vi.fn();

@@ -14,18 +14,27 @@ const links = [
 const focusable = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function Navigation({ onQuote, onNavigate }: NavigationProps) {
-  const [pastHero, setPastHero] = useState(false);
+  const [pastHero, setPastHero] = useState(() => typeof window !== 'undefined' && window.scrollY >= 24);
   const [activeSection, setActiveSection] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const hero = document.getElementById('home');
-    if (!hero) return;
-    const observer = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), { rootMargin: '-72px 0px 0px', threshold: 0.02 });
-    observer.observe(hero);
-    return () => observer.disconnect();
+    const syncSurface = () => setPastHero((current) => {
+      if (window.scrollY <= 8) return false;
+      if (window.scrollY >= 24) return true;
+      return current;
+    });
+    syncSurface();
+    const restorationFrame = window.requestAnimationFrame(syncSurface);
+    window.addEventListener('scroll', syncSurface, { passive: true });
+    window.addEventListener('pageshow', syncSurface);
+    return () => {
+      window.cancelAnimationFrame(restorationFrame);
+      window.removeEventListener('scroll', syncSurface);
+      window.removeEventListener('pageshow', syncSurface);
+    };
   }, []);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'maldives', title: 'Maldives Paradise', editorialTitle: 'Paradise, privately', location: 'Indian Ocean', duration: '5 days / 4 nights', durationDays: 5, price: '₹95,000', priceStatus: 'hidden', mood: 'Beach and restore',
     summary: 'A warm-water reset shaped around overwater calm, unhurried days and a few unforgettable moments at sea.',
-    image: '/media/maldives.webp', imageAvif: '/media/maldives.avif', imageAlt: 'Turquoise water washing onto a tropical beach', layout: 'feature',
+    image: '/media/maldives.webp', imageAvif: '/media/maldives.avif', imageAlt: 'A pale sandbar curving through turquoise water in the Maldives', layout: 'feature',
     inclusions: ['Five-star overwater resort', 'Water sports and snorkelling', 'Sunset dolphin cruise', 'Spa experience', 'Daily meals'],
     itinerary: [
       { day: 'Day 1', title: 'Island welcome', detail: 'Arrive at Velana International Airport, transfer by speedboat and settle into the rhythm of the island.' },
@@ -17,7 +17,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'japan', title: 'Japan Cultural Journey', editorialTitle: 'Culture in motion', location: 'Japan', duration: '8 days / 7 nights', durationDays: 8, price: '₹1,10,000', priceStatus: 'hidden', mood: 'Culture and cuisine',
     summary: 'Tokyo energy, Kyoto ritual and the quiet presence of Fuji, connected by one beautifully paced journey.',
-    image: '/media/japan.webp', imageAvif: '/media/japan.avif', imageAlt: 'Mount Fuji beyond a still Japanese landscape', layout: 'landscape',
+    image: '/media/japan.webp', imageAvif: '/media/japan.avif', imageAlt: 'Mount Fuji rising beyond a sunlit lake in Japan', layout: 'landscape',
     inclusions: ['Tokyo and Kyoto city tours', 'Traditional tea ceremony', 'Mount Fuji viewpoints', 'Bullet-train journeys', 'Temple and shrine visits'],
     itinerary: [
       { day: 'Day 1', title: 'Tokyo arrival', detail: 'Arrive, settle in and encounter Shibuya and Shinjuku after dark.' },
@@ -31,7 +31,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'switzerland', title: 'Swiss Alps Adventure', editorialTitle: 'Alpine wonder', location: 'Switzerland', duration: '7 days / 6 nights', durationDays: 7, price: '₹1,20,000', priceStatus: 'hidden', mood: 'Nature and adventure',
     summary: 'High mountain railways, mirror-like lakes and days designed to move between wonder and warmth.',
-    image: '/media/switzerland.webp', imageAvif: '/media/switzerland.avif', imageAlt: 'A clear Swiss lake beneath high alpine peaks', layout: 'portrait',
+    image: '/media/switzerland.webp', imageAvif: '/media/switzerland.avif', imageAlt: 'A turquoise lake between green hills in the Swiss Alps', layout: 'portrait',
     inclusions: ['Jungfrau experience', 'Guided alpine walks', 'Interlaken adventure', 'Premium hotels', 'Scenic rail travel'],
     itinerary: [
       { day: 'Day 1', title: 'Zurich arrival', detail: 'Old Town, lakeside views and a gentle first evening.' },
@@ -44,7 +44,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'bali', title: 'Bali Tropical Paradise', editorialTitle: 'A softer rhythm', location: 'Bali', duration: '6 days / 5 nights', durationDays: 6, price: '₹85,000', priceStatus: 'hidden', mood: 'Beach and restore',
     summary: 'Forest temples, rice terraces and salt-air evenings, all at a pace that leaves room to feel Bali.',
-    image: '/media/bali.webp', imageAvif: '/media/bali.avif', imageAlt: 'A Balinese temple surrounded by tropical forest', layout: 'landscape',
+    image: '/media/bali.webp', imageAvif: '/media/bali.avif', imageAlt: 'Lush green rice fields and palms in Bali', layout: 'landscape',
     inclusions: ['Beachfront resort', 'Ubud and rice terraces', 'Balinese spa', 'Yoga and wellness', 'Sunset dining'],
     itinerary: [
       { day: 'Day 1', title: 'Arrive softly', detail: 'Beachfront check-in, welcome massage and sunset dinner.' },
@@ -57,7 +57,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'paris', title: 'Paris Romantic Getaway', editorialTitle: 'The art of romance', location: 'Paris', duration: '6 days / 5 nights', durationDays: 6, price: '₹1,55,000', priceStatus: 'hidden', mood: 'Celebration',
     summary: 'Iconic Paris balanced with intimate streets, long tables and a little room for serendipity.',
-    image: '/media/paris.webp', imageAvif: '/media/paris.avif', imageAlt: 'The Eiffel Tower above the rooftops of Paris', layout: 'portrait',
+    image: '/media/paris.webp', imageAvif: '/media/paris.avif', imageAlt: 'The Eiffel Tower framed by winter trees at sunset', layout: 'portrait',
     inclusions: ['Eiffel Tower summit', 'Guided Louvre visit', 'Seine cruise', 'Versailles day trip', 'French dining'],
     itinerary: [
       { day: 'Day 1', title: 'Paris arrival', detail: 'Hotel welcome, a Seine cruise and an evening on the Champs-Élysées.' },
@@ -70,7 +70,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'dubai', title: 'Dubai Luxury Escape', editorialTitle: 'Desert after dark', location: 'Dubai', duration: '4 days / 3 nights', durationDays: 4, price: '₹75,000', priceStatus: 'hidden', mood: 'Celebration',
     summary: 'Skyline energy, desert silence and contemporary luxury condensed into one polished escape.',
-    image: '/media/dubai.webp', imageAvif: '/media/dubai.avif', imageAlt: 'Dubai skyline glowing in the evening light', layout: 'portrait',
+    image: '/media/dubai.webp', imageAvif: '/media/dubai.avif', imageAlt: 'Dubai skyline across the water in evening light', layout: 'portrait',
     inclusions: ['Burj Khalifa', 'Desert safari and dinner', 'Five-star hotel', 'Gold Souk visit', 'Beach-club access'],
     itinerary: [
       { day: 'Day 1', title: 'Marina arrival', detail: 'Five-star check-in and a waterfront evening.' },
