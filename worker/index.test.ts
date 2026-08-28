@@ -63,8 +63,41 @@ describe('worker enquiry endpoint', () => {
     expect(persistEnquiryMock).not.toHaveBeenCalled();
   });
 
+  it('rejects oversized requests before storage', async () => {
+    const response = await worker.fetch(
+      request({ ...packageBrief, notes: 'x'.repeat(20_100) }),
+      {
+        GOOGLE_APPS_SCRIPT_URL: 'https://script.google.com/macros/s/fake-script/exec',
+        GOOGLE_APPS_SCRIPT_SECRET: 'server-secret',
+      },
+    );
+
+    expect(response.status).toBe(413);
+    expect(await response.json()).toEqual({ ok: false, error: 'Request is too large.' });
+    expect(persistEnquiryMock).not.toHaveBeenCalled();
+  });
+
   it('short-circuits bot submissions without storing them', async () => {
     const response = await worker.fetch(request({ ...packageBrief, website: 'spam-link' }), {});
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ ok: true });
+    expect(persistEnquiryMock).not.toHaveBeenCalled();
+  });
+
+  it('short-circuits too-fast submissions without storing them', async () => {
+    const response = await worker.fetch(request({ ...packageBrief, startedAt: Date.now() - 1_000 }), {});
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ ok: true });
+    expect(persistEnquiryMock).not.toHaveBeenCalled();
+  });
+
+  it('short-circuits too-old submissions without storing them', async () => {
+    const response = await worker.fetch(
+      request({ ...packageBrief, startedAt: Date.now() - (24 * 60 * 60 * 1_000 + 1) }),
+      {},
+    );
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ ok: true });

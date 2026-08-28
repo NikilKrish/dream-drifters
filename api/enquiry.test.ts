@@ -183,10 +183,63 @@ describe('POST /api/enquiry', () => {
     expect(state.body).toEqual({ ok: false, error: 'Method not allowed.' });
   });
 
+  it('rejects oversized requests before touching storage', async () => {
+    vi.stubEnv('GOOGLE_APPS_SCRIPT_URL', 'https://script.google.com/macros/s/fake-script/exec');
+    vi.stubEnv('GOOGLE_APPS_SCRIPT_SECRET', 'server-secret');
+    const { response, state } = responseDouble();
+
+    await handler(
+      {
+        method: 'POST',
+        headers: {},
+        body: { ...packageBrief, notes: 'x'.repeat(20_100) },
+      },
+      response,
+    );
+
+    expect(state.status).toBe(413);
+    expect(state.body).toEqual({ ok: false, error: 'Request is too large.' });
+    expect(persistEnquiryMock).not.toHaveBeenCalled();
+  });
+
   it('short-circuits bot submissions without touching storage', async () => {
     const { response, state } = responseDouble();
 
     await handler({ method: 'POST', headers: {}, body: { ...packageBrief, website: 'spam-link' } }, response);
+
+    expect(state.status).toBe(200);
+    expect(state.body).toEqual({ ok: true });
+    expect(persistEnquiryMock).not.toHaveBeenCalled();
+  });
+
+  it('short-circuits too-fast submissions without touching storage', async () => {
+    const { response, state } = responseDouble();
+
+    await handler(
+      {
+        method: 'POST',
+        headers: {},
+        body: { ...packageBrief, startedAt: Date.now() - 1_000 },
+      },
+      response,
+    );
+
+    expect(state.status).toBe(200);
+    expect(state.body).toEqual({ ok: true });
+    expect(persistEnquiryMock).not.toHaveBeenCalled();
+  });
+
+  it('short-circuits too-old submissions without touching storage', async () => {
+    const { response, state } = responseDouble();
+
+    await handler(
+      {
+        method: 'POST',
+        headers: {},
+        body: { ...packageBrief, startedAt: Date.now() - (24 * 60 * 60 * 1_000 + 1) },
+      },
+      response,
+    );
 
     expect(state.status).toBe(200);
     expect(state.body).toEqual({ ok: true });
