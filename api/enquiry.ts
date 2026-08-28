@@ -1,5 +1,6 @@
 import type { EnquiryBrief } from '../shared/brief.js';
-import { formatBrief, normalizeBrief, validateBrief } from '../shared/brief.js';
+import { normalizeBrief, validateBrief } from '../shared/brief.js';
+import { persistEnquiry } from '../shared/enquiryPersistence.js';
 
 interface ApiRequest {
   method?: string;
@@ -10,16 +11,12 @@ interface ApiRequest {
 interface ApiResponse {
   setHeader(name: string, value: string): void;
   status(code: number): ApiResponse;
-  json(body: { ok: boolean; fallback?: 'whatsapp'; error?: string }): void;
+  json(body: { ok: boolean; stored?: boolean; notified?: boolean; fallback?: 'whatsapp'; error?: string }): void;
 }
 
 const MAX_BODY_BYTES = 20_000;
 const MIN_SUBMISSION_TIME_MS = 1_500;
 const MAX_SUBMISSION_AGE_MS = 24 * 60 * 60 * 1_000;
-
-function fallback(res: ApiResponse, status = 502) {
-  return res.status(status).json({ ok: false, fallback: 'whatsapp' });
-}
 
 function bodyByteLength(body: unknown) {
   try {
@@ -56,45 +53,17 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return res.status(200).json({ ok: true });
   }
 
-  const token = process.env.META_ACCESS_TOKEN;
-  const phoneNumberId = process.env.META_PHONE_NUMBER_ID;
-  const ownerNumber = process.env.BUSINESS_OWNER_PHONE_NUMBER;
-  const template = process.env.META_MESSAGE_TEMPLATE;
-  const language = process.env.META_TEMPLATE_LANGUAGE;
-  const graphVersion = process.env.META_GRAPH_API_VERSION;
+  const url = process.env.GOOGLE_APPS_SCRIPT_URL;
+  const secret = process.env.GOOGLE_APPS_SCRIPT_SECRET;
 
-  if (!token || !phoneNumberId || !ownerNumber || !template || !language || !graphVersion) {
-    return fallback(res, 503);
+  if (!url || !secret) {
+    return res.status(503).json({ ok: false, error: 'The enquiry service is not configured.' });
   }
 
-  try {
-    const providerResponse = await fetch(
-      `https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(phoneNumberId)}/messages`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messaging_product: 'whatsapp',
-          to: ownerNumber,
-          type: 'template',
-          template: {
-            name: template,
-            language: { code: language },
-            components: [{
-              type: 'body',
-              parameters: [{ type: 'text', text: formatBrief(brief).slice(0, 1024) }],
-            }],
-          },
-        }),
-      },
-    );
-
-    if (!providerResponse.ok) return fallback(res);
-    return res.status(200).json({ ok: true });
-  } catch {
-    return fallback(res);
+  const result = await persistEnquiry(brief, { url, secret });
+  if (!result.stored) {
+    return res.status(502).json({ ok: false, error: 'The enquiry could not be saved.' });
   }
+
+  return res.status(200).json({ ok: true, stored: true, notified: result.notified });
 }

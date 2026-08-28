@@ -1,13 +1,10 @@
 import type { EnquiryBrief } from '../shared/brief';
-import { formatBrief, normalizeBrief, validateBrief } from '../shared/brief';
+import { normalizeBrief, validateBrief } from '../shared/brief';
+import { persistEnquiry } from '../shared/enquiryPersistence';
 
 interface WorkerEnv {
-  META_ACCESS_TOKEN?: string;
-  META_PHONE_NUMBER_ID?: string;
-  BUSINESS_OWNER_PHONE_NUMBER?: string;
-  META_MESSAGE_TEMPLATE?: string;
-  META_TEMPLATE_LANGUAGE?: string;
-  META_GRAPH_API_VERSION?: string;
+  GOOGLE_APPS_SCRIPT_URL?: string;
+  GOOGLE_APPS_SCRIPT_SECRET?: string;
 }
 
 const MAX_BODY_BYTES = 20_000;
@@ -15,7 +12,11 @@ const MIN_SUBMISSION_TIME_MS = 1_500;
 const MAX_SUBMISSION_AGE_MS = 24 * 60 * 60 * 1_000;
 const responseHeaders = { 'Cache-Control': 'no-store' };
 
-function json(body: { ok: boolean; fallback?: 'whatsapp'; error?: string }, status = 200, headers: Record<string, string> = {}) {
+function json(
+  body: { ok: boolean; stored?: boolean; notified?: boolean; fallback?: 'whatsapp'; error?: string },
+  status = 200,
+  headers: Record<string, string> = {},
+) {
   return Response.json(body, { status, headers: { ...responseHeaders, ...headers } });
 }
 
@@ -46,33 +47,16 @@ async function handleEnquiry(request: Request, env: WorkerEnv) {
   const elapsed = Date.now() - brief.startedAt;
   if (brief.website || elapsed < MIN_SUBMISSION_TIME_MS || elapsed > MAX_SUBMISSION_AGE_MS) return json({ ok: true });
 
-  const token = env.META_ACCESS_TOKEN;
-  const phoneNumberId = env.META_PHONE_NUMBER_ID;
-  const ownerNumber = env.BUSINESS_OWNER_PHONE_NUMBER;
-  const template = env.META_MESSAGE_TEMPLATE;
-  const language = env.META_TEMPLATE_LANGUAGE;
-  const graphVersion = env.META_GRAPH_API_VERSION;
-  if (!token || !phoneNumberId || !ownerNumber || !template || !language || !graphVersion) return json({ ok: false, fallback: 'whatsapp' }, 503);
+  const url = env.GOOGLE_APPS_SCRIPT_URL;
+  const secret = env.GOOGLE_APPS_SCRIPT_SECRET;
+  if (!url || !secret) return json({ ok: false, error: 'The enquiry service is not configured.' }, 503);
 
-  try {
-    const providerResponse = await fetch(`https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(phoneNumberId)}/messages`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        messaging_product: 'whatsapp',
-        to: ownerNumber,
-        type: 'template',
-        template: {
-          name: template,
-          language: { code: language },
-          components: [{ type: 'body', parameters: [{ type: 'text', text: formatBrief(brief).slice(0, 1024) }] }],
-        },
-      }),
-    });
-    return providerResponse.ok ? json({ ok: true }) : json({ ok: false, fallback: 'whatsapp' }, 502);
-  } catch {
-    return json({ ok: false, fallback: 'whatsapp' }, 502);
+  const result = await persistEnquiry(brief, { url, secret });
+  if (!result.stored) {
+    return json({ ok: false, error: 'The enquiry could not be saved.' }, 502);
   }
+
+  return json({ ok: true, stored: true, notified: result.notified });
 }
 
 export default {
