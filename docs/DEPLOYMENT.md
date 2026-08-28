@@ -4,7 +4,7 @@ The same visitor experience can be released to Vercel and OpenAI Sites. Each pla
 
 Current production links:
 
-- Vercel website: https://dream-drifters.vercel.app/
+- Production website: https://dreamdrifters.in/
 - GitHub source: https://github.com/NikilKrish/dream-drifters
 - OpenAI Sites preview: https://dream-drifters-codex-preview.yenkay.chatgpt.site/
 
@@ -21,7 +21,14 @@ Current production links:
 
 These settings are already recorded in `vercel.json` and `package.json`.
 
-The public GitHub repository is connected to the Vercel project `dream-drifters`. Changes pushed to `main` produce a production release at `dream-drifters.vercel.app`; other branches can be used for preview deployments.
+The public GitHub repository is connected to the Vercel project `dream-drifters`. Changes pushed to `main` produce a production release at `dreamdrifters.in`; the Vercel project alias remains available as a technical fallback and other branches can be used for preview deployments.
+
+### Custom domain and DNS
+
+- Primary website: `https://dreamdrifters.in/`.
+- DNS is managed in GoDaddy and website records point the apex domain and `www` host to Vercel using the exact values shown by the Vercel Domains settings.
+- GoDaddy email records must remain unchanged: both MX records, the SPF record, the DMARC record and any DKIM records.
+- Configure `www` as the redirect to the apex domain in Vercel so the canonical address remains `dreamdrifters.in`.
 
 ### Environment variables
 

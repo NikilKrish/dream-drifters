@@ -8,7 +8,7 @@ This is the plain-language checkpoint for the Dream Drifters Codex project. Use 
 
 - **Active design direction:** Enhanced B: Editorial Intelligence with cinematic Services, a desktop scroll-linked package depth carousel with a stable opening rest state, and attached ambient video backgrounds.
 - **Current workspace branch:** `codex/premium-hero-nav` at local checkpoint `d5f3cc3`, with the cinematic cleanup and Hero/navigation repair present as uncommitted working-tree changes.
-- **Deployed production:** https://dream-drifters.vercel.app/ remains on the earlier validated `main` release.
+- **Deployed production:** https://dreamdrifters.in/ is the public custom-domain address for the validated `main` release; the Vercel alias remains available as a technical fallback.
 - **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/ remains unchanged.
 - **Public repository:** https://github.com/NikilKrish/dream-drifters.
 - **Cloud handoff branch:** `origin/codex/visual-system-scrutiny`.

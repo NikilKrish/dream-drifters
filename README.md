@@ -4,7 +4,7 @@
 
 This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a desktop scroll-linked package depth sequence with controlled compact fallbacks, and video backgrounds in Hero, Services and Assurance.
 
-- **Live website:** https://dream-drifters.vercel.app/
+- **Live website:** https://dreamdrifters.in/
 - **Public source repository:** https://github.com/NikilKrish/dream-drifters
 - **OpenAI Sites preview:** https://dream-drifters-codex-preview.yenkay.chatgpt.site/
 
