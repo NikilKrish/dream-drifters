@@ -28,7 +28,21 @@ export function createSubmissionId(now: number = Date.now()): string {
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
   const day = String(date.getUTCDate()).padStart(2, '0');
 
-  return `enq_${year}${month}${day}_${now}`;
+  return `enq_${year}${month}${day}_${now}_${createIdSuffix()}`;
+}
+
+function createIdSuffix(): string {
+  const cryptoApi = globalThis.crypto;
+  if (typeof cryptoApi?.randomUUID === 'function') {
+    return cryptoApi.randomUUID().replace(/-/g, '').slice(0, 16);
+  }
+
+  if (typeof cryptoApi?.getRandomValues === 'function') {
+    const bytes = cryptoApi.getRandomValues(new Uint8Array(8));
+    return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+  }
+
+  return Math.random().toString(36).slice(2, 18);
 }
 
 export async function persistEnquiry(

@@ -113,9 +113,9 @@ Use the workflow statuses consistently:
 ## Backup, recovery and monitoring
 
 - Export an offline backup of the Sheet periodically because it is the canonical launch record.
-- A browser save error can be ambiguous: the server may time out while Apps Script still completes the write. Before retrying, search the Sheet by `Submission ID`, submission time, and the visitor's contact details. Retry the same accepted request with the same `Submission ID` so the Apps Script idempotency check can return the existing row; do not add a replacement row manually or invent a new ID unless the Sheet check confirms that no record exists.
+- A browser save error can be ambiguous: the server may time out while Apps Script still completes the write. Before retrying, search the Sheet by `Submission ID` when it is known, submission time, and the visitor's contact details. The Apps Script idempotency check protects duplicate deliveries that carry the same `Submission ID`; the public form does not automatically retry or expose a new ID after a timeout. Do not add a replacement row manually. If no matching row exists after checking, a deliberate form resubmission creates a new server-generated ID.
 - If `Notification status=Failed`, confirm the retry trigger exists, review recent Apps Script executions, and manually resend only from the saved Sheet row.
-- Retrying the Apps Script request with the same `Submission ID` is idempotent: it returns the existing stored result without adding another row or sending another email. Do not invent a replacement ID while recovering the same accepted submission.
+- Replaying an Apps Script request with the same `Submission ID` is idempotent: it returns the existing stored result without adding another row or sending another email. This applies to an operator or integration that has the original payload; it is not an instruction to invent or manually reuse an ID in the public form.
 - When archiving old enquiries, export first, move archived rows to a separate owner-controlled archive file or tab, and keep the live tracker limited to active work.
 - If the Apps Script deployment or secret changes, rotate both `GOOGLE_APPS_SCRIPT_URL` and `GOOGLE_APPS_SCRIPT_SECRET` together across Vercel and Sites before another release.
 

@@ -25,7 +25,14 @@ const config = {
 
 describe('createSubmissionId', () => {
   it('creates an enquiry-prefixed identifier from the provided timestamp', () => {
-    expect(createSubmissionId(1735689600000)).toMatch(/^enq_20250101_\d+$/);
+    expect(createSubmissionId(1735689600000)).toMatch(/^enq_20250101_1735689600000_[a-z0-9]+$/);
+  });
+
+  it('adds entropy when two submissions share the same millisecond', () => {
+    const first = createSubmissionId(1735689600000);
+    const second = createSubmissionId(1735689600000);
+
+    expect(second).not.toBe(first);
   });
 });
 
@@ -44,7 +51,7 @@ describe('persistEnquiry', () => {
     expect(result).toEqual({
       stored: true,
       notified: true,
-      submissionId: 'enq_20250101_1735689600000',
+      submissionId: expect.stringMatching(/^enq_20250101_1735689600000_[a-z0-9]+$/),
     });
     expect(fetchMock).toHaveBeenCalledWith(
       'https://script.google.com/macros/s/test/exec',
@@ -53,7 +60,7 @@ describe('persistEnquiry', () => {
     expect(JSON.stringify(fetchMock.mock.calls[0][1])).toContain('server-secret');
     expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toEqual({
       authToken: 'server-secret',
-      submissionId: 'enq_20250101_1735689600000',
+      submissionId: expect.stringMatching(/^enq_20250101_1735689600000_[a-z0-9]+$/),
       submittedAt: '2025-01-01T00:00:00.000Z',
       brief: validBrief,
     });
@@ -70,7 +77,7 @@ describe('persistEnquiry', () => {
     await expect(persistEnquiry(validBrief, config, fetchMock, () => 1735689600000)).resolves.toMatchObject({
       stored: true,
       notified: false,
-      submissionId: 'enq_20250101_1735689600000',
+      submissionId: expect.stringMatching(/^enq_20250101_1735689600000_[a-z0-9]+$/),
     });
   });
 

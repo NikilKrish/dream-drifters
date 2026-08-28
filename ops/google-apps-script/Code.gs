@@ -78,13 +78,13 @@ function retryFailedNotifications() {
     candidates.forEach(function (candidate) {
       try {
         sendNotification_(config, rowToEmailRecord_(candidate.row, columnIndexes));
-        updateRowNotificationState_(sheet, candidate.rowNumber, columnIndexes, {
+        updateRowNotificationState_(sheet, candidate.submissionId, columnIndexes, {
           notificationStatus: NOTIFICATION_SENT,
           notificationAttempts: candidate.attempts,
           lastNotificationError: '',
         });
       } catch (error) {
-        updateRowNotificationState_(sheet, candidate.rowNumber, columnIndexes, {
+        updateRowNotificationState_(sheet, candidate.submissionId, columnIndexes, {
           notificationStatus: NOTIFICATION_FAILED,
           notificationAttempts: Math.min(candidate.attempts + 1, MAX_NOTIFICATION_ATTEMPTS),
           lastNotificationError: sanitizeError_(error),
@@ -153,14 +153,14 @@ function handleDoPost_(e) {
 
   try {
     sendNotification_(config, record);
-    updateRowNotificationState_(sheet, rowNumber, columnIndexes, {
+    updateRowNotificationState_(sheet, record.submissionId, columnIndexes, {
       notificationStatus: NOTIFICATION_SENT,
       notificationAttempts: 0,
       lastNotificationError: '',
     });
     return jsonResponse_(successResponse_(record.submissionId, config.sheetUrl, null, null, true));
   } catch (error) {
-    updateRowNotificationState_(sheet, rowNumber, columnIndexes, {
+    updateRowNotificationState_(sheet, record.submissionId, columnIndexes, {
       notificationStatus: NOTIFICATION_FAILED,
       notificationAttempts: 1,
       lastNotificationError: sanitizeError_(error),
@@ -378,7 +378,11 @@ function buildHtmlBody_(record, sheetUrl) {
   );
 }
 
-function updateRowNotificationState_(sheet, rowNumber, columnIndexes, updates) {
+function updateRowNotificationState_(sheet, submissionId, columnIndexes, updates) {
+  const rowNumber = findExistingRowNumber_(sheet, columnIndexes, submissionId);
+  if (!rowNumber) {
+    throw new Error('Submission row not found');
+  }
   const rowValues = getRowValues_(sheet, rowNumber);
   rowValues[columnIndexes['Notification status']] = updates.notificationStatus;
   rowValues[columnIndexes['Notification attempts']] = updates.notificationAttempts;
