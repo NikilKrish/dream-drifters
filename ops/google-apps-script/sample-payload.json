@@ -1,0 +1,20 @@
+{
+  "authToken": "<WEBHOOK_SECRET>",
+  "submissionId": "enq_20260825_0001",
+  "submittedAt": "2026-08-25T09:30:00.000Z",
+  "brief": {
+    "interestKind": "package",
+    "packageId": "maldives",
+    "travelWindow": "December 2026",
+    "durationDays": 6,
+    "adults": 2,
+    "children": 1,
+    "budgetBand": "200k-400k",
+    "name": "Aarav Menon",
+    "mobile": "+91 98765 43210",
+    "email": "aarav@example.com",
+    "notes": "We would like help with flights, a family-friendly resort, and visa guidance if needed.",
+    "consent": true,
+    "startedAt": 1760000000000
+  }
+}
