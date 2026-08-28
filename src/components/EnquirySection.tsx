@@ -10,7 +10,13 @@ import { getEnquirySequence, getPreviousEnquiryStep, type EnquiryStep } from '..
 import type { EnquirySelection } from '../types';
 
 interface EnquirySectionProps { selection: EnquirySelection | null; }
-type FormStatus = 'idle' | 'submitting' | 'success';
+type FormStatus = 'idle' | 'submitting' | 'success' | 'pending-notification' | 'error';
+type EnquiryResponse = {
+  ok?: boolean;
+  stored?: boolean;
+  notified?: boolean;
+  error?: string;
+};
 
 const tallDesktopQuery = '(min-width: 861px) and (min-height: 820px)';
 const enquiryMedia = getChapterMedia('enquiry');
@@ -51,6 +57,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [status, setStatus] = useState<FormStatus>('idle');
   const [notified, setNotified] = useState(false);
+  const [submissionError, setSubmissionError] = useState('');
   const [announcement, setAnnouncement] = useState('');
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
@@ -58,10 +65,13 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
     if (!selection) return;
     const item = selection.packageId ? packages.find((entry) => entry.id === selection.packageId) : undefined;
     setBrief((current) => normalizeBrief({ ...current, interestKind: selection.interestKind, packageId: selection.packageId, serviceId: selection.serviceId, durationDays: item?.durationDays, startedAt: Date.now() }));
-    setStep('interest'); setKindConfirmed(true); setErrors({}); setStatus('idle'); setAnnouncement(`${selection.label} selected. The enquiry form has been updated.`);
+    setStep('interest'); setKindConfirmed(true); setErrors({}); setSubmissionError(''); setStatus('idle'); setAnnouncement(`${selection.label} selected. The enquiry form has been updated.`);
   }, [selection]);
 
-  useEffect(() => { if (status === 'success') successRef.current?.focus(); }, [status]);
+  useEffect(() => {
+    if (status === 'success' || status === 'pending-notification') successRef.current?.focus();
+    if (status === 'error') errorRef.current?.focus();
+  }, [status]);
 
   const sequence = getEnquirySequence(brief.interestKind, isTallDesktop);
   const staged = sequence.length > 1;
@@ -74,6 +84,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
     if (!changed || brief.interestKind === 'package' || status !== 'idle') return;
     setStep('interest');
     setErrors({});
+    setSubmissionError('');
     setAnnouncement(isTallDesktop ? 'Compact enquiry form. All details are shown.' : 'Step 1 of 2: choose your enquiry.');
     setStageFocusRequest((current) => current + 1);
   }, [brief.interestKind, isTallDesktop, status]);
@@ -86,6 +97,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   const setField = <K extends keyof EnquiryBrief>(key: K, value: EnquiryBrief[K]) => {
     setBrief((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: '' }));
+    setSubmissionError('');
   };
   const validateField = (key: keyof EnquiryBrief) => {
     const message = validateBrief(normalizeBrief(brief))[key] ?? '';
@@ -93,7 +105,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   };
   const chooseKind = (kind: InterestKind) => {
     setBrief((current) => ({ ...current, interestKind: kind, packageId: undefined, serviceId: undefined, travelWindow: kind === 'package' ? current.travelWindow : undefined, budgetBand: kind === 'package' ? current.budgetBand : undefined, startedAt: Date.now() }));
-    setStep('interest'); setKindConfirmed(true); setErrors({}); setStatus('idle'); setAnnouncement(`${kind === 'custom' ? 'Custom journey' : kind} selected.`);
+    setStep('interest'); setKindConfirmed(true); setErrors({}); setSubmissionError(''); setStatus('idle'); setAnnouncement(`${kind === 'custom' ? 'Custom journey' : kind} selected.`);
   };
 
   const goForward = () => {
@@ -106,12 +118,14 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
     const stageErrors = Object.fromEntries(keys.flatMap((key) => validation[key] ? [[key, validation[key]]] : [])) as ValidationErrors;
     if (Object.keys(stageErrors).length) {
       setErrors(stageErrors);
+      setSubmissionError('');
       setAnnouncement('Please review the highlighted enquiry details.');
       window.setTimeout(() => errorRef.current?.focus(), 0);
       return;
     }
     setStageFocusRequest((current) => current + 1);
     setErrors({});
+    setSubmissionError('');
     const next: EnquiryStep = brief.interestKind === 'package' && activeStep === 'interest' ? 'travellers' : 'contact';
     setStep(next);
     setAnnouncement(next === 'travellers' ? 'Step 2 of 3: travellers and budget.' : `Step ${sequence.length} of ${sequence.length}: your contact details.`);
@@ -121,6 +135,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
     const previous = getPreviousEnquiryStep(activeStep, sequence);
     setStageFocusRequest((current) => current + 1);
     setErrors({});
+    setSubmissionError('');
     setStep(previous);
     setAnnouncement(previous === 'travellers' ? 'Step 2 of 3: travellers and budget.' : brief.interestKind === 'package' ? 'Step 1 of 3: journey details.' : 'Step 1 of 2: choose your enquiry.');
   };
@@ -133,6 +148,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
   const showInterest = !staged || activeStep === 'interest';
   const showTravellers = activeStep === 'travellers';
   const showContact = !staged || activeStep === 'contact';
+  const isStored = status === 'success' || status === 'pending-notification';
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -147,17 +163,35 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
       window.setTimeout(() => errorRef.current?.focus(), 0);
       return;
     }
+    setErrors({});
+    setSubmissionError('');
     setStatus('submitting'); setAnnouncement('Sending your enquiry securely.');
     try {
       const response = await fetch('/api/enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(normalized) });
-      const result = await response.json() as { ok?: boolean };
-      const backendNotified = response.ok && result.ok === true;
+      const result = await response.json() as EnquiryResponse;
+      const backendStored = response.ok && result.ok === true && result.stored === true;
+      const backendNotified = backendStored && result.notified === true;
       setNotified(backendNotified);
       track('enquiry_submitted', { backend_notified: backendNotified, interest_kind: normalized.interestKind });
+      if (backendStored) {
+        setBrief(normalized);
+        setStatus(backendNotified ? 'success' : 'pending-notification');
+        setAnnouncement(backendNotified ? 'Your enquiry has been received.' : 'Your enquiry has been received. Owner notification is retrying.');
+        return;
+      }
+      const failureMessage = result.error || 'The enquiry could not be saved. Please try again.';
+      setStatus('error');
+      setSubmissionError(failureMessage);
+      setAnnouncement('There was a problem sending your enquiry. Review the alert for next steps.');
+      return;
     } catch {
-      setNotified(false); track('enquiry_submitted', { backend_notified: false, interest_kind: normalized.interestKind });
+      setNotified(false);
+      track('enquiry_submitted', { backend_notified: false, interest_kind: normalized.interestKind });
+      setStatus('error');
+      setSubmissionError('The enquiry could not be saved. Please try again.');
+      setAnnouncement('There was a problem sending your enquiry. Review the alert for next steps.');
+      return;
     }
-    setBrief(normalized); setStatus('success'); setAnnouncement('Your enquiry brief is ready to continue in WhatsApp.');
   };
 
   return (
@@ -167,8 +201,8 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
         <div className="enquiry__intro"><h2 id="enquiry-title">Plan your trip with us.</h2><p>Tell us what you need. A Dream Drifters travel expert will respond with clear next steps and considered options.</p><ContactAddress className="enquiry__address--intro" /></div>
         <form ref={formRef} className="enquiry-form glass-panel" data-flow={staged ? 'staged' : 'compact'} onSubmit={submit} noValidate aria-busy={status === 'submitting'}>
           <div className="sr-status" role="status" aria-live="polite">{announcement}</div>
-          {status === 'success' ? (
-            <div className="enquiry-success"><CheckCircle aria-hidden="true" weight="thin" /><h3 ref={successRef} tabIndex={-1}>Your enquiry is ready.</h3><p>{notified ? 'Our team has also received a secure notification.' : 'The background notification was unavailable, but your prepared WhatsApp brief is ready.'}</p><pre>{whatsappText}</pre><a className="button button--accent" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => track('whatsapp_continued', { interest_kind: brief.interestKind })}>Continue in WhatsApp <WhatsappLogo aria-hidden="true" weight="fill" /></a><button className="button button--text-light" type="button" onClick={() => { setBrief(initialBrief()); setStep('interest'); setStatus('idle'); setAnnouncement('The form is ready for a new enquiry.'); }}>Start another enquiry</button></div>
+          {isStored ? (
+            <div className="enquiry-success"><CheckCircle aria-hidden="true" weight="thin" /><h3 ref={successRef} tabIndex={-1}>Your enquiry has been received.</h3><p>{notified ? 'The owner has also received an email notification.' : 'Your enquiry was saved successfully. The owner’s email notification is pending and will retry. You can continue in WhatsApp if you like.'}</p><pre>{whatsappText}</pre><a className="button button--accent" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => track('whatsapp_continued', { interest_kind: brief.interestKind })}>Continue in WhatsApp <WhatsappLogo aria-hidden="true" weight="fill" /></a><button className="button button--text-light" type="button" onClick={() => { setBrief(initialBrief()); setStep('interest'); setStatus('idle'); setNotified(false); setSubmissionError(''); setAnnouncement('The form is ready for a new enquiry.'); }}>Start another enquiry</button></div>
           ) : (
             <>
               <div className="enquiry-form__heading">
@@ -178,7 +212,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
                 </div>
                 {staged && <div className="enquiry-progress" role="progressbar" aria-label="Enquiry progress" aria-valuemin={1} aria-valuemax={sequence.length} aria-valuenow={stepNumber} style={{ '--enquiry-progress': `${(stepNumber / sequence.length) * 100}%` } as React.CSSProperties}><span>Step {stepNumber} of {sequence.length}</span><i aria-hidden="true"><b /></i></div>}
               </div>
-              {errorEntries.length > 0 && <div ref={errorRef} className="error-summary" role="alert" tabIndex={-1}><strong>Please check the following:</strong><ul>{errorEntries.map(([key, message]) => <li key={key}>{message}</li>)}</ul></div>}
+              {submissionError ? <div ref={errorRef} className="error-summary" role="alert" tabIndex={-1}><strong>{submissionError}</strong><p>You can retry here or continue in WhatsApp.</p><a className="button button--text-light" href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => track('whatsapp_continued', { interest_kind: brief.interestKind })}>Continue in WhatsApp <WhatsappLogo aria-hidden="true" weight="fill" /></a></div> : errorEntries.length > 0 && <div ref={errorRef} className="error-summary" role="alert" tabIndex={-1}><strong>Please check the following:</strong><ul>{errorEntries.map(([key, message]) => <li key={key}>{message}</li>)}</ul></div>}
               {showInterest && <div className="enquiry-stage enquiry-stage--interest">
                 {kindConfirmed && <div className="selection-banner"><div><span>Selected for this enquiry</span><strong><span>{brief.interestKind === 'package' ? 'Travel package' : brief.interestKind === 'service' ? 'Travel service' : 'Custom journey'}</span>{selectedLabel && <span>{selectedLabel}</span>}</strong></div><button type="button" onClick={() => { setKindConfirmed(false); setErrors({}); }} aria-label={selectedLabel ? `Clear ${selectedLabel} selection; change enquiry type` : 'Change enquiry type'}><X aria-hidden="true" weight="bold" />Change</button></div>}
                 {!kindConfirmed && <fieldset className="interest-picker"><legend>What can we help with? *</legend>{(['package', 'service', 'custom'] as InterestKind[]).map((kind) => <label key={kind} className={brief.interestKind === kind ? 'is-selected' : ''}><input type="radio" name="interestKind" value={kind} checked={brief.interestKind === kind} onChange={() => chooseKind(kind)} /><span>{kind === 'package' ? 'Travel package' : kind === 'service' ? 'Travel service' : 'Custom journey'}</span></label>)}</fieldset>}
@@ -207,7 +241,7 @@ export function EnquirySection({ selection }: EnquirySectionProps) {
                 </div>
                 <label className="honeypot" aria-hidden="true"><span>Website</span><input tabIndex={-1} autoComplete="off" value={brief.website ?? ''} onChange={(event) => setField('website', event.target.value)} /></label>
                 <div className="enquiry-form__closing">
-                  <div><label className="consent"><input type="checkbox" checked={brief.consent} aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? 'consent-error' : undefined} onBlur={() => validateField('consent')} onChange={(event) => setField('consent', event.target.checked)} /><span>I agree that Dream Drifters may contact me about this enquiry. <button type="button" onClick={() => setPrivacyOpen(true)}>Read privacy notice</button>. *</span></label>{errors.consent && <small id="consent-error" className="field-error field-error--block">{errors.consent}</small>}</div>
+                  <div><label className="consent"><input type="checkbox" checked={brief.consent} aria-invalid={Boolean(errors.consent)} aria-describedby={errors.consent ? 'consent-error' : undefined} onBlur={() => validateField('consent')} onChange={(event) => setField('consent', event.target.checked)} /><span>I agree that Dream Drifters may store these details in an owner-controlled Google Sheet, retain them indefinitely, and use them to respond to and manage this enquiry. <button type="button" onClick={() => setPrivacyOpen(true)}>Read privacy notice</button>. *</span></label>{errors.consent && <small id="consent-error" className="field-error field-error--block">{errors.consent}</small>}</div>
                   <div className="enquiry-form__actions">
                     {staged && <button className="button button--text-light enquiry-form__back" type="button" onClick={goBack}><ArrowLeft aria-hidden="true" weight="bold" />{brief.interestKind === 'package' ? 'Back to travellers and budget' : 'Back to enquiry details'}</button>}
                     <button className="button button--accent enquiry-form__submit" type="submit" disabled={status === 'submitting'}>{status === 'submitting' ? <>Preparing your enquiry <CircleNotch className="spin" aria-hidden="true" /></> : <>Send enquiry <ArrowRight aria-hidden="true" weight="bold" /></>}</button>
@@ -235,5 +269,5 @@ function Field({ label, error, errorId, wide = false, children }: { label: strin
 function PrivacyDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => { if (open && !ref.current?.open) ref.current?.showModal(); if (!open && ref.current?.open) ref.current.close(); }, [open]);
-  return <dialog ref={ref} className="privacy-dialog" aria-labelledby="privacy-title" onCancel={onClose} onClose={onClose}><button className="icon-button" type="button" onClick={onClose} aria-label="Close privacy notice"><X aria-hidden="true" weight="bold" /></button><h2 id="privacy-title">Privacy notice</h2><p>We use the details in this form only to respond to your enquiry and prepare the requested travel support.</p><p>The website does not persist or log your personal information. If you continue in WhatsApp, your message is handled under WhatsApp’s own privacy terms.</p><p>Contact <a href="mailto:info@dreamdrifters.in">info@dreamdrifters.in</a> to ask about information you have shared with Dream Drifters.</p><button className="button button--accent" type="button" onClick={onClose}>Close privacy notice</button></dialog>;
+  return <dialog ref={ref} className="privacy-dialog" aria-labelledby="privacy-title" onCancel={onClose} onClose={onClose}><button className="icon-button" type="button" onClick={onClose} aria-label="Close privacy notice"><X aria-hidden="true" weight="bold" /></button><h2 id="privacy-title">Privacy notice</h2><p>Dream Drifters stores submitted enquiry details in an owner-controlled Google Sheet to respond and manage follow-up.</p><p>Dream Drifters retains these details indefinitely, unless the owner archives or deletes them. If you continue in WhatsApp, your message is also handled under WhatsApp’s own privacy terms.</p><p>Contact <a href="mailto:info@dreamdrifters.in">info@dreamdrifters.in</a> to ask about information you have shared with Dream Drifters.</p><button className="button button--accent" type="button" onClick={onClose}>Close privacy notice</button></dialog>;
 }

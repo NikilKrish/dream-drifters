@@ -1,7 +1,19 @@
-import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { EnquirySection } from './EnquirySection';
+
+if (!HTMLDialogElement.prototype.showModal) {
+  HTMLDialogElement.prototype.showModal = function showModal() {
+    this.setAttribute('open', '');
+  };
+}
+
+if (!HTMLDialogElement.prototype.close) {
+  HTMLDialogElement.prototype.close = function close() {
+    this.removeAttribute('open');
+  };
+}
 
 afterEach(() => {
   cleanup();
@@ -44,6 +56,15 @@ function useViewport(initial: { width: number; height: number }) {
       });
     },
   };
+}
+
+async function fillValidCustomEnquiry(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByRole('button', { name: /continue to contact details/i }));
+  await user.type(screen.getByLabelText(/full name/i), 'Ananya Rao');
+  await user.type(screen.getByLabelText(/mobile number/i), '+91 98765 43210');
+  await user.type(screen.getByLabelText(/email address/i), 'ananya@example.com');
+  await user.type(screen.getByLabelText(/message/i), 'A quiet anniversary journey.');
+  await user.click(screen.getByRole('checkbox'));
 }
 
 describe('EnquirySection', () => {
@@ -235,5 +256,90 @@ describe('EnquirySection', () => {
     expect(screen.getByLabelText(/full name/i)).toHaveValue('Ananya Rao');
     expect(screen.getByLabelText(/mobile number/i)).toHaveValue('+91 98765 43210');
     expect(screen.getByLabelText(/email address/i)).toHaveValue('ananya@example.com');
+  });
+
+  it('shows received confirmation after the backend stores an enquiry', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ ok: true, stored: true, notified: true }),
+      { status: 200 },
+    )));
+
+    render(<EnquirySection selection={null} />);
+    await fillValidCustomEnquiry(user);
+    await user.click(screen.getByRole('button', { name: /send enquiry/i }));
+
+    expect(await screen.findByRole('heading', { name: 'Your enquiry has been received.' })).toBeInTheDocument();
+    expect(screen.getByText(/owner has also received an email notification/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue in whatsapp/i })).toBeInTheDocument();
+  });
+
+  it('keeps the form retryable when storage fails', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ ok: false, error: 'The enquiry could not be saved.' }),
+      { status: 502 },
+    )));
+
+    render(<EnquirySection selection={null} />);
+    await fillValidCustomEnquiry(user);
+    await user.click(screen.getByRole('button', { name: /send enquiry/i }));
+
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent(/could not be saved/i);
+    expect(alert).toHaveFocus();
+    expect(screen.getByRole('button', { name: /send enquiry/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue in whatsapp/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/full name/i)).toHaveValue('Ananya Rao');
+  });
+
+  it('uses a retryable save error when storage fails without a backend message', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ ok: false, stored: false, notified: false }),
+      { status: 502 },
+    )));
+
+    render(<EnquirySection selection={null} />);
+    await fillValidCustomEnquiry(user);
+    await user.click(screen.getByRole('button', { name: /send enquiry/i }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/could not be saved/i);
+    expect(screen.getByRole('status')).toHaveTextContent(/review the alert for next steps/i);
+    expect(screen.getByRole('link', { name: /continue in whatsapp/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /send enquiry/i })).toBeInTheDocument();
+  });
+
+  it('explains that email delivery is pending after durable storage succeeds', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ ok: true, stored: true, notified: false }),
+      { status: 200 },
+    )));
+
+    render(<EnquirySection selection={null} />);
+    await fillValidCustomEnquiry(user);
+    await user.click(screen.getByRole('button', { name: /send enquiry/i }));
+
+    expect(await screen.findByText(/saved successfully.*email notification is pending and will retry/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Your enquiry has been received.' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue in whatsapp/i })).toBeInTheDocument();
+  });
+
+  it('explains owner-controlled indefinite storage in the consent and privacy notice', async () => {
+    const user = userEvent.setup();
+    render(<EnquirySection selection={null} />);
+
+    await user.click(screen.getByRole('button', { name: /continue to contact details/i }));
+    const consent = screen.getByRole('checkbox').closest('label');
+    expect(consent).toHaveTextContent(/owner-controlled Google Sheet/i);
+    expect(consent).toHaveTextContent(/retain them indefinitely/i);
+    await user.click(screen.getByRole('button', { name: /read privacy notice/i }));
+    const dialog = screen.getByRole('dialog', { name: /privacy notice/i });
+
+    expect(await within(dialog).findByText('Dream Drifters stores submitted enquiry details in an owner-controlled Google Sheet to respond and manage follow-up.')).toBeInTheDocument();
+    expect(within(dialog).getByText(/retains these details indefinitely/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/unless the owner archives or deletes them/i)).toBeInTheDocument();
+    expect(within(dialog).getByRole('link', { name: 'info@dreamdrifters.in' })).toBeInTheDocument();
   });
 });
