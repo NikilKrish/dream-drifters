@@ -1,5 +1,6 @@
 import { ArrowRight, X } from '@phosphor-icons/react';
 import { useCallback, useEffect, useRef } from 'react';
+import { getPackageResponsiveImageSrcSet } from '../data/media';
 import type { TravelPackage } from '../types';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { prefersReducedMotion } from '../lib/motion';
@@ -48,7 +49,7 @@ export function PackageSheet({ travelPackage, sourceImage, onClose, onPlan }: Pa
       <button className="package-sheet__backdrop" type="button" onClick={onClose} aria-label="Close journey details" />
       <article className="package-sheet__panel">
         <button className="icon-button package-sheet__close" type="button" onClick={onClose} aria-label="Close journey details"><X aria-hidden="true" weight="bold" /></button>
-        <div className="package-sheet__media"><picture><source type="image/avif" srcSet={travelPackage.imageAvif} /><img ref={imageRef} src={travelPackage.image} width="1400" height="1100" alt={travelPackage.imageAlt} /></picture></div>
+        <div className="package-sheet__media"><picture><source type="image/avif" srcSet={getPackageResponsiveImageSrcSet(travelPackage.id, 'avif')} sizes="(min-width: 900px) 50vw, 100vw" /><source type="image/webp" srcSet={getPackageResponsiveImageSrcSet(travelPackage.id, 'webp')} sizes="(min-width: 900px) 50vw, 100vw" /><img ref={imageRef} src={travelPackage.image} width="3840" height="2160" alt={travelPackage.imageAlt} decoding="async" /></picture></div>
         <div className="package-sheet__body">
           <p className="package-sheet__meta">{travelPackage.location}<span>{travelPackage.duration}</span></p>
           <h2 id="package-title">{travelPackage.editorialTitle}</h2>

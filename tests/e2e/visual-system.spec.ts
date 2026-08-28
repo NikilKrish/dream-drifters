@@ -22,7 +22,7 @@ test('passes the integrated anchor, overflow, type-floor and axe gate at every r
   for (const viewport of requiredValidationViewports) {
     await test.step(`${viewport.width}x${viewport.height}`, async () => {
       await page.setViewportSize(viewport);
-      await page.goto('/#reviews');
+      await page.goto('/#reviews', { waitUntil: 'domcontentloaded' });
       await page.evaluate(() => document.fonts.ready);
 
       const assurance = page.getByRole('heading', { name: 'Support you can see.' });
@@ -128,6 +128,71 @@ test('keeps the 768px About chapter in a stacked editorial flow', async ({ page 
   expect(layout.verticalGap).toBeGreaterThanOrEqual(24);
 });
 
+test('gives Direction a calm compact frame and relinquishes media control before Services', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  const direction = page.locator('.editorial-purpose');
+  await direction.scrollIntoViewIfNeeded();
+  await expect(direction.getByRole('button', { name: /background video/i })).toBeVisible();
+
+  await page.setViewportSize({ width: 655, height: 729 });
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    const section = document.querySelector<HTMLElement>('.editorial-purpose')!;
+    window.scrollTo(0, section.offsetTop);
+  });
+  await page.waitForTimeout(500);
+
+  const resting = await direction.evaluate((section) => {
+    const rect = (selector: string) => section.querySelector<HTMLElement>(selector)!.getBoundingClientRect();
+    const nav = document.querySelector<HTMLElement>('.site-nav')!.getBoundingClientRect();
+    const heading = rect('h2');
+    const statements = rect('.editorial-purpose__statements');
+    const control = section.querySelector<HTMLElement>('.cinematic-media__play')?.getBoundingClientRect();
+    return {
+      navBottom: nav.bottom,
+      headingTop: heading.top,
+      headingHeight: heading.height,
+      statementsTop: statements.top,
+      statementsBottom: statements.bottom,
+      statementsHeight: statements.height,
+      controlTop: control?.top ?? null,
+      controlBottom: control?.bottom ?? null,
+      mediaTransform: getComputedStyle(section.querySelector<HTMLElement>('.editorial-purpose__media')!).transform,
+      viewportHeight: innerHeight,
+    };
+  });
+
+  expect(resting.headingTop).toBeGreaterThanOrEqual(resting.navBottom + 24);
+  expect(resting.headingHeight).toBeLessThanOrEqual(136);
+  expect(resting.statementsHeight).toBeLessThanOrEqual(260);
+  expect(resting.statementsBottom).toBeLessThanOrEqual(resting.viewportHeight - 64);
+  if (resting.controlTop !== null && resting.controlBottom !== null) {
+    expect(resting.controlTop).toBeLessThanOrEqual(resting.headingTop + 12);
+    expect(resting.controlBottom).toBeLessThan(resting.statementsTop - 24);
+  }
+  expect(resting.mediaTransform).toBe('none');
+
+  await direction.evaluate((section) => {
+    const visibleHeight = section.getBoundingClientRect().height * .54;
+    window.scrollTo(0, section.offsetTop + section.getBoundingClientRect().height - visibleHeight);
+  });
+  await page.waitForTimeout(400);
+
+  await expect(direction.getByRole('button', { name: /background video/i })).toHaveCount(0);
+  const handoff = await page.evaluate(() => {
+    const section = document.querySelector<HTMLElement>('.editorial-purpose')!;
+    const services = document.querySelector<HTMLElement>('.editorial-services')!;
+    const statements = section.querySelector<HTMLElement>('.editorial-purpose__statements')!;
+    return {
+      statementsBottom: statements.getBoundingClientRect().bottom,
+      servicesTop: services.getBoundingClientRect().top,
+    };
+  });
+  expect(handoff.servicesTop - handoff.statementsBottom).toBeGreaterThanOrEqual(32);
+});
+
 test('keeps functional text at 14px and form text at 16px', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
@@ -197,15 +262,41 @@ test('keeps the adaptive enquiry action and control geometry in view', async ({ 
 });
 
 test('keeps selected-package controls and package-sheet copy above their text floors', async ({ page }) => {
+  for (const viewport of desktopScenes) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.locator('.site-nav a[href="#packages"]').click();
+    await expect.poll(() => page.locator('#packages').evaluate((section) => Math.round(section.getBoundingClientRect().top))).toBeLessThanOrEqual(90);
+    const geometry = await page.locator('#packages').evaluate((section) => {
+      const card = section.querySelector<HTMLElement>('.depth-card.is-active')!;
+      const actions = card.querySelector<HTMLElement>('.depth-card__actions')!;
+      const controls = section.querySelector<HTMLElement>('.depth-packages__controls')!;
+      return {
+        cardCount: section.querySelectorAll('.depth-card').length,
+        title: section.querySelector('.depth-card h3')?.textContent,
+        sectionTop: section.getBoundingClientRect().top,
+        cardBottom: card.getBoundingClientRect().bottom,
+        actionsBottom: actions.getBoundingClientRect().bottom,
+        controlsBottom: controls.getBoundingClientRect().bottom,
+        viewportHeight: innerHeight,
+      };
+    });
+    expect(geometry.cardCount).toBe(6);
+    expect(geometry.title).toBe('Paradise, privately');
+    expect(geometry.sectionTop).toBeGreaterThanOrEqual(0);
+    expect(geometry.cardBottom).toBeLessThanOrEqual(geometry.viewportHeight);
+    expect(geometry.actionsBottom).toBeLessThanOrEqual(geometry.viewportHeight);
+    expect(geometry.controlsBottom).toBeLessThanOrEqual(geometry.viewportHeight);
+  }
+
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
 
   const packagesSection = page.locator('#packages');
-  await packagesSection.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop - 300));
-  await expect.poll(() => page.locator('.depth-card[data-depth-visible]').count()).toBeGreaterThan(0);
-  await packagesSection.evaluate((section) => window.scrollTo(0, (section as HTMLElement).offsetTop));
-  await expect(page.locator('.depth-packages__deck [aria-live="polite"]')).toContainText('package 1 of 6');
-  await page.locator('.depth-card.is-active').getByRole('button', { name: /view itinerary for maldives/i }).click();
+  await page.locator('.editorial-hero').getByRole('button', { name: 'Explore packages', exact: true }).click();
+  await expect(packagesSection.locator('.depth-card')).toHaveCount(6);
+  await expect(packagesSection.locator('.depth-packages__deck [aria-live="polite"]')).toHaveText('Maldives Paradise, 1 of 6');
+  await packagesSection.locator('.depth-card.is-active').getByRole('button', { name: /view itinerary for maldives/i }).click();
 
   const sheet = page.getByRole('dialog', { name: /paradise, privately/i });
   await expect(sheet).toBeVisible();

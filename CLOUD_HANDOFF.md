@@ -45,7 +45,7 @@ The handoff includes:
 - responsive Hero and editorial typography corrections;
 - height-aware desktop and tablet compositions;
 - cinematic Services progression and mobile accordion;
-- depth package carousel with responsive rail and reduced-motion grid;
+- restored desktop package depth progression with a complete opening rest state, plus controlled tablet/mobile and reduced-motion fallbacks with wraparound, keyboard and swipe input;
 - adaptive inline enquiry stages with the existing secure API and explicit WhatsApp continuation;
 - Assurance commitments in place of unverified public review language;
 - typed media governance and unique chapter assignments;
@@ -61,7 +61,7 @@ npm run build:sites
 npm run test:e2e
 ```
 
-The last local checkpoint recorded 39 passing unit/component tests and a passing production build. The required desktop visual gate recorded eight passes. The long seven-project browser run recorded one transient Firefox carousel timing failure that passed immediately in isolation; run the complete matrix once more before release.
+The latest local checkpoint recorded 46 passing unit/component tests, both production builds passing, and a clean seven-project browser run with 83 applicable passes and 78 intentional skips.
 
 ## Environment configuration
 

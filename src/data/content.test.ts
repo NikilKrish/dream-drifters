@@ -22,4 +22,23 @@ describe('publishable travel content', () => {
     expect(capabilities.find((item) => item.id === 'tour-packages')?.action.kind).toBe('packages');
     expect(proofItems.find((item) => item.label === 'Leisure and Corporate')).toBeTruthy();
   });
+
+  it('publishes Events & Incentives while preserving the MICE enquiry id', () => {
+    expect(capabilities.find((item) => item.id === 'mice')).toEqual({
+      id: 'mice',
+      shortTitle: 'Events',
+      title: 'Events & Incentives',
+      summary: 'Purposeful business gatherings and incentive journeys, planned end to end.',
+      image: '/media/bali.webp',
+      imageAvif: '/media/bali.avif',
+      features: [
+        'Business meetings and conferences',
+        'Rewards and recognition programmes',
+        'Incentive travel and leadership retreats',
+        'Employee engagement tours',
+        'Corporate events and travel vouchers',
+      ],
+      action: { kind: 'enquiry', serviceId: 'mice' },
+    });
+  });
 });

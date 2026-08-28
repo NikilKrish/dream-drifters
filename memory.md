@@ -1,6 +1,6 @@
 # Dream Drifters Project Memory
 
-Last updated: 23 August 2026
+Last updated: 28 August 2026
 
 This file is the canonical implementation and project-history record for the Dream Drifters website revamp. It captures the work completed, decisions made, current deployment state and remaining risks so another engineer or Codex task can continue without reconstructing the history. `design.md` is the companion canonical design specification.
 
@@ -11,7 +11,7 @@ This file is the canonical implementation and project-history record for the Dre
 - Architecture: one semantic single-page application plus `/api/enquiry` handlers for Vercel and Cloudflare Workers/Sites.
 - Canonical flow: Hero → Metrics → About → Vision and Mission → Services → Why Us → Packages → Assurance → Enquiry → Footer.
 - Deployed release branch: `main` at the existing public release.
-- Active local implementation branch: `codex/visual-system-scrutiny`; the typography, viewport, adaptive enquiry, Assurance and media-governance rebaseline is committed locally through `b91bd38`.
+- Active local implementation branch: `codex/premium-hero-nav` at committed checkpoint `d5f3cc3`, with the premium media, early-navigation, Services/Packages motion, full-flow pacing, and enquiry repairs currently present as uncommitted working-tree changes.
 - Public GitHub repository: https://github.com/NikilKrish/dream-drifters
 - Cloud continuation branch: `origin/codex/visual-system-scrutiny`.
 - Stable cloud handoff tag: `cloud-handoff-2026-08-23`.
@@ -196,6 +196,46 @@ Verification checkpoint on 23 August 2026:
 - Confirmed that no private environment file is tracked and that the tracked source contains no detected access-token or private-key patterns.
 - The handoff makes the latest source reproducible in the cloud; it does not waive the media, business-content, accessibility, browser-matrix or Meta launch gates.
 
+### 16. Premium media, package-motion and full-flow repair
+
+- Replaced the temporary Hero presentation with responsive 4K/1440p/1080p/portrait tropical aerial encodes and matching posters, governed by viewport, capability, connection, Save-Data and reduced-motion selection.
+- Changed the navigation from the late section-intersection behavior to top-scroll hysteresis: transparent through 8px, opaque from 24px, with no geometry shift and correct restored/deep-link initialization.
+- Rebuilt Services around explicit `mobile`, `pinned` and `static` presentation modes so breakpoint changes cannot produce a tall blank interval. Desktop Services was shortened from 520svh to 360svh; mobile now begins with all service rows closed.
+- Applied the approved customer-facing MICE rewrite to `Events & Incentives` while preserving the internal `mice` identifier and enquiry value.
+- Restored the requested desktop Packages depth effect with photo and wording moving together, then repaired its malformed resting and transition states. Cards remain clipped to the right-hand deck, the initial Maldives frame is complete, at most two images transition, and only one body remains readable. The sequence was shortened to 320svh.
+- Unified package visual, semantic and analytics state through `getPackageDepthState()`, stabilized its midpoint, and preserved selection through controlled/depth responsive changes.
+- Reduced overall scroll clutter through shorter cinematic budgets, calmer chapter handoffs, delayed Assurance columns, tighter inactive Why Us rows, and 35% viewport ownership for media controls.
+- Reworked Travel package enquiries into three stages and moved detailed contact information below the form on narrow screens. At 390×844, the first stage fits fully between the 88px header and 700px without internal overflow.
+- Recorded the complete audit, implementation evidence, exact source state and continuation rules in `work/full-flow-audit/observations.md` and `LOCAL_SESSION_HANDOFF_2026-08-27.md`.
+
+Verification checkpoint on 27 August 2026:
+
+- 69 unit/component tests passed across 14 files.
+- Both Sites and Vercel production builds passed.
+- The full Playwright matrix completed with 92 applicable passes, 90 intentional project skips and zero failures across compact phone, mobile, tablet, desktop, wide desktop, Firefox desktop and WebKit mobile.
+- No commit, push, merge or deployment was performed; the existing public releases remain unchanged.
+
+### 17. Direction chapter decluttering
+
+- Reframed Direction as a calm editorial bridge while retaining its train footage and exact Vision/Mission business wording.
+- Removed the media scale animation, reduced heading and statement reveal distance, and replaced the heavy glass panel with a restrained divided editorial surface.
+- Added a Direction-specific 55% viewport-ownership threshold to `CinematicVideo`; its media control now relinquishes the viewport before Services and is positioned near the top when rendered.
+- Tightened the 655×729 and other short/narrow layouts: the audited heading is about 131px high, the statement surface about 254px high, and neither crowds the chapter boundary.
+- Added unit coverage for configurable media ownership and a desktop Playwright regression for Direction geometry, media-control handoff, and Services separation.
+- Verification after the repair: 70 unit/component tests passed, both production builds passed, and all 9 desktop visual-system tests passed. The full seven-project E2E run completed every non-visual product journey successfully; its two long-run visual harness failures were reproduced, hardened, and passed in the subsequent visual-system run.
+- No commit, push, merge or deployment was performed.
+
+### 18. Local continuation checkpoint — 28 August 2026
+
+- Reconciled this canonical memory against the current local repository and the detailed session handoff after the Direction repair.
+- Active branch remains `codex/premium-hero-nav`; committed HEAD remains `d5f3cc3d51edb2a3511ef76d5c1ddbcacfc39f5c`.
+- The complete premium Hero/navigation work, Services and Packages reconstruction, MICE-to-Events copy normalization, full-flow pacing, staged enquiry journey, Direction decluttering, media registry, generated derivatives, tests and documentation remain present as intentional uncommitted working-tree changes.
+- The local preview was confirmed reachable and reopened at `http://127.0.0.1:4173/` with title `Dream Drifters | Tailor-made journeys`.
+- Latest verified code state remains: 70 unit/component tests passed, Sites and Vercel builds passed, and all 9 desktop visual-system tests passed after the two long-run browser-harness assumptions were corrected.
+- The wider seven-project browser run completed 91 applicable passes and 96 intentional project-scoped skips before the two desktop visual harness corrections; all non-visual product journeys passed, and the corrected visual file subsequently passed 9/9.
+- No source integration or external release action occurred: no commit, push, pull request, merge, deployment, Vercel refresh or Sites update was performed.
+- The authoritative resume order is `LOCAL_SESSION_HANDOFF_2026-08-27.md` → `PROJECT_STATUS.md` → `design.md` → this file → `public/media/README.md` → `work/full-flow-audit/observations.md`, followed by `git status --short`.
+
 ## Content and verification status
 
 - Four operational proof items are marked verified and currently render.
@@ -203,7 +243,7 @@ Verification checkpoint on 23 August 2026:
 - All six stored package prices are marked hidden and display as requests for a current quote.
 - The six packages, all itineraries, service descriptions and Chennai contact details remain business-owner draft content pending final review.
 - Temporary Coverr footage, locally derived stills and replacement briefs are documented in `public/media/README.md`.
-- The typed media gate currently approves zero assets for production; complete licence provenance, consent where people are recognisable and explicit replacement approval are still required.
+- The typed media gate approves Hero and About for their recorded placements, and package approval is recorded separately for all six destination families. Direction, Services, Assurance and Enquiry remain review-required, so the complete site still does not pass the production-media gate.
 
 ## Environment configuration
 
@@ -241,6 +281,7 @@ Until the Meta values are configured on a hosting platform, form submission inte
 - Any mobile-video change must include a poster fallback, playback-failure state, off-screen pause behavior and a measurable media budget.
 - Do not assign a package destination file to About, Services, Assurance or Enquiry. Add or approve a semantically specific registry asset instead.
 - Update both `design.md` and `memory.md` when a major design, architecture, deployment or content-verification decision changes.
+- For the exact current local working-tree state and next-session startup order, read `LOCAL_SESSION_HANDOFF_2026-08-27.md` before editing.
 
 ## Useful commands
 

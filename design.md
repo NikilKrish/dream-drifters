@@ -1,8 +1,8 @@
 # Dream Drifters Design Record
 
-Last updated: 23 August 2026
+Last updated: 25 August 2026
 
-This is the canonical design specification for the current Dream Drifters Codex project. The sole production source of truth is **Enhanced B**, the approved Editorial Intelligence experience with cinematic Services, the depth package carousel and its attached video-background system. Superseded concepts remain available only as labelled historical references under `reference/` and `.superdesign/website/`.
+This is the canonical design specification for the current Dream Drifters Codex project. The sole production source of truth is **Enhanced B**, the approved Editorial Intelligence experience with cinematic Services, a user-controlled package carousel and its attached video-background system. Superseded concepts remain available only as labelled historical references under `reference/` and `.superdesign/website/`.
 
 Validated deployed implementation commit: `328178f`. The public Vercel release is available at https://dream-drifters.vercel.app/. The OpenAI Sites address remains an independent preview deployment. Visual-scrutiny corrections are being completed on `codex/visual-system-scrutiny`; they are not deployed and remain subject to the media-approval and final validation gates recorded in `PROJECT_STATUS.md`.
 
@@ -21,7 +21,7 @@ The primary conversion path is package or service discovery followed by an inlin
 - Tone: premium, cinematic, editorial, trustworthy and operationally competent.
 - Primary visual references: NUBA for full-bleed luxury travel pacing and Black Tomato for emotion-led storytelling.
 - Supporting references: Visit Jersey for mobile discovery, Going for hierarchy discipline and Homo Travellus for guided selection.
-- Canonical artifact: Enhanced B, a single production direction that combines Editorial Intelligence, cinematic Services, the depth package carousel and attached ambient video backgrounds.
+- Canonical artifact: Enhanced B, a single production direction that combines Editorial Intelligence, cinematic Services, a desktop scroll-linked depth carousel and attached ambient video backgrounds.
 - Provenance: the cinematic Services treatment originated in prototype A, but it is now an inseparable Enhanced B component rather than a separate active variant.
 - Motion reference: Alethia's connected-scene principle, adapted without scroll hijacking or copied assets.
 - Brand continuity: preserve the supplied Dream Drifters mark and use cyan as a rare interaction signal.
@@ -68,7 +68,7 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 ### Navigation
 
 - Fixed adaptive navigation with the brand mark, About, Services, Packages, Assurance and Get a quote. Assurance retains the historical `#reviews` anchor for compatible links.
-- Navigation gains an ink glass surface after the hero.
+- Navigation is transparent only at the exact page top, gains its ink glass surface during the first deliberate scroll (8px/24px hysteresis), and keeps that surface through every later chapter.
 - Mobile navigation behaves as a modal: focus containment, background inertness, scroll locking, Escape dismissal and focus restoration.
 - The active chapter is exposed with `aria-current`.
 
@@ -78,13 +78,16 @@ Cyan is reserved for primary actions, active states, focus rings, selected metad
 - Headline remains exactly two lines: “Your journey.” and “Our passion.”
 - Actions are “Explore packages” and “Get a quote.”
 - Copy enters with a short stagger; the poster remains the stable fallback.
-- The attached `discovery` WebM/MP4 loop mounts after first paint on capable devices; desktop and mobile posters remain visible until playback is ready.
+- The approved `hero-tropical-aerial` family mounts after first paint on capable devices. It selects a dedicated 1080×1920 mobile crop or a 1920×1080, 2560×1440 or native 3840×2160 desktop encode, and the matching poster remains visible until the first video frame is decoded.
 
 ### Proof, About and Purpose
 
 - The proof dock contains only four verified operational facts, not unsupported traveller totals or satisfaction percentages.
 - About uses a large editorial image and concise company positioning.
 - Vision and Mission share one immersive image chapter with two restrained statements.
+- Direction behaves as a calm editorial bridge: its train-window media remains full-bleed, while Vision and Mission sit in one transparent divided surface without glass-card layering.
+- Direction media does not scale during scroll. Its heading and statement reveals use short, low-distance movement, and short/narrow viewports preserve a quiet tail before Services.
+- Direction requires at least 55% viewport ownership before exposing its playback control; the control sits near the chapter top when available and disappears before Services takes ownership.
 - At 1424×696, 1366×768 and 1440×900, About stays within one viewport with a 420–620px height-aware media frame. The side-by-side split starts at 1000px, leaving the 768px composition stacked.
 
 ### Services
@@ -95,10 +98,10 @@ Six public capabilities are preserved:
 2. Flights
 3. Accommodation
 4. Visas
-5. Meeting Incentive, Conference Event (MICE)
+5. Events & Incentives, with the internal `mice` enquiry identifier preserved
 6. Corporate Travel
 
-Desktop uses a 360 svh GSAP-pinned progression with full-bleed operations media, a six-scene active index and a restrained foreground panel. Tablet uses a shorter pinned treatment containing the same six capabilities. Mobile uses a single-open accessible accordion. Travel Insurance is not exposed publicly; legacy insurance submissions remain accepted by the API.
+Desktop and tablet use a 520 svh GSAP-pinned progression around a 100 svh stage, producing six equal 70 svh capability steps. A single unblurred operations-video stage holds one active service, concise progress and accessible previous/next controls. Mobile remains in natural document flow with a poster/video header and a single-open accessible accordion. Reduced motion removes pinning and autoplay while keeping the poster, one active capability and direct controls. Travel Insurance is not exposed publicly; legacy insurance submissions remain accepted by the API.
 
 The attached `operations` WebM/MP4 loop is part of this chapter's canonical background treatment. It lazy-mounts near Services and falls back to its poster whenever ambient playback is inappropriate or unavailable.
 
@@ -111,11 +114,10 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 ### Packages and itinerary
 
 - Six original journeys, inclusions and itineraries are preserved.
-- Desktop uses a 360 svh depth-of-field stage. Vertical progress maps continuously across all six packages, with a sharp centre card, blurred adjacent cards, counter-panning destination typography and no autoplay or looping.
-- Previous and next controls, adjacent-card promotion, pointer dragging and Left or Right keyboard input all update the active package and its live announcement.
-- Tablet uses an unpinned two-card native rail with side peeks and no blur.
-- Mobile uses a one-card-plus-peek native rail with visible previous and next controls and no blur.
-- Reduced motion replaces the depth stage with a static editorial grid.
+- Desktop Packages uses a `360svh` pinned depth sequence across six journeys. Its opening 8% is an intentional rest plateau: Maldives is fully composed, every other card is hidden, and no transition begins until meaningful scroll input.
+- During desktop progression, no more than two photographs move within the clipped right-hand deck. One complete package body remains fully legible, and a shared depth state keeps its visual dominance, counter, live announcement and analytics synchronized. Previous and next controls, horizontal swipe, and Left or Right keyboard input move to exact composed stops and wrap across all six packages. Home and End move directly to the first and final package.
+- Tablet and mobile stay in natural document flow with one stacked package card, equal itinerary/quote actions, wraparound controls and no side peeks.
+- Reduced motion removes package pinning and depth layers, retaining the immediate controlled carousel.
 - “View itinerary” opens an accessible full-screen sheet with GSAP entrance and shared-image continuity.
 - Package selection prefills the enquiry form and announces the change.
 - Stored prices are currently hidden; the interface requests a current quote until the owner verifies them.
@@ -146,31 +148,31 @@ Eight trust reasons are presented as editorial rows. They become expandable on m
 - Feedback: 120 ms; state changes: 240–420 ms; media transitions: 650–720 ms.
 - Easing favours quart and quint-style deceleration without bounce or elastic movement.
 - GSAP ScrollTrigger powers service progression; GSAP Flip supports itinerary continuity.
-- A shared editorial motion director connects Hero to proof, About to Purpose, Purpose to Services, Trust to Packages, Packages to Assurance and Assurance to Enquiry through restrained scale, pan and crossfade relationships.
+- A shared editorial motion director connects ambient chapters through restrained reveals, pan and crossfade relationships; Direction intentionally omits media scaling. Desktop Packages uses its own ScrollTrigger depth progression after a stable rest plateau; compact and reduced-motion modes remain manually controlled.
 - Off-screen ambient videos pause and lower-page videos are mounted only near their chapters.
-- Capable phones may use the supplied mobile WebM or MP4 loops after the poster and first paint.
+- Capable phones may use the dedicated portrait WebM or MP4 loop after the poster and first paint.
 - Reduced motion removes automatic video playback, pinning, scrubbing and spatial transitions while keeping all content functional. A visitor may still request video through the accessible play control.
-- Save-Data, 2G and low-memory modes start with stable poster-only scenes and do not spend video data until the visitor explicitly requests playback.
+- Hero remains poster-only for Save-Data, 2G/slow-2G, reduced-motion and low-memory modes. Later ambient chapters retain their explicit playback recovery where a valid source is available.
 - Browser autoplay rejection keeps the video mounted and exposes a manual Play video control. MP4 is listed before WebM for Chrome reliability; decoding or network failure leaves the poster stable.
 
 Enhanced B includes three required ambient-media assignments:
 
 | Chapter | Video family | Mounting policy | Poster policy |
 |---|---|---|---|
-| Hero | `discovery` | Delayed until after first paint | Eager responsive hero poster |
+| Hero | `hero-tropical-aerial` | Adaptive MP4-first pair delayed until after first paint | Eager responsive first-frame poster |
 | Services | `operations` | Lazy-mounted near the chapter | Lazy poster retained through failure |
 | Assurance | `travellers` | Lazy-mounted near the chapter | Lazy poster retained through failure |
 
 Both WebM and MP4 encodes are required for each assignment. Mobile-specific video sources are used below 700 px when the device passes the motion, bandwidth and memory policy. Detailed filenames, budgets and licensing notes are maintained in `public/media/README.md`.
 
-The typed registry in `src/data/media.ts` records source family, chapter, focal point, desktop formats, poster formats, mobile sources, licence/consent status and replacement state. Active Hero, About, Direction, Services, Assurance and Enquiry assignments are unique and do not borrow package files. A media asset is production-approved only when its licence is approved, consent is confirmed or not applicable, and replacement state is approved. No current asset passes that gate.
+The typed registry in `src/data/media.ts` records source family, chapter, focal point, adaptive selection conditions, video and poster outputs, licence/consent status and replacement state. Active Hero, About, Direction, Services, Assurance and Enquiry assignments are unique and do not borrow package files. Hero, About and the six package still families have recorded Pexels provenance, responsive 4K outputs and placement approval. Direction, Services, Assurance and Enquiry remain review-required, so the full site does not yet pass the production-media gate.
 
 ## Responsive behavior
 
-- Below 700 px: document flow, service accordion, expandable trust rows, one-card package rail and touch-visible transitions.
-- 700–1099 px: shortened pinned Services treatment and two-card package rail.
+- Below 700 px: document flow, service accordion, expandable trust rows and one stacked package card with touch navigation.
+- 700–1099 px: pinned Services treatment and a single naturally flowing package card.
 - 861 px and above: desktop navigation replaces the modal menu.
-- 1100 px and above: full Services progression and desktop package depth stage.
+- 1100 px and above: full Services progression and the restored pinned package depth sequence with a complete initial rest state.
 - Short-height desktop and tablet rules keep service context and its primary action inside the viewport.
 - Below 820px height, custom and service enquiries switch to two stages so the contact action remains reachable without a second-page composition; package enquiries are staged at every size.
 - Minimum supported width: 320 px.

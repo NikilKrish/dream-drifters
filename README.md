@@ -2,7 +2,7 @@
 
 > A Codex project for Dream Drifters, a Chennai-based travel consultancy serving leisure, business and group travel.
 
-This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a depth package carousel and video backgrounds in Hero, Services and Assurance.
+This repository contains the complete public website, its enquiry service, all local images and videos, and the tests used before release. The approved experience is called **Enhanced B**: an editorial travel story with cinematic Services, a desktop scroll-linked package depth sequence with controlled compact fallbacks, and video backgrounds in Hero, Services and Assurance.
 
 - **Live website:** https://dream-drifters.vercel.app/
 - **Public source repository:** https://github.com/NikilKrish/dream-drifters
@@ -77,7 +77,7 @@ Full setup, environment variables, fallback behavior and verification steps are 
 ## Important launch notes
 
 - Package prices and supplied testimonials remain hidden until the business owner verifies them.
-- Current stock photos, Coverr video loops and their derived chapter stills are preview-only. The typed licence/consent/replacement gate currently approves no media asset for production, so production media approval remains blocked.
+- The About photograph and six package destination families are approved for their recorded editorial placements. Hero, Direction, Services, Assurance and Enquiry media remain review-required, so full-site production media approval is still blocked.
 - If Meta WhatsApp credentials are absent, the form safely offers the visitor an explicit WhatsApp continuation link.
 - Never commit `.env` files, access tokens, phone credentials or generated build folders.
 
