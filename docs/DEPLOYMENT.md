@@ -113,7 +113,7 @@ Use the workflow statuses consistently:
 ## Backup, recovery and monitoring
 
 - Export an offline backup of the Sheet periodically because it is the canonical launch record.
-- Manual recovery starts with the Sheet, not the browser logs: if a visitor sees a save error, no durable record was created and the enquiry must be resubmitted.
+- A browser save error can be ambiguous: the server may time out while Apps Script still completes the write. Before retrying, search the Sheet by `Submission ID`, submission time, and the visitor's contact details. Retry the same accepted request with the same `Submission ID` so the Apps Script idempotency check can return the existing row; do not add a replacement row manually or invent a new ID unless the Sheet check confirms that no record exists.
 - If `Notification status=Failed`, confirm the retry trigger exists, review recent Apps Script executions, and manually resend only from the saved Sheet row.
 - Retrying the Apps Script request with the same `Submission ID` is idempotent: it returns the existing stored result without adding another row or sending another email. Do not invent a replacement ID while recovering the same accepted submission.
 - When archiving old enquiries, export first, move archived rows to a separate owner-controlled archive file or tab, and keep the live tracker limited to active work.
