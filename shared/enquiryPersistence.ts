@@ -20,7 +20,10 @@ interface ProviderSuccessResponse {
   submissionId: string;
 }
 
-const DEFAULT_TIMEOUT_MS = 8_000;
+// Apps Script appends the row and sends the owner email synchronously. Keep
+// this just below the Vercel Hobby function ceiling while allowing normal
+// Google Workspace latency to complete before reporting a provider failure.
+const DEFAULT_TIMEOUT_MS = 9_500;
 
 export function createSubmissionId(now: number = Date.now()): string {
   const date = new Date(now);
