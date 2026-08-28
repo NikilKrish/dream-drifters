@@ -16,7 +16,7 @@ This file is the canonical implementation and project-history record for the Dre
 - Cloud continuation branch: `origin/codex/visual-system-scrutiny`.
 - Stable cloud handoff tag: `cloud-handoff-2026-08-23`.
 - Validated Vercel implementation commit: `328178f` — Fix Vercel enquiry function module resolution.
-- Public Vercel URL: https://dream-drifters.vercel.app/
+- Public production URL: https://dreamdrifters.in/
 - Vercel status: production, connected to GitHub `main`, with automatic releases enabled.
 - Initial commit: `ad08637` — Initial Dream Drifters Codex project.
 - Sites commit: `864c27b` — Add OpenAI Sites deployment.
@@ -34,7 +34,7 @@ This file is the canonical implementation and project-history record for the Dre
 ### 0. Public GitHub and Vercel release
 
 - Created the public `NikilKrish/dream-drifters` repository and published the complete source, local media, tests and plain-language documentation.
-- Connected GitHub `main` to the Vercel project named `dream-drifters` and released the exact production address `https://dream-drifters.vercel.app/`.
+- Connected GitHub `main` to the Vercel project named `dream-drifters`; the public production address is `https://dreamdrifters.in/` and the Vercel alias remains available as a technical fallback.
 - Re-encoded all MP4 loops as H.264 Main profile, Level 3.1, yuv420p with fast-start metadata so Chrome can decode them reliably.
 - Verified live Hero, Services and Reviews videos in Chrome with `readyState` 4 and no media errors.
 - Corrected Vercel's ESM resolution for the shared enquiry module and verified live `503 { ok: false, fallback: "whatsapp" }` behavior when Meta credentials are absent, plus `405` method enforcement.
