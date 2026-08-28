@@ -46,7 +46,7 @@ The handoff includes:
 - height-aware desktop and tablet compositions;
 - cinematic Services progression and mobile accordion;
 - restored desktop package depth progression with a complete opening rest state, plus controlled tablet/mobile and reduced-motion fallbacks with wraparound, keyboard and swipe input;
-- adaptive inline enquiry stages with the existing secure API and explicit WhatsApp continuation;
+- adaptive inline enquiry stages with durable Google Sheet persistence, owner email notification, and explicit visitor WhatsApp continuation;
 - Assurance commitments in place of unverified public review language;
 - typed media governance and unique chapter assignments;
 - Hero, Services and Assurance video families with MP4, WebM, AVIF and WebP fallbacks;
@@ -67,17 +67,23 @@ The latest local checkpoint recorded 46 passing unit/component tests, both produ
 
 Copy `.env.example` into the cloud deployment environment. Never commit the actual values.
 
-Required Vercel settings are documented in `docs/DEPLOYMENT.md` and include:
+Required server settings are documented in `docs/DEPLOYMENT.md` and include:
 
+- `GOOGLE_APPS_SCRIPT_URL`
+- `GOOGLE_APPS_SCRIPT_SECRET`
 - `VITE_WHATSAPP_NUMBER`
-- `META_ACCESS_TOKEN`
-- `META_PHONE_NUMBER_ID`
-- `BUSINESS_OWNER_PHONE_NUMBER`
-- `META_MESSAGE_TEMPLATE`
-- `META_TEMPLATE_LANGUAGE`
-- `META_GRAPH_API_VERSION`
 
-The website still offers an explicit WhatsApp fallback when Meta notification is unavailable. Confirm the approved Meta template in a preview environment before production.
+The website still offers an explicit visitor WhatsApp continuation after a successful save or a retryable save error. There is no owner WhatsApp notification at launch.
+
+Owner-run launch setup also requires:
+
+- one owner-controlled Google Sheet with restricted sharing and protected submitted/system columns;
+- an Apps Script web app deployment from `ops/google-apps-script/`;
+- matching `GOOGLE_APPS_SCRIPT_URL` and `GOOGLE_APPS_SCRIPT_SECRET` values in both Vercel and OpenAI Sites;
+- a 15-minute time-driven retry trigger for `retryFailedNotifications()`;
+- periodic manual Sheet export for offline backup because retention is indefinite.
+
+Never include or reuse Gmail credentials in handoff notes, repo files or chat history. The owner authorizes Apps Script and Mail access directly in Google.
 
 ## Deployment boundary
 
@@ -88,7 +94,7 @@ The branch and tag are a complete cloud handoff, not production approval. Before
 3. Confirm keyboard, screen-reader and reduced-motion journeys.
 4. Replace or formally approve every preview-only media asset and update the typed approval records.
 5. Obtain business approval for prices, claims, contact information, privacy wording and testimonials.
-6. Verify the Meta environment and `/api/enquiry` fallback.
+6. Verify the Google Sheet/App Script environment, duplicate protection, notification retry path and `/api/enquiry` response hygiene.
 7. Create a Vercel preview from this branch before merging to `main`.
 
 The existing Vercel and OpenAI Sites addresses remain earlier releases until a new deployment is explicitly approved.

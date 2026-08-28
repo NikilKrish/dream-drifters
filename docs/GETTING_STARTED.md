@@ -54,6 +54,21 @@ npx playwright install chrome firefox webkit
 npm run test:e2e
 ```
 
+## If you need the enquiry backend to work in a deployment
+
+The enquiry form now succeeds only after the backend stores the normalized brief in the owner-controlled Google Sheet.
+
+Set these server-only variables in Vercel and OpenAI Sites:
+
+```text
+GOOGLE_APPS_SCRIPT_URL=
+GOOGLE_APPS_SCRIPT_SECRET=
+```
+
+Keep `VITE_WHATSAPP_NUMBER` as the only client-side enquiry variable. Never put the Apps Script URL or secret in any `VITE_` variable.
+
+Use the [Deployment guide](DEPLOYMENT.md) for the full owner setup, Sheet protection, Apps Script deployment, retry trigger, backup/export, recovery and release verification steps.
+
 ## Common questions
 
 ### Why do I see a poster instead of moving video?
@@ -64,9 +79,9 @@ The website begins with a stable poster. It then tries muted inline playback. Ch
 
 The stored prices have not been approved for public release. The site deliberately shows “Request current quote” until verification is recorded.
 
-### Why does an enquiry offer WhatsApp instead of sending silently?
+### Why does an enquiry still offer WhatsApp?
 
-If the Meta server credentials are not configured, the protected endpoint returns a safe fallback. The visitor can review the enquiry and choose **Continue in WhatsApp**. The site never opens WhatsApp without an explicit action.
+WhatsApp is now an explicit visitor-controlled continuation, not the owner notification channel. If the enquiry is stored successfully, the visitor may still choose **Continue in WhatsApp**. If storage fails, the form stays retryable and the visitor can choose WhatsApp explicitly instead of losing their message.
 
 ### Which design should I follow?
 

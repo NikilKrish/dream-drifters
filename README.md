@@ -19,6 +19,7 @@ The page follows one clear journey:
 - Open complete itinerary details with a keyboard, mouse or touch.
 - Select a package or service and send one inline enquiry.
 - Continue in WhatsApp only after pressing an explicit button.
+- Submit an enquiry that is durably stored in an owner-controlled Google Sheet before the visitor sees success.
 - Choose to play a background video if their browser blocks autoplay or accessibility/data settings start it paused.
 
 There is no payment system, account, booking engine or automatic WhatsApp redirect.
@@ -54,7 +55,9 @@ The browser suite covers Chrome from a 320 px compact phone through tablet, desk
 | `public/media/` | Local video, image and poster files |
 | `api/enquiry.ts` | The Vercel enquiry endpoint |
 | `worker/index.ts` | The matching OpenAI Sites/Cloudflare endpoint |
-| `shared/brief.ts` | Shared validation and WhatsApp summary rules |
+| `shared/brief.ts` | Shared validation, normalization and WhatsApp summary rules |
+| `shared/enquiryPersistence.ts` | Shared server-only adapter for the Google Apps Script persistence contract |
+| `ops/google-apps-script/` | Versioned Apps Script files and owner setup notes for the canonical enquiry tracker |
 | `tests/` | Browser checks for the full visitor journey |
 | `design.md` | Canonical design and behavior specification |
 | `memory.md` | Project history, decisions and release record |
@@ -78,7 +81,9 @@ Full setup, environment variables, fallback behavior and verification steps are 
 
 - Package prices and supplied testimonials remain hidden until the business owner verifies them.
 - The About photograph and six package destination families are approved for their recorded editorial placements. Hero, Direction, Services, Assurance and Enquiry media remain review-required, so full-site production media approval is still blocked.
-- If Meta WhatsApp credentials are absent, the form safely offers the visitor an explicit WhatsApp continuation link.
+- The launch enquiry backend stores valid enquiries in an owner-controlled Google Sheet and emails the owner. There is no owner WhatsApp notification at launch.
+- The visitor can still choose the explicit WhatsApp continuation after submission or after a retryable save error.
+- Never enter, store or reuse Gmail credentials in repository files, docs, env files or chat transcripts. The owner authorizes Apps Script and Mail access directly in Google.
 - Never commit `.env` files, access tokens, phone credentials or generated build folders.
 
 ## Canonical records
