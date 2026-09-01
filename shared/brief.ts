@@ -29,7 +29,9 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const packageNames: Record<string, string> = {
   maldives: 'Maldives Paradise', switzerland: 'Swiss Alps Adventure', japan: 'Japan Cultural Journey',
-  dubai: 'Dubai Luxury Escape', bali: 'Bali Tropical Paradise', paris: 'Paris Romantic Getaway',
+  dubai: 'Dubai Luxury Escape', bali: 'Bali Is Calling', paris: 'Paris Romantic Getaway',
+  mexico: 'Magnificent Mexico', tanzania: 'Tanzania Escape', 'usa-2026': 'USA 2026',
+  'machu-picchu': 'Machu Picchu Peru', ramakkalmedu: 'Ramakkalmedu',
 };
 
 const serviceNames: Record<ServiceId, string> = {

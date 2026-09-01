@@ -1,8 +1,10 @@
 import type { TravelPackage } from '../types';
 
+const incompleteItineraryNotice = 'Detailed day-by-day itinerary will be confirmed by Dream Drifters.';
+
 export const packages: TravelPackage[] = [
   {
-    id: 'maldives', title: 'Maldives Paradise', editorialTitle: 'Paradise, privately', location: 'Indian Ocean', duration: '5 days / 4 nights', durationDays: 5, price: '₹95,000', priceStatus: 'hidden', mood: 'Beach and restore',
+    id: 'maldives', title: 'Maldives Paradise', editorialTitle: 'Paradise, privately', location: 'Indian Ocean', duration: '5 days / 4 nights', durationDays: 5, price: '', priceStatus: 'hidden', mood: 'Beach and restore',
     summary: 'A warm-water reset shaped around overwater calm, unhurried days and a few unforgettable moments at sea.',
     image: '/media/maldives.webp', imageAvif: '/media/maldives.avif', imageAlt: 'A pale sandbar curving through turquoise water in the Maldives', layout: 'feature',
     inclusions: ['Five-star overwater resort', 'Water sports and snorkelling', 'Sunset dolphin cruise', 'Spa experience', 'Daily meals'],
@@ -15,7 +17,7 @@ export const packages: TravelPackage[] = [
     ],
   },
   {
-    id: 'japan', title: 'Japan Cultural Journey', editorialTitle: 'Culture in motion', location: 'Japan', duration: '8 days / 7 nights', durationDays: 8, price: '₹1,10,000', priceStatus: 'hidden', mood: 'Culture and cuisine',
+    id: 'japan', title: 'Japan Cultural Journey', editorialTitle: 'Culture in motion', location: 'Japan', duration: '8 days / 7 nights', durationDays: 8, price: '', priceStatus: 'hidden', mood: 'Culture and cuisine',
     summary: 'Tokyo energy, Kyoto ritual and the quiet presence of Fuji, connected by one beautifully paced journey.',
     image: '/media/japan.webp', imageAvif: '/media/japan.avif', imageAlt: 'Mount Fuji rising beyond a sunlit lake in Japan', layout: 'landscape',
     inclusions: ['Tokyo and Kyoto city tours', 'Traditional tea ceremony', 'Mount Fuji viewpoints', 'Bullet-train journeys', 'Temple and shrine visits'],
@@ -29,7 +31,7 @@ export const packages: TravelPackage[] = [
     ],
   },
   {
-    id: 'switzerland', title: 'Swiss Alps Adventure', editorialTitle: 'Alpine wonder', location: 'Switzerland', duration: '7 days / 6 nights', durationDays: 7, price: '₹1,20,000', priceStatus: 'hidden', mood: 'Nature and adventure',
+    id: 'switzerland', title: 'Swiss Alps Adventure', editorialTitle: 'Alpine wonder', location: 'Switzerland', duration: '7 days / 6 nights', durationDays: 7, price: '', priceStatus: 'hidden', mood: 'Nature and adventure',
     summary: 'High mountain railways, mirror-like lakes and days designed to move between wonder and warmth.',
     image: '/media/switzerland.webp', imageAvif: '/media/switzerland.avif', imageAlt: 'A turquoise lake between green hills in the Swiss Alps', layout: 'portrait',
     inclusions: ['Jungfrau experience', 'Guided alpine walks', 'Interlaken adventure', 'Premium hotels', 'Scenic rail travel'],
@@ -42,20 +44,21 @@ export const packages: TravelPackage[] = [
     ],
   },
   {
-    id: 'bali', title: 'Bali Tropical Paradise', editorialTitle: 'A softer rhythm', location: 'Bali', duration: '6 days / 5 nights', durationDays: 6, price: '₹85,000', priceStatus: 'hidden', mood: 'Beach and restore',
-    summary: 'Forest temples, rice terraces and salt-air evenings, all at a pace that leaves room to feel Bali.',
+    id: 'bali', title: 'Bali Is Calling', editorialTitle: 'Bali is calling', location: 'Bali', duration: '7 days / 6 nights', durationDays: 7, price: 'US $357', priceStatus: 'verified', mood: 'Water sports and temple tours',
+    summary: 'Water sports, an ATV tandem ride, banana boat, swing and temple tours with two resort stays.',
     image: '/media/bali.webp', imageAvif: '/media/bali.avif', imageAlt: 'Lush green rice fields and palms in Bali', layout: 'landscape',
-    inclusions: ['Beachfront resort', 'Ubud and rice terraces', 'Balinese spa', 'Yoga and wellness', 'Sunset dining'],
-    itinerary: [
-      { day: 'Day 1', title: 'Arrive softly', detail: 'Beachfront check-in, welcome massage and sunset dinner.' },
-      { day: 'Day 2', title: 'Ubud stories', detail: 'Rice terraces, the palace and a traditional dance.' },
-      { day: 'Day 3', title: 'Wellness day', detail: 'Balinese treatments, yoga and meditation.' },
-      { day: 'Days 4 to 5', title: 'Temples and coast', detail: 'Tanah Lot, sacred springs and water time at Canggu.' },
-      { day: 'Day 6', title: 'Departure', detail: 'A slow final morning before the airport.' },
-    ],
+    inclusions: ['Accommodation', 'English speaking driver', 'Flower garland welcome', '02 x 500ml water bottle', '01 dinner', '01 spa', 'Avanza car or similar'],
+    itinerary: [],
+    brochure: {
+      sourceFile: 'WhatsApp Image 2026-08-17 at 9.06.41 PM (3).jpeg',
+      highlights: ['Water Sports', 'ATV Tandem', 'Banana Boat', 'Swing', 'Temple Tours'],
+      accommodation: ['02 nights — Seres Spring Resort and Spa', '04 nights — Citadines Berawa Beach Bali'],
+      commercialNotes: ['Booking period till 30th Sep 2026', 'Staying period 22nd Dec 2026', 'T&C'],
+      contentNotice: incompleteItineraryNotice,
+    },
   },
   {
-    id: 'paris', title: 'Paris Romantic Getaway', editorialTitle: 'The art of romance', location: 'Paris', duration: '6 days / 5 nights', durationDays: 6, price: '₹1,55,000', priceStatus: 'hidden', mood: 'Celebration',
+    id: 'paris', title: 'Paris Romantic Getaway', editorialTitle: 'The art of romance', location: 'Paris', duration: '6 days / 5 nights', durationDays: 6, price: '', priceStatus: 'hidden', mood: 'Celebration',
     summary: 'Iconic Paris balanced with intimate streets, long tables and a little room for serendipity.',
     image: '/media/paris.webp', imageAvif: '/media/paris.avif', imageAlt: 'The Eiffel Tower framed by winter trees at sunset', layout: 'portrait',
     inclusions: ['Eiffel Tower summit', 'Guided Louvre visit', 'Seine cruise', 'Versailles day trip', 'French dining'],
@@ -68,7 +71,7 @@ export const packages: TravelPackage[] = [
     ],
   },
   {
-    id: 'dubai', title: 'Dubai Luxury Escape', editorialTitle: 'Desert after dark', location: 'Dubai', duration: '4 days / 3 nights', durationDays: 4, price: '₹75,000', priceStatus: 'hidden', mood: 'Celebration',
+    id: 'dubai', title: 'Dubai Luxury Escape', editorialTitle: 'Desert after dark', location: 'Dubai', duration: '4 days / 3 nights', durationDays: 4, price: '', priceStatus: 'hidden', mood: 'Celebration',
     summary: 'Skyline energy, desert silence and contemporary luxury condensed into one polished escape.',
     image: '/media/dubai.webp', imageAvif: '/media/dubai.avif', imageAlt: 'Dubai skyline across the water in evening light', layout: 'portrait',
     inclusions: ['Burj Khalifa', 'Desert safari and dinner', 'Five-star hotel', 'Gold Souk visit', 'Beach-club access'],
@@ -78,6 +81,102 @@ export const packages: TravelPackage[] = [
       { day: 'Day 3', title: 'Water and leisure', detail: 'Beach club, spa time and a final gourmet dinner.' },
       { day: 'Day 4', title: 'Departure', detail: 'A relaxed breakfast and private airport transfer.' },
     ],
+  },
+  {
+    id: 'mexico', title: 'Magnificent Mexico', editorialTitle: 'History, culture, adventure', location: 'Mexico', duration: '7 days / 6 nights', durationDays: 7, price: '$1,513.00', priceStatus: 'verified', mood: 'History and adventure', badge: 'Fixed departure',
+    summary: 'History, culture, adventure and relaxation across Chichén Itzá, Cancún, Mexico City and Xcaret.',
+    image: '/media/mexico.webp', imageAvif: '/media/mexico.avif', imageAlt: 'Chichén Itzá rising above a green landscape in Mexico', layout: 'feature',
+    inclusions: ['Iconic landmarks', 'Expert guides', 'Daily breakfast', 'Comfortable stays', 'Unforgettable experiences'],
+    itinerary: [],
+    brochure: {
+      sourceFile: 'WhatsApp Image 2026-08-17 at 9.06.40 PM.jpeg',
+      highlights: ['Chichén Itzá', 'Cancún', 'Mexico City', 'Xcaret'],
+      commercialNotes: ['Guaranteed fixed departure', 'Departure: Aug 25', 'Double occupancy per person'],
+      contentNotice: incompleteItineraryNotice,
+    },
+  },
+  {
+    id: 'tanzania', title: 'Tanzania Escape', editorialTitle: 'Safari landscapes', location: 'Tanzania', duration: '6 days / 5 nights', durationDays: 6, price: '$2,185 PP', priceStatus: 'verified', mood: 'Wildlife and landscapes',
+    summary: 'Wildlife experiences and breathtaking landscapes across Lake Manyara, Serengeti and Ngorongoro.',
+    image: '/media/tanzania.webp', imageAvif: '/media/tanzania.avif', imageAlt: 'A safari landscape with wildlife in Tanzania', layout: 'landscape',
+    inclusions: [
+      '02 nights accommodation at Karatu on full board basis',
+      '02 nights accommodation in Central Serengeti on full board basis',
+      '01 night accommodation in Arusha on breakfast basis',
+      '01 x seven-seater vehicle with driver and fuel for 5 days',
+      'Mini fridge in car for soft drinks',
+      'Extra lunch',
+      'Airport transfer Kilimanjaro',
+      'Park fees Manyara',
+      'Concession fees Manyara',
+      'Park fees Serengeti',
+      'Concession fees Serengeti',
+      'Ngorongoro Park Fee',
+      '1 x Crater fees',
+      'Water 1 Liter per day',
+    ],
+    itinerary: [],
+    brochure: {
+      sourceFile: 'WhatsApp Image 2026-08-17 at 9.06.40 PM (1).jpeg',
+      highlights: ['Lake Manyara', 'Serengeti', 'Ngorongoro'],
+      accommodation: ['Kibo Palace 4* — 01 Night', 'Lake Manyara Serena Safari Lodge 4* — 01 Night', 'Arukore Simba Camp 4* — 02 Nights', 'Ngorongoro Coffee Lodge 3.5* — 01 Night'],
+      exclusions: ['Drinks', 'Tipping norms = USD 15 25 per guide per day', 'International flight'],
+      commercialNotes: ['Minimum 6 travellers travelling together'],
+      minimumTravellers: 6,
+      contentNotice: incompleteItineraryNotice,
+    },
+  },
+  {
+    id: 'usa-2026', title: 'USA 2026', editorialTitle: 'Explore America', location: 'USA', duration: 'Multiple fixed departures', price: '', priceStatus: 'hidden', mood: 'Explore and experience', badge: 'Fixed departures',
+    summary: 'Amazing destinations and unforgettable memories across six guaranteed fixed-departure programmes.',
+    image: '/media/usa-2026.webp', imageAvif: '/media/usa-2026.avif', imageAlt: 'The Statue of Liberty and New York skyline in the USA', layout: 'portrait',
+    inclusions: ['Handpicked hotels', 'Delicious meals', 'Comfortable transport', 'Sightseeing & attractions'],
+    itinerary: [],
+    brochure: {
+      sourceFile: 'WhatsApp Image 2026-08-17 at 9.06.41 PM.jpeg',
+      highlights: ['New York', 'Grand Canyon', 'Orlando', 'Las Vegas', 'San Francisco'],
+      commercialNotes: ['Guaranteed fixed departures', 'Limited seats', 'Best prices guaranteed', 'Expert tour managers', 'Comfortable & safe travel', '24/7 assistance during tour'],
+      departureSchedule: {
+        caption: 'USA 2026 guaranteed fixed departures',
+        months: ['Aug', 'Sep', 'Oct', 'Nov'],
+        programmes: [
+          { name: 'Eastern Explorer', duration: '7 days / 6 nights', departures: ['06', '10', '20', null] },
+          { name: 'Western Wanderer', duration: '7 days / 6 nights', departures: ['12', '16', '28', null] },
+          { name: 'Amazing America (East & West Coast)', duration: '13 days / 12 nights', departures: ['06', '10', '22', null] },
+          { name: 'Unique USA - (East & West Coast with Orlando)', duration: '16 days / 15 nights', departures: ['06', '10', '22', null] },
+          { name: 'Magnificent Mexico', duration: '7 days / 6 nights', departures: ['25', null, null, null] },
+          { name: 'Add on Orlando', duration: '4 days / 3 nights', departures: ['18', '22', null, '03'] },
+        ],
+      },
+      contentNotice: incompleteItineraryNotice,
+    },
+  },
+  {
+    id: 'machu-picchu', title: 'Machu Picchu Peru', editorialTitle: 'Machu Picchu', location: 'Peru', duration: 'Duration to be confirmed', price: '', priceStatus: 'hidden', mood: 'Sightseeing and support',
+    summary: 'The most extraordinary thing human hands have ever built.',
+    image: '/media/machu-picchu.webp', imageAvif: '/media/machu-picchu.avif', imageAlt: 'The stone terraces and mountain setting of Machu Picchu in Peru', layout: 'feature',
+    inclusions: ['Pickup and drop', 'Transport', 'Hotel stay', 'Sightseeing', '24x7 support'],
+    itinerary: [],
+    brochure: {
+      sourceFile: 'WhatsApp Image 2026-08-17 at 9.06.41 PM (1).jpeg',
+      highlights: ['Pickup and drop', 'Transport', 'Hotel stay', 'Sightseeing', '24x7 support'],
+      contentNotice: incompleteItineraryNotice,
+    },
+  },
+  {
+    id: 'ramakkalmedu', title: 'Ramakkalmedu', editorialTitle: 'Ramakkalmedu', location: 'Ramakkalmedu', duration: '3 days / 2 nights', durationDays: 3, price: '', priceStatus: 'hidden', mood: 'Trekking and viewpoints',
+    summary: 'Tallest Twin Statue, Watch Tower and Photo Point with trekking, windmills, vineyards and a jeep safari.',
+    image: '/media/ramakkalmedu.webp', imageAvif: '/media/ramakkalmedu.avif', imageAlt: 'Wind turbines across the green hills of Ramakkalmedu', layout: 'landscape',
+    inclusions: [],
+    itinerary: [
+      { day: 'Day 1', title: 'Ramakkalmedu', detail: 'After check-in at the hotel / resort, walk 200 metres to visit Ramakkalmedu Tourist Centre. Visit Tallest Twin Statue, Watch Tower, Photo Point and Children’s Park. After tea and snacks, trek to the famous Ramakkal (Rock of Lord Ram) to watch the 7 townships of Theni District. Return to the resort in the evening and enjoy campfire and dinner.' },
+      { day: 'Day 2', title: 'Ramakkalmedu', detail: 'After breakfast, proceed to the Top Station, where the maximum wind blows in Asia, and the Echo Point of Ramakkal. Jeep Safari at 11:00 AM. Visit Windmills and Vineyards. Shop at Cumbum. Spend the evening at Ammapara (Turtle Rock) for off-road trekking. Night at the resort with DJ party.' },
+      { day: 'Day 3', title: 'Departure', detail: 'Ramakkalmedu to departure.' },
+    ],
+    brochure: {
+      sourceFile: 'WhatsApp Image 2026-08-17 at 9.06.41 PM (2).jpeg',
+      highlights: ['Tallest Twin Statue', 'Watch Tower', 'Photo Point'],
+    },
   },
 ];
 

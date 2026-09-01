@@ -4,13 +4,34 @@ export interface ItineraryDay {
   detail: string;
 }
 
+export interface PackageDepartureSchedule {
+  caption: string;
+  months: string[];
+  programmes: Array<{
+    name: string;
+    duration: string;
+    departures: Array<string | null>;
+  }>;
+}
+
+export interface BrochureDetails {
+  sourceFile: string;
+  highlights?: string[];
+  accommodation?: string[];
+  exclusions?: string[];
+  commercialNotes?: string[];
+  minimumTravellers?: number;
+  departureSchedule?: PackageDepartureSchedule;
+  contentNotice?: string;
+}
+
 export interface TravelPackage {
   id: string;
   title: string;
   editorialTitle: string;
   location: string;
   duration: string;
-  durationDays: number;
+  durationDays?: number;
   price: string;
   priceStatus: 'verified' | 'indicative' | 'hidden';
   priceCheckedAt?: string;
@@ -21,6 +42,7 @@ export interface TravelPackage {
   imageAlt: string;
   inclusions: string[];
   itinerary: ItineraryDay[];
+  brochure?: BrochureDetails;
   layout: 'feature' | 'landscape' | 'portrait';
   badge?: string;
 }

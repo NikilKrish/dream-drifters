@@ -57,6 +57,17 @@ describe('enquiry brief', () => {
     expect(formatBrief(service)).toContain('Visas');
   });
 
+  it.each([
+    ['bali', 'Bali Is Calling'],
+    ['mexico', 'Magnificent Mexico'],
+    ['tanzania', 'Tanzania Escape'],
+    ['usa-2026', 'USA 2026'],
+    ['machu-picchu', 'Machu Picchu Peru'],
+    ['ramakkalmedu', 'Ramakkalmedu'],
+  ])('formats the brochure package id %s with the human-readable name %s', (packageId, packageName) => {
+    expect(formatBrief({ ...validPackage, packageId })).toContain(`Travel package: ${packageName}`);
+  });
+
   it('normalizes renamed services while preserving legacy insurance requests', () => {
     expect(normalizeBrief({ interestKind: 'service', serviceId: 'hotels' }).serviceId).toBe('accommodation');
     expect(normalizeBrief({ interestKind: 'service', serviceId: 'events' }).serviceId).toBe('mice');
