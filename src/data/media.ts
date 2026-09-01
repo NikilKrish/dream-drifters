@@ -55,8 +55,13 @@ const heroPosterOutputs: MediaOutput[] = [
   { label: 'small', dimensions: { width: 1920, height: 1080 }, formats: [{ kind: 'avif', path: '/media/hero-tropical-1080.avif' }, { kind: 'webp', path: '/media/hero-tropical-1080.webp' }] },
 ];
 
-function pexelsMetadata(metadata: Omit<MediaProductionMetadata, 'licence' | 'downloadDate' | 'productionApproval'>): MediaProductionMetadata {
-  return { ...metadata, licence: pexelsLicence, downloadDate: '2026-08-25', productionApproval: approval };
+type PexelsMetadataInput = Omit<MediaProductionMetadata, 'licence' | 'downloadDate' | 'productionApproval'> & {
+  downloadDate?: string;
+  approvedAt?: string;
+};
+
+function pexelsMetadata({ downloadDate = '2026-08-25', approvedAt = downloadDate, ...metadata }: PexelsMetadataInput): MediaProductionMetadata {
+  return { ...metadata, licence: pexelsLicence, downloadDate, productionApproval: { ...approval, approvedAt } };
 }
 
 export const mediaAssets: MediaAsset[] = [
@@ -151,6 +156,31 @@ export const packageMediaAssets: PackageMediaAsset[] = [
     id: 'dubai', focalPoint: { x: 49, y: 62 }, altText: 'Dubai skyline across the water in evening light',
     source: { family: 'pexels-photo-5288791', origin: 'Pexels still photo by Michael Kabus', reference: 'https://www.pexels.com/photo/the-dubai-skyline-during-sunset-5288791/' },
     productionMetadata: pexelsMetadata({ photographer: 'Michael Kabus', sourcePage: 'https://www.pexels.com/photo/the-dubai-skyline-during-sunset-5288791/', originalDimensions: { width: 4912, height: 3264 }, crop: { x: 8, y: 350, width: 4896, height: 2754, aspectRatio: '16:9', rationale: 'Vertically biased crop balances the skyline, evening sky and waterline.' }, outputs: responsiveOutputs('dubai', { width: 3840, height: 2160 }), consentReleaseRationale: 'Unpeopled skyline; model consent is not applicable and no brand endorsement is implied.' }),
+  },
+  {
+    id: 'mexico', focalPoint: { x: 38, y: 61 }, altText: 'Chichén Itzá rising above a green landscape in Mexico',
+    source: { family: 'pexels-photo-33126211', origin: 'Pexels still photo by Cristian Aragón', reference: 'https://www.pexels.com/photo/mayan-ruins-of-chichen-itza-under-blue-sky-33126211/' },
+    productionMetadata: pexelsMetadata({ photographer: 'Cristian Aragón', sourcePage: 'https://www.pexels.com/photo/mayan-ruins-of-chichen-itza-under-blue-sky-33126211/', downloadDate: '2026-09-01', originalDimensions: { width: 5937, height: 3958 }, crop: { x: 0, y: 404, width: 5600, height: 3150, aspectRatio: '16:9', rationale: 'Near-centred landscape crop excludes the lone edge visitor while retaining the Chichén Itzá ruins, green foreground and dramatic sky.' }, outputs: responsiveOutputs('mexico', { width: 3840, height: 2160 }), consentReleaseRationale: 'The approved crop contains no identifiable people or logos; no affiliation or endorsement is implied.' }),
+  },
+  {
+    id: 'tanzania', focalPoint: { x: 52, y: 61 }, altText: 'A safari landscape with wildlife in Tanzania',
+    source: { family: 'pexels-photo-35327180', origin: 'Pexels still photo by Prince III', reference: 'https://www.pexels.com/photo/african-elephants-in-serengeti-landscape-35327180/' },
+    productionMetadata: pexelsMetadata({ photographer: 'Prince III', sourcePage: 'https://www.pexels.com/photo/african-elephants-in-serengeti-landscape-35327180/', downloadDate: '2026-09-01', originalDimensions: { width: 4288, height: 2848 }, crop: { x: 0, y: 218, width: 4288, height: 2412, aspectRatio: '16:9', rationale: 'Centred landscape crop keeps the elephant family and layered Serengeti plains readable across responsive card treatments.' }, outputs: responsiveOutputs('tanzania', { width: 3840, height: 2160 }), consentReleaseRationale: 'Wildlife landscape with no people or logos; model consent is not applicable and no endorsement is implied.' }),
+  },
+  {
+    id: 'usa-2026', focalPoint: { x: 48, y: 51 }, altText: 'The Statue of Liberty and New York skyline in the USA',
+    source: { family: 'pexels-photo-18468673', origin: 'Pexels still photo by Artem Zhukov', reference: 'https://www.pexels.com/photo/the-statue-of-liberty-against-the-background-of-the-new-york-city-18468673/' },
+    productionMetadata: pexelsMetadata({ photographer: 'Artem Zhukov', sourcePage: 'https://www.pexels.com/photo/the-statue-of-liberty-against-the-background-of-the-new-york-city-18468673/', downloadDate: '2026-09-01', originalDimensions: { width: 6243, height: 4162 }, crop: { x: 0, y: 326, width: 6240, height: 3510, aspectRatio: '16:9', rationale: 'Centred landscape crop balances the Statue of Liberty, New York skyline, harbour and cloud field without introducing people or logos.' }, outputs: responsiveOutputs('usa-2026', { width: 3840, height: 2160 }), consentReleaseRationale: 'Unpeopled harbour cityscape with no visible logos; model consent is not applicable and no endorsement is implied.' }),
+  },
+  {
+    id: 'machu-picchu', focalPoint: { x: 49, y: 61 }, altText: 'The stone terraces and mountain setting of Machu Picchu in Peru',
+    source: { family: 'pexels-photo-1570610', origin: 'Pexels still photo by Paula Nardini', reference: 'https://www.pexels.com/photo/machu-picchu-peru-1570610/' },
+    productionMetadata: pexelsMetadata({ photographer: 'Paula Nardini', sourcePage: 'https://www.pexels.com/photo/machu-picchu-peru-1570610/', downloadDate: '2026-09-01', originalDimensions: { width: 6000, height: 4000 }, crop: { x: 8, y: 0, width: 5984, height: 3366, aspectRatio: '16:9', rationale: 'Top-aligned landscape crop preserves Huayna Picchu and the stone terraces while excluding nearby foreground visitors; only distant incidental visitors remain.' }, outputs: responsiveOutputs('machu-picchu', { width: 3840, height: 2160 }), consentReleaseRationale: 'Landscape-led scene; remaining visitors are distant and not identifiable, no logos are visible, and no affiliation or endorsement is implied.' }),
+  },
+  {
+    id: 'ramakkalmedu', focalPoint: { x: 54, y: 58 }, altText: 'Wind turbines across rolling green hills in Japan',
+    source: { family: 'pexels-photo-37161611', origin: 'Pexels still photo by 幼聪 戴', reference: 'https://www.pexels.com/photo/lush-green-hills-with-wind-turbines-under-blue-sky-37161611/' },
+    productionMetadata: pexelsMetadata({ photographer: '幼聪 戴', sourcePage: 'https://www.pexels.com/photo/lush-green-hills-with-wind-turbines-under-blue-sky-37161611/', downloadDate: '2026-09-01', originalDimensions: { width: 8256, height: 5504 }, crop: { x: 0, y: 430, width: 8256, height: 4644, aspectRatio: '16:9', rationale: 'This clean Pexels wind-hills landscape was photographed in Japan, not Ramakkalmedu; it is used only as the closest verified visual proxy after no Ramakkalmedu-specific 4K landscape source was found. The centred crop preserves the rolling green hills and distant turbines.' }, outputs: responsiveOutputs('ramakkalmedu', { width: 3840, height: 2160 }), consentReleaseRationale: 'Unpeopled landscape with no visible logos; model consent is not applicable and no affiliation or endorsement is implied.' }),
   },
 ];
 

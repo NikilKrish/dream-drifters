@@ -96,7 +96,27 @@ describe('active chapter media', () => {
   });
 
   it('registers every package master at 3840x2160 with licensed responsive outputs', () => {
-    expect(packageMediaAssets.map(({ id }) => id)).toEqual(packages.map(({ id }) => id));
+    const approvedPackageIds = [
+      'maldives',
+      'japan',
+      'switzerland',
+      'bali',
+      'paris',
+      'dubai',
+      'mexico',
+      'tanzania',
+      'usa-2026',
+      'machu-picchu',
+      'ramakkalmedu',
+    ];
+    const registrationCounts = Object.fromEntries(approvedPackageIds.map((id) => [
+      id,
+      packageMediaAssets.filter((asset) => asset.id === id && asset.productionMetadata.productionApproval.approvedForProduction).length,
+    ]));
+
+    expect(packages.map(({ id }) => id)).toEqual(approvedPackageIds);
+    expect(packageMediaAssets.map(({ id }) => id)).toEqual(approvedPackageIds);
+    expect(registrationCounts).toEqual(Object.fromEntries(approvedPackageIds.map((id) => [id, 1])));
     expect(packageMediaAssets.map(({ productionMetadata: { photographer, originalDimensions } }) => ({ photographer, originalDimensions }))).toEqual([
       { photographer: 'Ken Cheung', originalDimensions: { width: 4770, height: 2680 } },
       { photographer: 'Brellbell PJ', originalDimensions: { width: 4896, height: 3264 } },
@@ -104,6 +124,11 @@ describe('active chapter media', () => {
       { photographer: 'Tom Fisk', originalDimensions: { width: 8640, height: 5760 } },
       { photographer: 'Denitsa Kireva', originalDimensions: { width: 6720, height: 4480 } },
       { photographer: 'Michael Kabus', originalDimensions: { width: 4912, height: 3264 } },
+      { photographer: 'Cristian Aragón', originalDimensions: { width: 5937, height: 3958 } },
+      { photographer: 'Prince III', originalDimensions: { width: 4288, height: 2848 } },
+      { photographer: 'Artem Zhukov', originalDimensions: { width: 6243, height: 4162 } },
+      { photographer: 'Paula Nardini', originalDimensions: { width: 6000, height: 4000 } },
+      { photographer: '幼聪 戴', originalDimensions: { width: 8256, height: 5504 } },
     ]);
 
     packageMediaAssets.forEach((asset) => {
@@ -114,7 +139,7 @@ describe('active chapter media', () => {
         url: 'https://www.pexels.com/license/',
         termsUrl: 'https://www.pexels.com/terms-of-service/',
       });
-      expect(metadata.downloadDate).toBe('2026-08-25');
+      expect(metadata.downloadDate).toBe(approvedPackageIds.indexOf(asset.id) < 6 ? '2026-08-25' : '2026-09-01');
       expect(metadata.sourcePage).toMatch(/^https:\/\/www\.pexels\.com\/photo\//);
       expect(metadata.productionApproval.approvedForProduction).toBe(true);
       expect(metadata.consentReleaseRationale.length).toBeGreaterThan(30);
@@ -125,7 +150,12 @@ describe('active chapter media', () => {
         { width: 960, height: 540 },
       ]);
       expect(metadata.outputs[0].formats.map(({ path }) => path)).toEqual([travelPackage.imageAvif, travelPackage.image]);
-      expect(asset.altText).toBe(travelPackage.imageAlt);
+      if (asset.id === 'ramakkalmedu') {
+        expect(asset.altText).toBe('Wind turbines across rolling green hills in Japan');
+        expect(metadata.crop.rationale).toMatch(/Japan.*not Ramakkalmedu/i);
+      } else {
+        expect(asset.altText).toBe(travelPackage.imageAlt);
+      }
       expect(asset.focalPoint.x).toBeGreaterThanOrEqual(0);
       expect(asset.focalPoint.x).toBeLessThanOrEqual(100);
       expect(asset.focalPoint.y).toBeGreaterThanOrEqual(0);
