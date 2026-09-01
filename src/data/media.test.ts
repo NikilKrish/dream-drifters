@@ -150,16 +150,27 @@ describe('active chapter media', () => {
         { width: 960, height: 540 },
       ]);
       expect(metadata.outputs[0].formats.map(({ path }) => path)).toEqual([travelPackage.imageAvif, travelPackage.image]);
+      expect(asset.altText).toBe(travelPackage.imageAlt);
       if (asset.id === 'ramakkalmedu') {
-        expect(asset.altText).toBe('Wind turbines across rolling green hills in Japan');
         expect(metadata.crop.rationale).toMatch(/Japan.*not Ramakkalmedu/i);
-      } else {
-        expect(asset.altText).toBe(travelPackage.imageAlt);
       }
       expect(asset.focalPoint.x).toBeGreaterThanOrEqual(0);
       expect(asset.focalPoint.x).toBeLessThanOrEqual(100);
       expect(asset.focalPoint.y).toBeGreaterThanOrEqual(0);
       expect(asset.focalPoint.y).toBeLessThanOrEqual(100);
     });
+  });
+
+  it('pins the visually approved USA crop that excludes the branded ferry', () => {
+    const usa = packageMediaAssets.find((asset) => asset.id === 'usa-2026')!;
+    expect(usa.productionMetadata.crop).toEqual({
+      x: 700,
+      y: 500,
+      width: 5120,
+      height: 2880,
+      aspectRatio: '16:9',
+      rationale: expect.stringMatching(/excludes.*Statue City Cruises.*ferry/i),
+    });
+    expect(usa.productionMetadata.consentReleaseRationale).toMatch(/wordmark.*outside the crop/i);
   });
 });

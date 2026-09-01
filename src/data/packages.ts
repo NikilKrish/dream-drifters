@@ -166,7 +166,7 @@ export const packages: TravelPackage[] = [
   {
     id: 'ramakkalmedu', title: 'Ramakkalmedu', editorialTitle: 'Ramakkalmedu', location: 'Ramakkalmedu', duration: '3 days / 2 nights', durationDays: 3, price: '', priceStatus: 'hidden', mood: 'Trekking and viewpoints',
     summary: 'Tallest Twin Statue, Watch Tower and Photo Point with trekking, windmills, vineyards and a jeep safari.',
-    image: '/media/ramakkalmedu.webp', imageAvif: '/media/ramakkalmedu.avif', imageAlt: 'Wind turbines across the green hills of Ramakkalmedu', layout: 'landscape',
+    image: '/media/ramakkalmedu.webp', imageAvif: '/media/ramakkalmedu.avif', imageAlt: 'Wind turbines across rolling green hills in Japan', layout: 'landscape',
     inclusions: [],
     itinerary: [
       { day: 'Day 1', title: 'Ramakkalmedu', detail: 'After check-in at the hotel / resort, walk 200 metres to visit Ramakkalmedu Tourist Centre. Visit Tallest Twin Statue, Watch Tower, Photo Point and Children’s Park. After tea and snacks, trek to the famous Ramakkal (Rock of Lord Ram) to watch the 7 townships of Theni District. Return to the resort in the evening and enjoy campfire and dinner.' },

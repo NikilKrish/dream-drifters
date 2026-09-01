@@ -115,3 +115,89 @@ The RED run was repeated after adding the literal photographer/dimension expecta
 - The Ramakkalmedu media record truthfully identifies the selected photograph as Japan and describes it as a visual proxy. The pre-existing `TravelPackage.imageAlt` in `src/data/packages.ts` still says Ramakkalmedu, because package content and UI files were explicitly outside Task 3 ownership. A later authorized package/UI task should consume `PackageMediaAsset.altText` or correct that package-level alt before production so the rendered alt text cannot misstate the photographed location.
 - Pexels availability and terms can change. The source URLs, exact download URLs, download date, dimensions, and original-file SHA-256 hashes above preserve the provenance checked for this task.
 - Original JPEG downloads are intentionally not committed; only transformed site assets are included.
+
+## Fix round 1 — 2026-09-01
+
+### Review findings addressed
+
+- Corrected the live `ramakkalmedu` package `imageAlt` to `Wind turbines across rolling green hills in Japan`. The package data now matches the truthful media-registry alt consumed by both existing renderers and no longer claims the proxy was photographed in Ramakkalmedu. Package order and all brochure content are unchanged; no UI component was edited.
+- Re-cropped the existing licensed USA source to remove the left-edge ferry carrying the visible `Statue City Cruises` wordmark. All six USA derivatives were regenerated and inspected.
+- Updated `public/media/README.md` so its canonical manifest covers all eleven approved package families, their official sources, original dimensions, source crops and six responsive output names.
+
+### USA source, licensing and crop evidence
+
+The source was not replaced. The fix reuses the exact original downloaded for Task 3:
+
+- Official Pexels page: https://www.pexels.com/photo/the-statue-of-liberty-against-the-background-of-the-new-york-city-18468673/
+- Photographer: Artem Zhukov
+- Direct original download: https://images.pexels.com/photos/18468673/pexels-photo-18468673.jpeg
+- Original dimensions: 6243x4162
+- Original SHA-256: `149D976EF957616FA6EB8F1A0085B672875F10AB3FF23A3E5D821DF87A673741`
+- Licence evidence remains the Pexels License and Terms links recorded above and checked on 2026-09-01. No new source or licence was introduced in this fix.
+- Rejected crop: `0:326:6240:3510`; it retained the branded ferry at the far left.
+- Approved crop: `700:500:5120:2880`; this right-shifted 16:9 source window excludes the entire branded ferry while retaining the Statue of Liberty, skyline, harbour and cloud field. The 5120x2880 crop remains larger than the required 3840x2160 master.
+- Focal point remains `48% 51%`, safely centred on the statue after the revised crop.
+
+The production metadata now names the excluded ferry in the crop rationale and records that its wordmark is outside the approved crop. The six encoded files were decoded individually to temporary PNGs and inspected at their native output sizes. The AVIF and WebP versions at 3840x2160, 1920x1080 and 960x540 contain no ferry wordmark, other visible logo, or identifiable foreground person.
+
+### Regeneration command
+
+The repository's existing `node_modules/ffmpeg-static/ffmpeg.exe` was used without adding a dependency. For each output size, `SUFFIX` was empty, `-1920`, or `-960`:
+
+```powershell
+& $ffmpeg -hide_banner -loglevel error -y -i $source `
+  -vf "crop=5120:2880:700:500,scale=WIDTH:HEIGHT:flags=lanczos" `
+  -frames:v 1 -c:v libaom-av1 -still-picture 1 -cpu-used 6 -crf 28 `
+  -pix_fmt yuv420p "public\media\usa-2026$SUFFIX.avif"
+
+& $ffmpeg -hide_banner -loglevel error -y -i $source `
+  -vf "crop=5120:2880:700:500,scale=WIDTH:HEIGHT:flags=lanczos" `
+  -frames:v 1 -c:v libwebp -quality 85 -compression_level 6 -preset photo `
+  -pix_fmt yuv420p "public\media\usa-2026$SUFFIX.webp"
+```
+
+Generated output evidence:
+
+| File | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `usa-2026.avif` | 457021 | `3A426F9C0F2F688A9F05C77040CF6034C678E94C21711EEC52F5FFC92BD57EAD` |
+| `usa-2026.webp` | 1062848 | `B35D353ED33EDE699A0C213ECE83E9CCFCB424D869C7F821C5099F4EA35EE207` |
+| `usa-2026-1920.avif` | 148548 | `632D497557F0B3CE8334941505799BEE0132E50988281121CB3E7A7BCC8669D2` |
+| `usa-2026-1920.webp` | 332458 | `2989DE6811AD78465A84CDED90E38D58E15E0DAE174BABCBCB8A87E9E4B34996` |
+| `usa-2026-960.avif` | 39513 | `A6F3D8D1B989B9C50A4941A1970FE7C62A856DEB1187FD389F84020643245A4D` |
+| `usa-2026-960.webp` | 92788 | `7F1F1795FA9EE90A76B8AB3F91E92E69E3BED0E8985CEAA1965B688F5EBA8781` |
+
+### RED → GREEN evidence
+
+RED command:
+
+```text
+npx vitest run src/data/packages.test.ts src/data/media.test.ts --pool=threads --maxWorkers=1
+```
+
+Exit 1: 2 files failed; 3 tests failed and 15 passed. The failures independently showed the false Ramakkalmedu package alt, the package/media alt mismatch, and the old USA crop (`0:326:6240:3510`) instead of the inspected clean crop (`700:500:5120:2880`).
+
+GREEN and verification:
+
+- Targeted package/media tests: exit 0; 2 files and 18 tests passed.
+- Full deterministic unit suite: `npx vitest run --pool=threads --maxWorkers=1` — exit 0; 16 files and 120 tests passed.
+- TypeScript: `npx tsc -b --pretty false` — exit 0.
+- Generated-file check: all 66 AVIF/WebP package files across the eleven families were present, decoded successfully and matched the expected 3840x2160, 1920x1080 or 960x540 dimensions.
+- Visual check: all six regenerated USA outputs were decoded separately and inspected; the branded ferry is absent from every variant.
+
+### Files changed in fix round 1
+
+- `src/data/packages.test.ts`
+- `src/data/packages.ts`
+- `src/data/media.test.ts`
+- `src/data/media.ts`
+- `public/media/README.md`
+- `public/media/usa-2026{,-1920,-960}.{avif,webp}`
+- `.superpowers/sdd/2026-09-01-brochure-package-cards/task-3-report.md`
+
+The pre-existing untracked `docs/superpowers/` directory remains untouched. The fix-round commit message is `fix: address brochure package media review`; its resulting hash is recorded in the final handoff because this report is included in that commit.
+
+### Remaining risks
+
+- Ramakkalmedu still uses a clearly disclosed Japan visual proxy because no true Ramakkalmedu-specific clean 4K Pexels landscape was found. The source location is now truthful in both registry and rendered package alt paths.
+- The USA crop deliberately trades some horizontal context for removal of the branded ferry. The statue and skyline remain comfortably inside the central 16:9 card-safe area at all registered sizes.

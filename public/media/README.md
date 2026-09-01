@@ -1,6 +1,6 @@
 # Enhanced B media manifest
 
-This manifest is the operational companion to the typed registry in `src/data/media.ts`. The Hero aerial, About still and six package destination families are approved for their recorded editorial placements. The remaining ambient chapter media is still preview-only.
+This manifest is the operational companion to the typed registry in `src/data/media.ts`. The Hero aerial, About still and all eleven package destination families are approved for their recorded editorial placements. The remaining ambient chapter media is still preview-only.
 
 ## Approval gate
 
@@ -62,7 +62,7 @@ For every replacement, record the owner/source, licence terms, consent or releas
 
 ## Approved responsive stills
 
-All seven families were downloaded on 25 August 2026 and are registered with source page, photographer, Pexels licence and terms links, original dimensions, source crop, focal point, output dimensions, production approval and consent/release rationale. Masters use AVIF and WebP with `-1920` and `-960` variants. The [Pexels licence](https://www.pexels.com/license/) permits website and commercial use and modification, subject to its restrictions; the [terms](https://www.pexels.com/terms-of-service/) remain the controlling record. Depicted people must never be presented as endorsing or being affiliated with Dream Drifters.
+The About still and eleven package families are registered with source page, photographer, Pexels licence and terms links, download date, original dimensions, source crop, focal point, output dimensions, production approval and consent/release rationale. The About and original six package families were downloaded on 25 August 2026; the five brochure-backed additions were downloaded on 1 September 2026. Package masters use AVIF and WebP with `-1920` and `-960` variants. The [Pexels licence](https://www.pexels.com/license/) permits website and commercial use and modification, subject to its restrictions; the [terms](https://www.pexels.com/terms-of-service/) remain the controlling record. Depicted people must never be presented as endorsing or being affiliated with Dream Drifters.
 
 | Family | Photographer / source | Original | Source crop | Outputs |
 |---|---|---:|---:|---|
@@ -73,5 +73,10 @@ All seven families were downloaded on 25 August 2026 and are registered with sou
 | `bali` | Tom Fisk, [Pexels 36699649](https://www.pexels.com/photo/lush-green-rice-fields-in-bali-s-tropical-paradise-36699649/) | 8640×5760 | 8640×4860 at 0,450 | 3840×2160, 1920×1080, 960×540 |
 | `paris` | Denitsa Kireva, [Pexels 15576446](https://www.pexels.com/photo/the-eiffel-tower-at-sunset-15576446/) | 6720×4480 | 6720×3780 at 0,0 | 3840×2160, 1920×1080, 960×540 |
 | `dubai` | Michael Kabus, [Pexels 5288791](https://www.pexels.com/photo/the-dubai-skyline-during-sunset-5288791/) | 4912×3264 | 4896×2754 at 8,350 | 3840×2160, 1920×1080, 960×540 |
+| `mexico` | Cristian Aragón, [Pexels 33126211](https://www.pexels.com/photo/mayan-ruins-of-chichen-itza-under-blue-sky-33126211/) | 5937×3958 | 5600×3150 at 0,404 | 3840×2160, 1920×1080, 960×540 |
+| `tanzania` | Prince III, [Pexels 35327180](https://www.pexels.com/photo/african-elephants-in-serengeti-landscape-35327180/) | 4288×2848 | 4288×2412 at 0,218 | 3840×2160, 1920×1080, 960×540 |
+| `usa-2026` | Artem Zhukov, [Pexels 18468673](https://www.pexels.com/photo/the-statue-of-liberty-against-the-background-of-the-new-york-city-18468673/) | 6243×4162 | 5120×2880 at 700,500; excludes the left-edge branded ferry | 3840×2160, 1920×1080, 960×540 |
+| `machu-picchu` | Paula Nardini, [Pexels 1570610](https://www.pexels.com/photo/machu-picchu-peru-1570610/) | 6000×4000 | 5984×3366 at 8,0 | 3840×2160, 1920×1080, 960×540 |
+| `ramakkalmedu` | 幼聪 戴, [Pexels 37161611](https://www.pexels.com/photo/lush-green-hills-with-wind-turbines-under-blue-sky-37161611/) | 8256×5504 | 8256×4644 at 0,430; Japan visual proxy, not Ramakkalmedu | 3840×2160, 1920×1080, 960×540 |
 
-Package file names remain `maldives`, `japan`, `switzerland`, `bali`, `paris` and `dubai`, so cards and itinerary sheets retain their existing public data contract. Responsive package markup selects `<id>-960`, `<id>-1920` or the 3840 master; only the active package image is mounted.
+The canonical package family order is `maldives`, `japan`, `switzerland`, `bali`, `paris`, `dubai`, `mexico`, `tanzania`, `usa-2026`, `machu-picchu`, and `ramakkalmedu`. Each family publishes `<id>.avif`, `<id>.webp`, `<id>-1920.avif`, `<id>-1920.webp`, `<id>-960.avif`, and `<id>-960.webp`. Responsive package markup selects the 960, 1920, or 3840-wide variant; only the active package image is mounted.

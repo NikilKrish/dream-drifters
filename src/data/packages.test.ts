@@ -44,6 +44,13 @@ describe('journey catalogue', () => {
     });
   });
 
+  it('truthfully identifies the photographed location of the Ramakkalmedu visual proxy', () => {
+    const ramakkalmedu = packages.find((item) => item.id === 'ramakkalmedu');
+
+    expect(ramakkalmedu?.imageAlt).toBe('Wind turbines across rolling green hills in Japan');
+    expect(ramakkalmedu?.imageAlt).not.toMatch(/Ramakkalmedu/i);
+  });
+
   it('records the supplied brochure filename and an honest itinerary notice for incomplete brochures', () => {
     const modelExample = {
       sourceFile: 'brochure.jpeg',
