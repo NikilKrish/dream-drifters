@@ -95,9 +95,25 @@ describe('journey catalogue', () => {
           'Arukore Simba Camp 4* — 02 Nights',
           'Ngorongoro Coffee Lodge 3.5* — 01 Night',
         ],
-        exclusions: ['Drinks', 'Tipping norms = USD 15 25 per guide per day', 'International flight'],
+        exclusions: ['Drinks', 'Tipping norms = USD 15\n25 per guide per day', 'International flight'],
       },
     });
+  });
+
+  it('flags the two-line Tanzania tipping exclusion as ambiguous before commercial use', () => {
+    const brochure = packages.find((item) => item.id === 'tanzania')?.brochure;
+
+    expect(brochure?.exclusions).toContain('Tipping norms = USD 15\n25 per guide per day');
+    expect(brochure?.commercialNotes).toEqual([
+      'Tipping amount is ambiguous in the source artwork and must be confirmed with Dream Drifters before use.',
+    ]);
+  });
+
+  it('keeps the Tanzania minimum party size only in the structured field', () => {
+    const brochure = packages.find((item) => item.id === 'tanzania')?.brochure;
+
+    expect(brochure?.minimumTravellers).toBe(6);
+    expect(brochure?.commercialNotes?.some((note) => /minimum|6 travellers/i.test(note))).toBe(false);
   });
 
   it('transcribes all six USA fixed-departure programmes and their Aug-Nov dates', () => {

@@ -82,7 +82,7 @@ Result: exit 0. Two test files passed; 19 tests passed.
 - Cleared raw price strings for every hidden/quote-only package. Only Bali `US $357`, Mexico `$1,513.00`, and Tanzania `$2,185 PP` remain in publishable data.
 - Preserved the USA schedule's printed day values and represented brochure dashes as `null` rather than inventing departures.
 - Preserved Mexico's printed `Aug 25` without adding a year.
-- Preserved Tanzania's ambiguous printed tipping wording as `Tipping norms = USD 15 25 per guide per day` rather than inferring a range or currency conversion.
+- Preserved Tanzania's ambiguous printed tipping wording as two source lines, `Tipping norms = USD 15\n25 per guide per day`, and added a commercial warning requiring confirmation before use rather than inferring a range or currency conversion.
 - Normalized the visually obvious Machu Picchu service-label misspelling to `Sightseeing`; no destination facts were added.
 - Used the exact required incomplete-itinerary notice for Bali, Mexico, Tanzania, USA 2026, and Machu Picchu. Ramakkalmedu uses its visually verified three-day itinerary.
 - Added future-compatible `/media/<package-id>.webp` and `.avif` references only; no media was sourced, generated, or registered.
@@ -95,5 +95,37 @@ Result: exit 0. Two test files passed; 19 tests passed.
 
 - Until Task 3 lands, the five new package cards reference media paths that do not exist yet and the full unit suite intentionally fails the package-media parity assertion.
 - Task 4 must render the new optional brochure sections and handle empty itinerary arrays with `contentNotice`.
-- The Tanzania tipping wording is ambiguous in the source artwork. It should be clarified with Dream Drifters before any later editorial correction.
+- The Tanzania tipping wording remains ambiguous in the source artwork; the structured data now explicitly requires confirmation with Dream Drifters before use.
 - Brochure commercial values remain subject to the source's own `T&C` and availability language; no conversion or independent commercial validation was performed.
+
+## Independent review correction
+
+### Summary
+
+- Preserved the Tanzania tipping exclusion as the two printed source lines with no inserted separator: `Tipping norms = USD 15\n25 per guide per day`.
+- Added the commercial note: `Tipping amount is ambiguous in the source artwork and must be confirmed with Dream Drifters before use.`
+- Removed the duplicate minimum-six-travellers commercial note; `minimumTravellers: 6` remains the single source of truth.
+
+### RED
+
+Command:
+
+```text
+npm test -- src/data/packages.test.ts --pool=threads
+```
+
+Result: exit 1. One test file failed; 3 tests failed and 7 passed. The failures correctly showed that the source line break and ambiguity warning were absent and the minimum-party condition remained duplicated in `commercialNotes`.
+
+### GREEN
+
+Command:
+
+```text
+npm test -- src/data/packages.test.ts src/data/content.test.ts --pool=threads
+```
+
+Result: exit 0. Two test files passed; 14 tests passed.
+
+### Commit
+
+- `fix: clarify Tanzania brochure conditions`
