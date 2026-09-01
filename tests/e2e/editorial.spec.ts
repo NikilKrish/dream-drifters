@@ -95,24 +95,24 @@ test('package carousel restores desktop depth motion from a complete rest state'
   const viewportHeight = page.viewportSize()?.height ?? 1000;
 
   await expect(activeCard).toHaveCount(1);
+  await expect(activeCard).toHaveAttribute('aria-current', 'true');
   await expect(activeCard.getByRole('heading', { level: 3 })).toHaveText('Paradise, privately');
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   await expect(activeCard.locator('img')).toHaveAttribute('src', '/media/maldives.webp');
   await expect(activeCard.locator('source[type="image/avif"]')).toHaveAttribute('srcset', '/media/maldives-960.avif 960w, /media/maldives-1920.avif 1920w, /media/maldives.avif 3840w');
   await expect(activeCard.locator('source[type="image/webp"]')).toHaveAttribute('srcset', '/media/maldives-960.webp 960w, /media/maldives-1920.webp 1920w, /media/maldives.webp 3840w');
   await expect(activeCard.getByText('Request current quote', { exact: true })).toHaveCount(1);
-  await expect(section.getByText('Pricing is confirmed before commitment and remains subject to availability.', { exact: true })).toHaveCount(1);
   const actionSizes = await activeCard.locator('.depth-card__actions button').evaluateAll((buttons) => buttons.map((button) => ({ width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height })));
   expect(Math.abs(actionSizes[0].width - actionSizes[1].width)).toBeLessThan(1);
   expect(actionSizes.every(({ height }) => height >= 44)).toBe(true);
 
   if (width >= 1100) {
     await expect(section).toHaveClass(/depth-packages--depth/);
-    await expect(section.locator('.depth-card')).toHaveCount(6);
+    await expect(section.locator('.depth-card')).toHaveCount(11);
     await expect(section).not.toHaveAttribute('data-motion-engaged');
     await expect(section.locator('.depth-packages__destinations')).toHaveCount(0);
     expect(await section.locator('.depth-packages__stage').evaluate((stage) => getComputedStyle(stage).position)).toBe('sticky');
-    expect(await section.evaluate((element) => element.getBoundingClientRect().height)).toBeGreaterThan(viewportHeight * 3.1);
+    expect(await section.evaluate((element) => element.getBoundingClientRect().height)).toBeCloseTo(viewportHeight * 5.4, 0);
     const restGeometry = await activeCard.evaluate((card) => {
       const actions = card.querySelector<HTMLElement>('.depth-card__actions')!;
       const rect = card.getBoundingClientRect();
@@ -128,11 +128,12 @@ test('package carousel restores desktop depth motion from a complete rest state'
     await page.mouse.wheel(0, 650);
     await page.waitForTimeout(750);
     await expect(section).toHaveAttribute('data-motion-engaged', '');
-    await expect(liveStatus).toHaveText('Japan Cultural Journey, 2 of 6');
+    await expect(liveStatus).toHaveText('Japan Cultural Journey, 2 of 11');
+    await expect(activeCard).toHaveAttribute('aria-current', 'true');
     await expect(deck).toBeFocused();
     expect(await section.locator('.depth-card').evaluateAll((cards) => cards.filter((card) => card.getAttribute('data-depth-visible') === 'true').length)).toBeLessThanOrEqual(2);
     await deck.press('Home');
-    await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+    await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   } else {
     await expect(section).toHaveClass(/depth-packages--controlled/);
     await expect(section.locator('.depth-card')).toHaveCount(1);
@@ -158,20 +159,29 @@ test('package carousel restores desktop depth motion from a complete rest state'
     else expect(responsiveGeometry.stacked).toBe(true);
   }
 
+  await expect(section.getByRole('heading', { level: 2 })).toHaveText('Journeys for every kind of traveller.');
+  await expect(section.getByText('Brochure-published prices are shown for Bali, Mexico and Tanzania; all other packages are quote-only. Availability and final pricing are confirmed before commitment.', { exact: true })).toHaveCount(1);
+
   const itineraryAction = activeCard.getByRole('button', { name: 'View itinerary for Maldives Paradise' });
   await itineraryAction.focus();
   await itineraryAction.press('ArrowRight');
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   await expect(itineraryAction).toBeFocused();
+  await itineraryAction.click();
+  const packageDialog = page.getByRole('dialog', { name: /paradise, privately/i });
+  await expect(packageDialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(packageDialog).toBeHidden();
 
   const previous = section.getByRole('button', { name: 'Show previous package' });
   const next = page.getByRole('button', { name: 'Show next package' });
   await expect(previous).toBeEnabled();
   await expect(next).toBeEnabled();
   await previous.dispatchEvent('click');
-  await expect(liveStatus).toHaveText('Dubai Luxury Escape, 6 of 6');
+  await expect(liveStatus).toHaveText('Ramakkalmedu, 11 of 11');
+  await expect(activeCard).toHaveAttribute('aria-current', 'true');
   await next.dispatchEvent('click');
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   await page.evaluate(() => {
     (window as Window & { packageStageEvents?: unknown[] }).packageStageEvents = [];
     window.addEventListener('dreamdrifters:analytics', (event) => {
@@ -182,7 +192,7 @@ test('package carousel restores desktop depth motion from a complete rest state'
   const scrollBeforeAction = await page.evaluate(() => window.scrollY);
   await next.dispatchEvent('click');
   await expect(activeCard.getByRole('heading', { level: 3 })).toHaveText('Culture in motion');
-  await expect(liveStatus).toHaveText('Japan Cultural Journey, 2 of 6');
+  await expect(liveStatus).toHaveText('Japan Cultural Journey, 2 of 11');
   const scrollAfterAction = await page.evaluate(() => window.scrollY);
   if (width >= 1100) expect(scrollAfterAction).not.toBe(scrollBeforeAction);
   expect(await page.evaluate(() => (window as Window & { packageStageEvents?: unknown[] }).packageStageEvents)).toEqual([
@@ -190,17 +200,18 @@ test('package carousel restores desktop depth motion from a complete rest state'
   ]);
 
   await deck.press('ArrowLeft');
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   await deck.press('End');
-  await expect(liveStatus).toHaveText('Dubai Luxury Escape, 6 of 6');
+  await expect(liveStatus).toHaveText('Ramakkalmedu, 11 of 11');
+  await expect(activeCard).toHaveAttribute('aria-current', 'true');
   await expect(next).toBeEnabled();
   await deck.press('Home');
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   await expect(previous).toBeEnabled();
   await deck.press('ArrowLeft');
-  await expect(liveStatus).toHaveText('Dubai Luxury Escape, 6 of 6');
+  await expect(liveStatus).toHaveText('Ramakkalmedu, 11 of 11');
   await deck.press('ArrowRight');
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
 });
 
 test('package depth transitions keep one readable card inside the right-hand stage', async ({ page }, testInfo) => {
@@ -319,13 +330,13 @@ test('package carousel touch swipe respects its threshold and wraps at an endpoi
 
   const restingScroll = await page.evaluate(() => window.scrollY);
   await swipe(-47);
-  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(liveStatus).toHaveText('Maldives Paradise, 1 of 11');
   expect(await page.evaluate(() => window.scrollY)).toBe(restingScroll);
   await swipe(-60);
-  await expect(liveStatus).toHaveText('Japan Cultural Journey, 2 of 6');
+  await expect(liveStatus).toHaveText('Japan Cultural Journey, 2 of 11');
   await deck.press('Home');
   await swipe(60);
-  await expect(liveStatus).toHaveText('Dubai Luxury Escape, 6 of 6');
+  await expect(liveStatus).toHaveText('Ramakkalmedu, 11 of 11');
 });
 
 test('package selection survives responsive presentation changes', async ({ page }, testInfo) => {
@@ -339,16 +350,16 @@ test('package selection survives responsive presentation changes', async ({ page
 
   await section.getByRole('button', { name: 'Show next package' }).click();
   await section.getByRole('button', { name: 'Show next package' }).click();
-  await expect(liveStatus).toHaveText('Swiss Alps Adventure, 3 of 6');
+  await expect(liveStatus).toHaveText('Swiss Alps Adventure, 3 of 11');
 
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(section).toHaveClass(/depth-packages--depth/);
-  await expect(liveStatus).toHaveText('Swiss Alps Adventure, 3 of 6');
+  await expect(liveStatus).toHaveText('Swiss Alps Adventure, 3 of 11');
   await expect(section.locator('.depth-card.is-active')).toHaveAttribute('data-package-index', '2');
 
   await page.setViewportSize({ width: 1024, height: 768 });
   await expect(section).toHaveClass(/depth-packages--controlled/);
-  await expect(liveStatus).toHaveText('Swiss Alps Adventure, 3 of 6');
+  await expect(liveStatus).toHaveText('Swiss Alps Adventure, 3 of 11');
   await expect(section.locator('.depth-card.is-active')).toHaveAttribute('data-package-index', '2');
 });
 
@@ -358,6 +369,9 @@ test('package carousel transition is immediate with reduced motion', async ({ pa
   await page.goto('/');
   const section = page.locator('#packages');
   await section.scrollIntoViewIfNeeded();
+  await expect(section).toHaveClass(/depth-packages--controlled/);
+  expect(await section.locator('.depth-packages__stage').evaluate((stage) => getComputedStyle(stage).position)).not.toBe('sticky');
+  expect(await section.evaluate((element) => element.getBoundingClientRect().height)).toBeLessThan((page.viewportSize()?.height ?? 1000) * 2.2);
   await section.getByRole('button', { name: 'Show next package' }).dispatchEvent('click');
   const activeCard = section.locator('.depth-card');
   await expect(activeCard.getByRole('heading', { level: 3 })).toHaveText('Culture in motion');

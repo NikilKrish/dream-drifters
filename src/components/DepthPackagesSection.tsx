@@ -4,6 +4,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
   type PointerEvent,
@@ -32,6 +33,8 @@ interface DepthPackagesSectionProps {
 }
 
 const PACKAGE_PIN_OFFSET = 88;
+const PACKAGE_DEPTH_BASE_SVH = 100;
+const PACKAGE_DEPTH_TRANSITION_SVH = 44;
 
 const scrollToExact = (top: number) => {
   const root = document.documentElement;
@@ -312,13 +315,21 @@ export function DepthPackagesSection({ onOpen, onEnquire, suspended = false }: D
   };
 
   const isDepth = mode === 'depth';
+  const depthHeight = PACKAGE_DEPTH_BASE_SVH + Math.max(0, packages.length - 1) * PACKAGE_DEPTH_TRANSITION_SVH;
 
   return (
-    <section ref={sectionRef} id="packages" className={`depth-packages depth-packages--${mode}`} aria-labelledby="packages-title" data-section="packages">
+    <section
+      ref={sectionRef}
+      id="packages"
+      className={`depth-packages depth-packages--${mode}`}
+      style={isDepth ? { '--package-depth-height': `${depthHeight}svh` } as CSSProperties : undefined}
+      aria-labelledby="packages-title"
+      data-section="packages"
+    >
       <div className="depth-packages__stage shell">
         <header className="depth-packages__heading content-reveal">
           <p className="kicker">Travel packages</p>
-          <h2 id="packages-title">Six journeys. One world in motion.</h2>
+          <h2 id="packages-title">Journeys for every kind of traveller.</h2>
           <p>Consider these a beginning. Every route, stay and experience can be shaped around you.</p>
         </header>
 
@@ -330,7 +341,7 @@ export function DepthPackagesSection({ onOpen, onEnquire, suspended = false }: D
         </div>
 
         <footer className="depth-packages__footer">
-          <p className="depth-packages__note">Pricing is confirmed before commitment and remains subject to availability.</p>
+          <p className="depth-packages__note">Brochure-published prices are shown for Bali, Mexico and Tanzania; all other packages are quote-only. Availability and final pricing are confirmed before commitment.</p>
           <div className="depth-packages__controls" aria-label="Package carousel controls">
             <button type="button" aria-label="Show previous package" onClick={() => goTo(activeRef.current - 1, 'control')}><ArrowLeft aria-hidden="true" /></button>
             <span><strong>{String(activeIndex + 1).padStart(2, '0')}</strong> / {String(packages.length).padStart(2, '0')}</span>

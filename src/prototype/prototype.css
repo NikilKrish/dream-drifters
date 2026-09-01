@@ -513,7 +513,7 @@
   .depth-packages--controlled .depth-card__actions { margin-top: auto; padding-top: 2rem; }
   .depth-packages--controlled .depth-packages__footer { grid-area: footer; }
 
-  .depth-packages--depth { height: 320svh; }
+  .depth-packages--depth { height: var(--package-depth-height, 100svh); }
   .depth-packages--depth .depth-packages__stage { position: sticky; top: 88px; display: grid; height: calc(100svh - 88px); grid-template-areas: 'heading deck' 'footer footer'; grid-template-columns: minmax(320px, .52fr) minmax(0, 1.48fr); grid-template-rows: minmax(0, 1fr) auto; align-items: center; gap: .75rem clamp(2.5rem, 4vw, 4.5rem); overflow: hidden; padding-block: clamp(1rem, 2.5svh, 1.75rem) clamp(1rem, 2.5svh, 1.5rem); }
   .depth-packages--depth .depth-packages__heading { z-index: 30; grid-area: heading; align-self: center; }
   .depth-packages--depth .depth-packages__heading h2 { max-width: 9ch; margin-block: .75rem 1rem; font-size: clamp(3.5rem, 4.7vw, 5.5rem); }
