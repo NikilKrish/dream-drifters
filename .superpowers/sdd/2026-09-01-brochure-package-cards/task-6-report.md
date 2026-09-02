@@ -4,7 +4,7 @@
 
 The local regression half of Task 6 is complete on `codex/brochure-package-cards`, based on `53ede5da596295f57192c2084ef75b0f2ca3870a`.
 
-Commit message: `test: align expanded package regressions` (the containing commit hash is reported by Git after this report is committed).
+Implementation commit: `13227fc0f58b9d6f96f7da3ca798a00b665e4844` (`test: align expanded package regressions`).
 
 This task did not push, deploy, wait for Vercel, or submit a production enquiry. Those whole-branch and production actions remain controller-owned. No brochure facts, media, backend schema, Sheets, or Apps Script were changed.
 
@@ -32,6 +32,8 @@ npx playwright test tests/e2e/site.spec.ts --project=compact-phone --grep "itine
 
 Result: exit 1; 0 passed, 1 failed. `expect(itineraryButton).toBeFocused()` found focus on `body` after Escape even though the itinerary opener remained connected and visible. The modal's inert-page cleanup occurred after the focus-trap cleanup had captured the wrong prior element.
 
+This pre-fix focus-return RED was reproduced only by the `compact-phone` Playwright project in Chromium. No pre-fix Firefox focus-return RED run was performed or preserved, and this report does not claim Firefox-specific RED provenance.
+
 Minimal production correction: capture the actual itinerary trigger, pass it to `PackageSheet` and `useFocusTrap`, and restore it on the next animation frame after modal/inert cleanup. Direct scope review found no unrelated production behavior in the four-file prop thread.
 
 Focused GREEN command:
@@ -42,9 +44,13 @@ npx playwright test tests/e2e/site.spec.ts --project=compact-phone --grep "itine
 
 Result: exit 0; 1 passed, 0 failed in 6.6s.
 
+The focus-return regression has no project guard. The final complete matrix exercised the now-green assertion in Chromium (`compact-phone`, `mobile`, `tablet`, `desktop`, and `wide-desktop`), Firefox (`firefox-desktop`), and WebKit (`webkit-mobile`).
+
+The controller's review prompt incorrectly described the focus-return RED as Firefox-specific. The implementation requirements required a failing behavioral regression before any production fix, not a browser-specific RED. The compact-phone Chromium failure satisfies that requirement, while the final matrix supplies cross-browser GREEN evidence.
+
 ### Firefox service-prefill stabilization
 
-The first complete matrix reproduced a separate test timing race in Firefox:
+The first complete matrix reproduced a separate test timing race in Firefox. This was the only Firefox RED evidence, and it concerns service prefilling—not package-sheet focus return:
 
 ```text
 npm run test:e2e
