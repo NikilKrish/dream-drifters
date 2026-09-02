@@ -15,7 +15,7 @@ The page follows one clear journey:
 ## What visitors can do
 
 - Explore six travel and corporate capabilities.
-- Browse six holiday packages on phone, tablet or desktop.
+- Browse eleven holiday packages on phone, tablet or desktop.
 - Open complete itinerary details with a keyboard, mouse or touch.
 - Select a package or service and send one inline enquiry.
 - Continue in WhatsApp only after pressing an explicit button.
@@ -79,8 +79,8 @@ Full setup, environment variables, fallback behavior and verification steps are 
 
 ## Important launch notes
 
-- Package prices and supplied testimonials remain hidden until the business owner verifies them.
-- The About photograph and six package destination families are approved for their recorded editorial placements. Hero, Direction, Services, Assurance and Enquiry media remain review-required, so full-site production media approval is still blocked.
+- Brochure-verified prices are published for Bali, Mexico and Tanzania; the other eight packages remain quote-only until the business owner verifies pricing. Supplied testimonials remain hidden until verified.
+- The About photograph and all eleven package destination families are approved for their recorded editorial placements. Hero, Direction, Services, Assurance and Enquiry media remain review-required, so full-site production media approval is still blocked.
 - The launch enquiry backend stores valid enquiries in an owner-controlled Google Sheet and emails the owner. There is no owner WhatsApp notification at launch.
 - The visitor can still choose the explicit WhatsApp continuation after submission or after a retryable save error.
 - Never enter, store or reuse Gmail credentials in repository files, docs, env files or chat transcripts. The owner authorizes Apps Script and Mail access directly in Google.

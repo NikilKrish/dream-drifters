@@ -14,7 +14,9 @@ export default function App() {
   const [activePackage, setActivePackage] = useState<TravelPackage | null>(null);
   const [sourceImage, setSourceImage] = useState<HTMLElement | null>(null);
   const [selection, setSelection] = useState<EnquirySelection | null>(null);
+  const [quoteFocusRequest, setQuoteFocusRequest] = useState(0);
   const packageTriggerRef = useRef<HTMLElement | null>(null);
+  const handledQuoteFocusRequestRef = useRef(0);
   const scrollRequestRef = useRef(0);
   useEditorialMotion();
 
@@ -35,6 +37,25 @@ export default function App() {
     background.forEach((node) => { node.inert = true; });
     return () => background.forEach((node) => { node.inert = false; });
   }, [activePackage]);
+
+  useEffect(() => {
+    if (activePackage || quoteFocusRequest === handledQuoteFocusRequestRef.current) return;
+    handledQuoteFocusRequestRef.current = quoteFocusRequest;
+    let frame = 0;
+    let attempts = 0;
+    const focusPackageSelect = () => {
+      attempts += 1;
+      const contact = document.getElementById('contact');
+      const packageSelect = contact?.querySelector<HTMLSelectElement>('select[aria-label="Select package"]');
+      if (!packageSelect || document.getElementById('main-content')?.inert) {
+        if (attempts < 4) frame = requestAnimationFrame(focusPackageSelect);
+        return;
+      }
+      packageSelect.focus({ preventScroll: true });
+    };
+    frame = requestAnimationFrame(focusPackageSelect);
+    return () => cancelAnimationFrame(frame);
+  }, [activePackage, quoteFocusRequest]);
 
   const scrollTo = (id: string) => requestAnimationFrame(() => {
     const target = document.getElementById(id);
@@ -72,7 +93,8 @@ export default function App() {
     scrollTo('contact');
   };
   const selectPackage = (item: TravelPackage) => { setSelection({ interestKind: 'package', packageId: item.id, label: item.title, requestId: Date.now() }); track('package_selected', { package_id: item.id }); setActivePackage(null); scrollTo('contact'); };
+  const planPackage = (item: TravelPackage) => { selectPackage(item); setQuoteFocusRequest((current) => current + 1); };
   const openPackage = (item: TravelPackage, image: HTMLElement | null, trigger: HTMLElement) => { packageTriggerRef.current = trigger; setSourceImage(image); setActivePackage(item); track('itinerary_opened', { package_id: item.id }); };
 
-  return <div className="prototype editorial-production"><a className="skip-link" href="#main-content">Skip to main content</a><Navigation onQuote={selectCustom} onNavigate={scrollTo} /><main id="main-content"><EditorialHero onPackages={() => scrollTo('packages')} onQuote={selectCustom} /><EditorialMetrics /><EditorialStory /><EditorialServices onSelect={selectCapability} /><EditorialTrust /><DepthPackagesSection onOpen={openPackage} onEnquire={selectPackage} suspended={Boolean(activePackage)} /><EditorialReviews /><EnquirySection selection={selection} /></main><Footer onQuote={selectCustom} /><PackageSheet travelPackage={activePackage} sourceImage={sourceImage} returnFocus={packageTriggerRef.current} onClose={() => setActivePackage(null)} onPlan={selectPackage} /></div>;
+  return <div className="prototype editorial-production"><a className="skip-link" href="#main-content">Skip to main content</a><Navigation onQuote={selectCustom} onNavigate={scrollTo} /><main id="main-content"><EditorialHero onPackages={() => scrollTo('packages')} onQuote={selectCustom} /><EditorialMetrics /><EditorialStory /><EditorialServices onSelect={selectCapability} /><EditorialTrust /><DepthPackagesSection onOpen={openPackage} onEnquire={selectPackage} suspended={Boolean(activePackage)} /><EditorialReviews /><EnquirySection selection={selection} /></main><Footer onQuote={selectCustom} /><PackageSheet travelPackage={activePackage} sourceImage={sourceImage} returnFocus={packageTriggerRef.current} onClose={() => setActivePackage(null)} onPlan={planPackage} /></div>;
 }

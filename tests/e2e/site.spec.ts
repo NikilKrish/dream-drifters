@@ -54,7 +54,7 @@ test('has no serious accessibility violations and selects the right hero art', a
   expect(results.violations.filter((issue) => ['serious', 'critical'].includes(issue.impact ?? ''))).toEqual([]);
 });
 
-test('itinerary scene supports Escape and package-to-form prefilling', async ({ page }) => {
+test('itinerary scene restores dismissal focus and sends quote focus to the selected enquiry', async ({ page }) => {
   await page.goto('/');
   const packagesSection = page.locator('#packages');
   await page.locator('.editorial-hero').getByRole('button', { name: 'Explore packages', exact: true }).click();
@@ -69,10 +69,25 @@ test('itinerary scene supports Escape and package-to-form prefilling', async ({ 
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(itineraryButton).toBeFocused();
+
+  await itineraryButton.click();
+  await dialog.locator('.package-sheet__close').click();
+  await expect(dialog).toBeHidden();
+  await expect(itineraryButton).toBeFocused();
+
+  await itineraryButton.click();
+  await dialog.locator('.package-sheet__backdrop').click({ position: { x: 2, y: 2 } });
+  await expect(dialog).toBeHidden();
+  await expect(itineraryButton).toBeFocused();
+
   await itineraryButton.click();
   await dialog.getByRole('button', { name: /get a quote for maldives/i }).click();
-  await expect(page.getByLabel(/select package/i)).toHaveValue('maldives');
-  await expect(page.locator('#contact strong').getByText('Maldives Paradise', { exact: true })).toBeVisible();
+  const contact = page.locator('#contact');
+  const packageSelect = contact.getByLabel(/select package/i);
+  await expect(packageSelect).toHaveValue('maldives');
+  await expect(packageSelect.locator('option:checked')).toHaveText('Maldives Paradise');
+  await expect(contact.locator('strong').getByText('Maldives Paradise', { exact: true })).toBeVisible();
+  await expect(packageSelect).toBeFocused();
 });
 
 test('service prefilling and WhatsApp fallback work inline', async ({ page }) => {

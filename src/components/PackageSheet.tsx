@@ -33,8 +33,20 @@ function DetailListSection({ id, title, items }: DetailListSectionProps) {
 export function PackageSheet({ travelPackage, sourceImage, returnFocus, onClose, onPlan }: PackageSheetProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const close = useCallback(onClose, [onClose]);
-  useFocusTrap(dialogRef, Boolean(travelPackage), close, returnFocus);
+  const shouldRestoreFocusRef = useRef(true);
+  const close = useCallback(() => {
+    shouldRestoreFocusRef.current = true;
+    onClose();
+  }, [onClose]);
+  const plan = useCallback((item: TravelPackage) => {
+    shouldRestoreFocusRef.current = false;
+    onPlan(item);
+  }, [onPlan]);
+  useFocusTrap(dialogRef, Boolean(travelPackage), close, returnFocus, shouldRestoreFocusRef);
+
+  useEffect(() => {
+    if (travelPackage) shouldRestoreFocusRef.current = true;
+  }, [travelPackage]);
 
   useEffect(() => {
     if (!travelPackage) return;
@@ -66,9 +78,9 @@ export function PackageSheet({ travelPackage, sourceImage, returnFocus, onClose,
   const headingId = (section: string) => `${travelPackage.id}-${section}-title`;
   return (
     <div className="package-sheet" role="dialog" aria-modal="true" aria-labelledby="package-title" ref={dialogRef}>
-      <button className="package-sheet__backdrop" type="button" onClick={onClose} aria-label="Close journey details" />
+      <button className="package-sheet__backdrop" type="button" onClick={close} aria-label="Close journey details" />
       <article className="package-sheet__panel">
-        <button className="icon-button package-sheet__close" type="button" onClick={onClose} aria-label="Close journey details"><X aria-hidden="true" weight="bold" /></button>
+        <button className="icon-button package-sheet__close" type="button" onClick={close} aria-label="Close journey details"><X aria-hidden="true" weight="bold" /></button>
         <div className="package-sheet__media"><picture><source type="image/avif" srcSet={getPackageResponsiveImageSrcSet(travelPackage.id, 'avif')} sizes="(min-width: 900px) 50vw, 100vw" /><source type="image/webp" srcSet={getPackageResponsiveImageSrcSet(travelPackage.id, 'webp')} sizes="(min-width: 900px) 50vw, 100vw" /><img ref={imageRef} src={travelPackage.image} width="3840" height="2160" alt={travelPackage.imageAlt} decoding="async" /></picture></div>
         <div className="package-sheet__body">
           <p className="package-sheet__meta">{travelPackage.location}<span>{travelPackage.duration}</span></p>
@@ -139,7 +151,7 @@ export function PackageSheet({ travelPackage, sourceImage, returnFocus, onClose,
               </section>
             )}
           </div>
-          <button className="button button--accent package-sheet__plan" type="button" aria-label={`Get a quote for ${travelPackage.title}`} onClick={() => onPlan(travelPackage)}>Get a quote <ArrowRight aria-hidden="true" weight="bold" /></button>
+          <button className="button button--accent package-sheet__plan" type="button" aria-label={`Get a quote for ${travelPackage.title}`} onClick={() => plan(travelPackage)}>Get a quote <ArrowRight aria-hidden="true" weight="bold" /></button>
         </div>
       </article>
     </div>
