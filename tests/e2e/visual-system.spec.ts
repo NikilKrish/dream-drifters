@@ -27,7 +27,11 @@ test('passes the integrated anchor, overflow, type-floor and axe gate at every r
 
       const assurance = page.getByRole('heading', { name: 'Support you can see.' });
       await expect(assurance).toBeVisible();
-      await expect.poll(() => page.locator('#reviews').evaluate((section) => section.getBoundingClientRect().top)).toBeLessThan(viewport.height);
+      await expect.poll(() => page.evaluate((viewportHeight) => {
+        const sectionTop = document.querySelector<HTMLElement>('#reviews')!.getBoundingClientRect().top;
+        const navBottom = document.querySelector<HTMLElement>('.site-nav__inner')!.getBoundingClientRect().bottom;
+        return sectionTop >= navBottom && sectionTop < viewportHeight;
+      }, viewport.height)).toBe(true);
       const measurements = await page.evaluate(() => {
         const section = document.querySelector<HTMLElement>('#reviews')!;
         const heading = document.querySelector<HTMLElement>('#reviews-title')!;

@@ -60,3 +60,12 @@ The test verifies Escape, close-button, and backdrop restoration; package ID/nam
 ## Concerns
 
 No unresolved functional concern was found. Playwright reports the suite's expected project-specific skips and a benign `NO_COLOR`/`FORCE_COLOR` warning. Production rollout remains controller-owned and was not performed in this fix.
+
+## Regression Stabilization
+
+A fresh controller full-suite run supplied RED evidence for the integrated visual-system gate at 1424×696: `sectionTop` was `-15.6875` while `navBottom` was `80`. The former poll only required `sectionTop < viewport.height`, so it could finish during a negative native-hash/GSAP transition. The test now polls the final geometry condition directly, re-reading the current navigation boundary until `sectionTop >= navBottom` and `sectionTop < viewport.height`; no production code or arbitrary delay was added.
+
+Verification after the test-only change:
+
+- Exact integrated test, desktop with `--repeat-each=3`: 3 passed (1.6 minutes).
+- Full `npm run test:e2e`: 93 passed, 96 project-specific skips, 0 failures (7.3 minutes).
