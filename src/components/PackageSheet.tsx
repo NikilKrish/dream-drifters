@@ -9,6 +9,7 @@ import { getPackagePriceLabel } from './PackagesSection';
 interface PackageSheetProps {
   travelPackage: TravelPackage | null;
   sourceImage: HTMLElement | null;
+  returnFocus?: HTMLElement | null;
   onClose: () => void;
   onPlan: (travelPackage: TravelPackage) => void;
 }
@@ -29,11 +30,11 @@ function DetailListSection({ id, title, items }: DetailListSectionProps) {
   );
 }
 
-export function PackageSheet({ travelPackage, sourceImage, onClose, onPlan }: PackageSheetProps) {
+export function PackageSheet({ travelPackage, sourceImage, returnFocus, onClose, onPlan }: PackageSheetProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const close = useCallback(onClose, [onClose]);
-  useFocusTrap(dialogRef, Boolean(travelPackage), close);
+  useFocusTrap(dialogRef, Boolean(travelPackage), close, returnFocus);
 
   useEffect(() => {
     if (!travelPackage) return;

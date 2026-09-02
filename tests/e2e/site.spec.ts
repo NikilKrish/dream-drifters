@@ -60,14 +60,16 @@ test('itinerary scene supports Escape and package-to-form prefilling', async ({ 
   await page.locator('.editorial-hero').getByRole('button', { name: 'Explore packages', exact: true }).click();
   await expect.poll(() => packagesSection.evaluate((element) => Math.round(element.getBoundingClientRect().top))).toBeLessThanOrEqual(90);
   if ((page.viewportSize()?.width ?? 1000) >= 1100) await expect(packagesSection).toHaveAttribute('data-depth-ready', '');
-  await expect(packagesSection.locator('.depth-packages__deck [aria-live="polite"]')).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(packagesSection.locator('.depth-packages__deck [aria-live="polite"]')).toHaveText('Maldives Paradise, 1 of 11');
   const card = packagesSection.locator('.depth-card.is-active');
-  await card.locator('.depth-card__actions').getByRole('button', { name: /view itinerary for maldives/i }).click();
+  const itineraryButton = card.locator('.depth-card__actions').getByRole('button', { name: /view itinerary for maldives/i });
+  await itineraryButton.click();
   const dialog = page.getByRole('dialog', { name: /paradise, privately/i });
   await expect(dialog).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
-  await card.getByRole('button', { name: /view itinerary for maldives/i }).click();
+  await expect(itineraryButton).toBeFocused();
+  await itineraryButton.click();
   await dialog.getByRole('button', { name: /get a quote for maldives/i }).click();
   await expect(page.getByLabel(/select package/i)).toHaveValue('maldives');
   await expect(page.locator('#contact strong').getByText('Maldives Paradise', { exact: true })).toBeVisible();
@@ -75,6 +77,7 @@ test('itinerary scene supports Escape and package-to-form prefilling', async ({ 
 
 test('service prefilling and WhatsApp fallback work inline', async ({ page }) => {
   await page.route('**/api/enquiry', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, stored: true, notified: false }) }));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const width = page.viewportSize()?.width ?? 1000;
   if (width < 700) {

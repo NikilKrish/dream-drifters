@@ -281,7 +281,7 @@ test('keeps selected-package controls and package-sheet copy above their text fl
         viewportHeight: innerHeight,
       };
     });
-    expect(geometry.cardCount).toBe(6);
+    expect(geometry.cardCount).toBe(11);
     expect(geometry.title).toBe('Paradise, privately');
     expect(geometry.sectionTop).toBeGreaterThanOrEqual(0);
     expect(geometry.cardBottom).toBeLessThanOrEqual(geometry.viewportHeight);
@@ -294,8 +294,8 @@ test('keeps selected-package controls and package-sheet copy above their text fl
 
   const packagesSection = page.locator('#packages');
   await page.locator('.editorial-hero').getByRole('button', { name: 'Explore packages', exact: true }).click();
-  await expect(packagesSection.locator('.depth-card')).toHaveCount(6);
-  await expect(packagesSection.locator('.depth-packages__deck [aria-live="polite"]')).toHaveText('Maldives Paradise, 1 of 6');
+  await expect(packagesSection.locator('.depth-card')).toHaveCount(11);
+  await expect(packagesSection.locator('.depth-packages__deck [aria-live="polite"]')).toHaveText('Maldives Paradise, 1 of 11');
   await packagesSection.locator('.depth-card.is-active').getByRole('button', { name: /view itinerary for maldives/i }).click();
 
   const sheet = page.getByRole('dialog', { name: /paradise, privately/i });

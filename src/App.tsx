@@ -14,6 +14,7 @@ export default function App() {
   const [activePackage, setActivePackage] = useState<TravelPackage | null>(null);
   const [sourceImage, setSourceImage] = useState<HTMLElement | null>(null);
   const [selection, setSelection] = useState<EnquirySelection | null>(null);
+  const packageTriggerRef = useRef<HTMLElement | null>(null);
   const scrollRequestRef = useRef(0);
   useEditorialMotion();
 
@@ -71,7 +72,7 @@ export default function App() {
     scrollTo('contact');
   };
   const selectPackage = (item: TravelPackage) => { setSelection({ interestKind: 'package', packageId: item.id, label: item.title, requestId: Date.now() }); track('package_selected', { package_id: item.id }); setActivePackage(null); scrollTo('contact'); };
-  const openPackage = (item: TravelPackage, image: HTMLElement | null) => { setSourceImage(image); setActivePackage(item); track('itinerary_opened', { package_id: item.id }); };
+  const openPackage = (item: TravelPackage, image: HTMLElement | null, trigger: HTMLElement) => { packageTriggerRef.current = trigger; setSourceImage(image); setActivePackage(item); track('itinerary_opened', { package_id: item.id }); };
 
-  return <div className="prototype editorial-production"><a className="skip-link" href="#main-content">Skip to main content</a><Navigation onQuote={selectCustom} onNavigate={scrollTo} /><main id="main-content"><EditorialHero onPackages={() => scrollTo('packages')} onQuote={selectCustom} /><EditorialMetrics /><EditorialStory /><EditorialServices onSelect={selectCapability} /><EditorialTrust /><DepthPackagesSection onOpen={openPackage} onEnquire={selectPackage} suspended={Boolean(activePackage)} /><EditorialReviews /><EnquirySection selection={selection} /></main><Footer onQuote={selectCustom} /><PackageSheet travelPackage={activePackage} sourceImage={sourceImage} onClose={() => setActivePackage(null)} onPlan={selectPackage} /></div>;
+  return <div className="prototype editorial-production"><a className="skip-link" href="#main-content">Skip to main content</a><Navigation onQuote={selectCustom} onNavigate={scrollTo} /><main id="main-content"><EditorialHero onPackages={() => scrollTo('packages')} onQuote={selectCustom} /><EditorialMetrics /><EditorialStory /><EditorialServices onSelect={selectCapability} /><EditorialTrust /><DepthPackagesSection onOpen={openPackage} onEnquire={selectPackage} suspended={Boolean(activePackage)} /><EditorialReviews /><EnquirySection selection={selection} /></main><Footer onQuote={selectCustom} /><PackageSheet travelPackage={activePackage} sourceImage={sourceImage} returnFocus={packageTriggerRef.current} onClose={() => setActivePackage(null)} onPlan={selectPackage} /></div>;
 }

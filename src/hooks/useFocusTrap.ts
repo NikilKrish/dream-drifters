@@ -2,7 +2,7 @@ import { useEffect, type RefObject } from 'react';
 
 const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active: boolean, onEscape: () => void): void {
+export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active: boolean, onEscape: () => void, returnFocus?: HTMLElement | null): void {
   useEffect(() => {
     if (!active || !containerRef.current) return;
     const container = containerRef.current;
@@ -18,7 +18,14 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, active
       if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     };
     document.addEventListener('keydown', handleKey);
-    return () => { document.removeEventListener('keydown', handleKey); previous?.focus(); };
-  }, [active, containerRef, onEscape]);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      if (returnFocus) {
+        window.requestAnimationFrame(() => { if (returnFocus.isConnected) returnFocus.focus({ preventScroll: true }); });
+        return;
+      }
+      previous?.focus();
+    };
+  }, [active, containerRef, onEscape, returnFocus]);
 }
 

@@ -27,7 +27,7 @@ import type { TravelPackage } from '../types';
 import { getPackagePriceLabel } from './PackagesSection';
 
 interface DepthPackagesSectionProps {
-  onOpen: (travelPackage: TravelPackage, sourceImage: HTMLElement | null) => void;
+  onOpen: (travelPackage: TravelPackage, sourceImage: HTMLElement | null, trigger: HTMLElement) => void;
   onEnquire: (travelPackage: TravelPackage) => void;
   suspended?: boolean;
 }
@@ -211,7 +211,7 @@ export function DepthPackagesSection({ onOpen, onEnquire, suspended = false }: D
       return;
     }
     const card = event.currentTarget.closest<HTMLElement>('[data-package-card]');
-    onOpen(item, card?.querySelector('img') ?? null);
+    onOpen(item, card?.querySelector('img') ?? null, event.currentTarget);
   };
 
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
