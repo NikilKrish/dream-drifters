@@ -314,7 +314,7 @@ test('keeps selected-package controls and package-sheet copy above their text fl
   await expect(selectionControl).toBeVisible();
   const functionalSizes = await page.evaluate(() => ({
     selectionControl: Number.parseFloat(getComputedStyle(document.querySelector<HTMLElement>('.selection-banner button')!).fontSize),
-    navigationBrand: Number.parseFloat(getComputedStyle(document.querySelector<HTMLElement>('.brand-mark__name')!).fontSize),
+    navigationBrand: Number.parseFloat(getComputedStyle(document.querySelector<HTMLElement>('.brand-mark__words')!).fontSize),
   }));
 
   expect(sheetCopySizes.length).toBeGreaterThan(5);
