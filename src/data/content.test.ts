@@ -11,12 +11,13 @@ describe('publishable travel content', () => {
     expect(verifiedTestimonials).toHaveLength(0);
   });
 
-  it('exposes only the three brochure-verified price strings and hides every other catalogue price', () => {
+  it('presents all packages as quote-only while preserving brochure price metadata', () => {
+    expect(packages).toHaveLength(11);
+    expect(packages.every((item) => getPackagePriceLabel(item) === 'Request current quote')).toBe(true);
     expect(
       Object.fromEntries(packages.filter((item) => item.priceStatus === 'verified').map((item) => [item.id, item.price])),
     ).toEqual({ bali: 'US $357', mexico: '$1,513.00', tanzania: '$2,185 PP' });
     expect(packages.filter((item) => item.priceStatus === 'hidden').every((item) => item.price === '')).toBe(true);
-    expect(getPackagePriceLabel(packages.find((item) => item.id === 'maldives')!)).toBe('Request current quote');
   });
 
   it('publishes the corrected capability taxonomy without Travel Insurance', () => {

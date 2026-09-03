@@ -36,10 +36,24 @@ afterEach(() => {
 });
 
 describe('PackageSheet brochure details', () => {
-  it('renders Tanzania pricing, commercial notes, minimum travellers, and populated brochure lists in order', () => {
+  it('presents every brochure-priced package as a current quote without exposing its stored price', () => {
+    for (const id of ['bali', 'mexico', 'tanzania']) {
+      const { dialog } = renderPackage(getPackage(id));
+
+      expect(within(dialog).getByText('Current quote')).toBeInTheDocument();
+      expect(within(dialog).getByText('Request current quote')).toBeInTheDocument();
+      expect(within(dialog).queryByText('US $357', { exact: false })).not.toBeInTheDocument();
+      expect(within(dialog).queryByText('$1,513.00', { exact: false })).not.toBeInTheDocument();
+      expect(within(dialog).queryByText('$2,185 PP', { exact: false })).not.toBeInTheDocument();
+
+      cleanup();
+    }
+  });
+
+  it('renders Tanzania quote details, commercial notes, minimum travellers, and populated brochure lists in order', () => {
     const { dialog } = renderPackage(getPackage('tanzania'));
 
-    expect(within(dialog).getByText('From $2,185 PP')).toBeInTheDocument();
+    expect(within(dialog).getByText('Request current quote')).toBeInTheDocument();
     expect(within(dialog).getByText('Minimum travellers')).toBeInTheDocument();
     expect(within(dialog).getByText('6')).toBeInTheDocument();
     expect(within(dialog).getByRole('heading', { level: 4, name: 'Commercial notes' })).toBeInTheDocument();

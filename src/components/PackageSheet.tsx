@@ -90,7 +90,7 @@ export function PackageSheet({ travelPackage, sourceImage, returnFocus, onClose,
             <section className="package-sheet__section package-sheet__key-facts" aria-labelledby={headingId('key-facts')}>
               <h3 id={headingId('key-facts')}>Key facts</h3>
               <dl className="package-sheet__facts">
-                <div><dt>Current pricing</dt><dd><strong>{getPackagePriceLabel(travelPackage)}</strong><small>Confirmed before you commit</small></dd></div>
+                <div><dt>Current quote</dt><dd><strong>{getPackagePriceLabel(travelPackage)}</strong><small>Confirmed before you commit</small></dd></div>
                 <div><dt>Designed for</dt><dd><strong>{travelPackage.mood}</strong><small>Fully customisable</small></dd></div>
                 {brochure?.minimumTravellers !== undefined && <div><dt>Minimum travellers</dt><dd><strong>{brochure.minimumTravellers}</strong><small>Minimum group size</small></dd></div>}
               </dl>

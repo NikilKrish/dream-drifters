@@ -79,7 +79,7 @@ Full setup, environment variables, fallback behavior and verification steps are 
 
 ## Important launch notes
 
-- Brochure-verified prices are published for Bali, Mexico and Tanzania; the other eight packages remain quote-only until the business owner verifies pricing. Supplied testimonials remain hidden until verified.
+- All eleven packages are quote-only; availability and final pricing are confirmed before commitment. Supplied testimonials remain hidden until verified.
 - The About photograph and all eleven package destination families are approved for their recorded editorial placements. Hero, Direction, Services, Assurance and Enquiry media remain review-required, so full-site production media approval is still blocked.
 - The launch enquiry backend stores valid enquiries in an owner-controlled Google Sheet and emails the owner. There is no owner WhatsApp notification at launch.
 - The visitor can still choose the explicit WhatsApp continuation after submission or after a retryable save error.

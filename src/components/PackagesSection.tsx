@@ -8,8 +8,8 @@ interface PackagesSectionProps {
   onEnquire: (travelPackage: TravelPackage) => void;
 }
 
-export function getPackagePriceLabel(item: TravelPackage): string {
-  return item.priceStatus === 'verified' || item.priceStatus === 'indicative' ? `From ${item.price}` : 'Request current quote';
+export function getPackagePriceLabel(_item: TravelPackage): string {
+  return 'Request current quote';
 }
 
 export function PackagesSection({ onOpen, onEnquire }: PackagesSectionProps) {

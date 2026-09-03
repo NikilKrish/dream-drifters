@@ -102,6 +102,10 @@ test('package carousel restores desktop depth motion from a complete rest state'
   await expect(activeCard.locator('source[type="image/avif"]')).toHaveAttribute('srcset', '/media/maldives-960.avif 960w, /media/maldives-1920.avif 1920w, /media/maldives.avif 3840w');
   await expect(activeCard.locator('source[type="image/webp"]')).toHaveAttribute('srcset', '/media/maldives-960.webp 960w, /media/maldives-1920.webp 1920w, /media/maldives.webp 3840w');
   await expect(activeCard.getByText('Request current quote', { exact: true })).toHaveCount(1);
+  await expect(section.getByText('Request current quote', { exact: true })).toHaveCount(11);
+  await expect(section.getByText('US $357', { exact: false })).toHaveCount(0);
+  await expect(section.getByText('$1,513.00', { exact: false })).toHaveCount(0);
+  await expect(section.getByText('$2,185 PP', { exact: false })).toHaveCount(0);
   const actionSizes = await activeCard.locator('.depth-card__actions button').evaluateAll((buttons) => buttons.map((button) => ({ width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height })));
   expect(Math.abs(actionSizes[0].width - actionSizes[1].width)).toBeLessThan(1);
   expect(actionSizes.every(({ height }) => height >= 44)).toBe(true);
@@ -160,7 +164,7 @@ test('package carousel restores desktop depth motion from a complete rest state'
   }
 
   await expect(section.getByRole('heading', { level: 2 })).toHaveText('Journeys for every kind of traveller.');
-  await expect(section.getByText('Brochure-published prices are shown for Bali, Mexico and Tanzania; all other packages are quote-only. Availability and final pricing are confirmed before commitment.', { exact: true })).toHaveCount(1);
+  await expect(section.getByText('Availability and final pricing are confirmed before commitment.', { exact: true })).toHaveCount(1);
 
   const itineraryAction = activeCard.getByRole('button', { name: 'View itinerary for Maldives Paradise' });
   await itineraryAction.focus();

@@ -341,7 +341,7 @@ export function DepthPackagesSection({ onOpen, onEnquire, suspended = false }: D
         </div>
 
         <footer className="depth-packages__footer">
-          <p className="depth-packages__note">Brochure-published prices are shown for Bali, Mexico and Tanzania; all other packages are quote-only. Availability and final pricing are confirmed before commitment.</p>
+          <p className="depth-packages__note">Availability and final pricing are confirmed before commitment.</p>
           <div className="depth-packages__controls" aria-label="Package carousel controls">
             <button type="button" aria-label="Show previous package" onClick={() => goTo(activeRef.current - 1, 'control')}><ArrowLeft aria-hidden="true" /></button>
             <span><strong>{String(activeIndex + 1).padStart(2, '0')}</strong> / {String(packages.length).padStart(2, '0')}</span>
