@@ -30,7 +30,7 @@
 .proto-brand .brand-mark { white-space: nowrap; }
 .proto-nav .brand-mark__tile { width: 40px; height: 32px; }
 .proto-nav .brand-mark__tile img { width: 38px; height: auto; }
-.proto-nav .brand-mark__name { font-size: .82rem; }
+.proto-nav .brand-mark__words { font-size: .82rem; }
 .proto-nav nav { position: fixed; visibility: hidden; z-index: 1; inset: -.75rem -1rem auto; display: flex; height: 100dvh; flex-direction: column; gap: .35rem; padding: 8rem 1.5rem 2rem; pointer-events: none; transform: translateY(-102%); background: var(--proto-ink); transition: transform 420ms cubic-bezier(.22,1,.36,1), visibility 0s linear 420ms; }
 .proto-nav.is-open nav { visibility: visible; pointer-events: auto; transform: none; transition-delay: 0s; }
 .proto-nav nav a { padding: .45rem 0; font-family: var(--display); font-size: clamp(2.8rem, 12vw, 4.5rem); line-height: 1; }
@@ -673,7 +673,7 @@
 .editorial-production legend,
 .editorial-production small,
 .editorial-production .site-menu > a,
-.editorial-production .brand-mark__name,
+.editorial-production .brand-mark__words,
 .editorial-production .kicker,
 .editorial-production .chapter-index,
 .editorial-production .editorial-hero__edition,
