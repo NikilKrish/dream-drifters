@@ -26,6 +26,7 @@
 **Files:**
 - Modify: `src/components/PackagesSection.tsx`, `src/components/PackageSheet.tsx`, `src/components/DepthPackagesSection.tsx`
 - Modify: `src/data/content.test.ts`, `src/components/PackageSheet.test.tsx`, `tests/e2e/editorial.spec.ts`
+- Modify: `README.md` if it describes numeric package prices
 
 **Interfaces:**
 - Consumes: `TravelPackage.price` and `TravelPackage.priceStatus` only as preserved source metadata.
@@ -67,14 +68,14 @@ Expected: all checks pass and no numeric package price is publicly visible.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/components/PackagesSection.tsx src/components/PackageSheet.tsx src/components/DepthPackagesSection.tsx src/data/content.test.ts src/components/PackageSheet.test.tsx tests/e2e/editorial.spec.ts
+git add src/components/PackagesSection.tsx src/components/PackageSheet.tsx src/components/DepthPackagesSection.tsx src/data/content.test.ts src/components/PackageSheet.test.tsx tests/e2e/editorial.spec.ts README.md
 git commit -m "fix: make package catalogue quote-only"
 ```
 
 ### Task 2: Reformat the shared Dream Drifters wordmark
 
 **Files:**
-- Modify: `src/components/BrandMark.tsx`, `src/styles.css`
+- Modify: `src/components/BrandMark.tsx`, `src/styles.css`, `src/prototype/prototype.css`
 - Create: `src/components/BrandMark.test.tsx`
 
 **Interfaces:**
@@ -116,7 +117,7 @@ Expected: all tests pass.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/components/BrandMark.tsx src/styles.css src/components/BrandMark.test.tsx
+git add src/components/BrandMark.tsx src/styles.css src/prototype/prototype.css src/components/BrandMark.test.tsx
 git commit -m "feat: stack Dream Drifters wordmark"
 ```
 
