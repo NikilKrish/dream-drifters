@@ -1,9 +1,9 @@
 import type { ProofItem, TravelCapability, TravelService, TrustReason } from '../types';
 
 export const proofItems: ProofItem[] = [
-  { label: 'Chennai based', detail: 'A local travel team with direct support from first conversation to return.', status: 'verified', source: 'Business corrections supplied by Dream Drifters' },
+  { label: 'Chennai based', detail: 'A travel team in your city with direct support from first conversation to return.', status: 'verified', source: 'Business corrections supplied by Dream Drifters' },
   { label: 'Leisure and Corporate', detail: 'Considered planning for individual travellers, organisations and groups.', status: 'verified', source: 'Business corrections supplied by Dream Drifters' },
-  { label: 'Connected worldwide', detail: 'Tour packages, flights, accommodation, visas, MICE and corporate travel through an international partner network.', status: 'verified', source: 'Business corrections supplied by Dream Drifters' },
+  { label: 'Connected worldwide', detail: 'Tour packages, Flights, Accommodation, Visas, MICE and Corporate Travel through an International partner network.', status: 'verified', source: 'Business corrections supplied by Dream Drifters' },
   { label: 'One accountable team', detail: 'A consistent point of contact across planning, coordination and travel support.', status: 'verified', source: 'Business corrections supplied by Dream Drifters' },
 ];
 

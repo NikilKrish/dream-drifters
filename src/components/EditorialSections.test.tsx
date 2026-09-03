@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { EditorialHero, EditorialReviews } from './EditorialSections';
+import { EditorialHero, EditorialMetrics, EditorialReviews } from './EditorialSections';
 
 afterEach(cleanup);
 
@@ -13,6 +13,15 @@ describe('EditorialReviews', () => {
     expect(screen.getByRole('heading', { name: 'Clear options before commitment' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Support through the journey' })).toBeInTheDocument();
     expect(screen.queryByText(/verification|references are available|review is completed/i)).not.toBeInTheDocument();
+  });
+});
+
+describe('EditorialMetrics', () => {
+  it('renders the approved Chennai and worldwide proof details', () => {
+    render(<EditorialMetrics />);
+
+    expect(screen.getByText('A travel team in your city with direct support from first conversation to return.')).toBeVisible();
+    expect(screen.getByText('Tour packages, Flights, Accommodation, Visas, MICE and Corporate Travel through an International partner network.')).toBeVisible();
   });
 });
 

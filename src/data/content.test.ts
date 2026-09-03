@@ -11,6 +11,13 @@ describe('publishable travel content', () => {
     expect(verifiedTestimonials).toHaveLength(0);
   });
 
+  it('publishes the approved Chennai and worldwide proof details', () => {
+    expect(proofItems.find((item) => item.label === 'Chennai based')?.detail)
+      .toBe('A travel team in your city with direct support from first conversation to return.');
+    expect(proofItems.find((item) => item.label === 'Connected worldwide')?.detail)
+      .toBe('Tour packages, Flights, Accommodation, Visas, MICE and Corporate Travel through an International partner network.');
+  });
+
   it('presents all packages as quote-only while preserving brochure price metadata', () => {
     expect(packages).toHaveLength(11);
     expect(packages.every((item) => getPackagePriceLabel(item) === 'Request current quote')).toBe(true);
