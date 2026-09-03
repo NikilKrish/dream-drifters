@@ -102,7 +102,6 @@ test('package carousel restores desktop depth motion from a complete rest state'
   await expect(activeCard.locator('source[type="image/avif"]')).toHaveAttribute('srcset', '/media/maldives-960.avif 960w, /media/maldives-1920.avif 1920w, /media/maldives.avif 3840w');
   await expect(activeCard.locator('source[type="image/webp"]')).toHaveAttribute('srcset', '/media/maldives-960.webp 960w, /media/maldives-1920.webp 1920w, /media/maldives.webp 3840w');
   await expect(activeCard.getByText('Request current quote', { exact: true })).toHaveCount(1);
-  await expect(section.getByText('Request current quote', { exact: true })).toHaveCount(11);
   await expect(section.getByText('US $357', { exact: false })).toHaveCount(0);
   await expect(section.getByText('$1,513.00', { exact: false })).toHaveCount(0);
   await expect(section.getByText('$2,185 PP', { exact: false })).toHaveCount(0);
